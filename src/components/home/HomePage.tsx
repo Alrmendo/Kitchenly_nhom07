@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Header } from "./Header";
-import { CategoryTabs } from "./CategoryTabs";
 import { FeaturedDishes } from "./FeaturedDishes";
 import { SeasonalDishes } from "./SeasonalDishes";
 import { FavoriteDishes } from "./FavoriteDishes";
@@ -14,9 +13,7 @@ export const HomePage: React.FC = () => {
     <div className="min-h-screen bg-[#fffdf9]">
       <Header />
 
-      <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
-
-      <FeaturedDishes />
+      <FeaturedDishes activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
 
       <SeasonalDishes />
 

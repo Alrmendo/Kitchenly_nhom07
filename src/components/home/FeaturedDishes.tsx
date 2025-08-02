@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Clock, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
+
+type Category = {
+  id: string;
+  label: string;
+};
 
 type FeaturedDish = {
   name: string;
@@ -14,7 +19,15 @@ type FeaturedDish = {
 
 export interface FeaturedDishesProps {
   dishes?: FeaturedDish[];
+  activeCategory?: string;
+  onCategoryChange?: (categoryId: string) => void;
 }
+
+const DEFAULT_CATEGORIES: Category[] = [
+  { id: "morning", label: "Buổi sáng" },
+  { id: "lunch", label: "Buổi trưa" },
+  { id: "evening", label: "Buổi tối" },
+];
 
 const DEFAULT_DISHES: FeaturedDish[] = [
   {
@@ -22,31 +35,49 @@ const DEFAULT_DISHES: FeaturedDish[] = [
     time: "20 phút",
     difficulty: "Khó",
     rating: "6/7",
-    image: "/placeholder.svg?height=200&width=200",
+    image: "/cherry_pancake.png",
     bgColor: "#fff6de",
   },
   {
     name: "Cheese Roti Burger",
     time: "60 phút",
     difficulty: "Dễ",
-    rating: "",
-    image: "/placeholder.svg?height=200&width=200",
+    rating: "6/7",
+    image: "/cheese_roti.png",
     bgColor: "#ffe6de",
   },
 ];
 
-export const FeaturedDishes: React.FC<FeaturedDishesProps> = ({ dishes = DEFAULT_DISHES }) => {
+export const FeaturedDishes: React.FC<FeaturedDishesProps> = ({ dishes = DEFAULT_DISHES, activeCategory: externalActiveCategory, onCategoryChange: externalOnCategoryChange }) => {
+  const [internalActiveCategory, setInternalActiveCategory] = useState("morning");
+
+  const activeCategory = externalActiveCategory || internalActiveCategory;
+  const onCategoryChange = externalOnCategoryChange || setInternalActiveCategory;
+
   return (
     <div className="mb-8 px-6">
-      <div className="flex gap-4 overflow-x-auto">
+      {/* Category Tabs */}
+      <div className="mb-6 flex gap-6">
+        {DEFAULT_CATEGORIES.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => onCategoryChange(category.id)}
+            className={`border-b-2 pb-2 text-sm font-medium transition-colors ${activeCategory === category.id ? "border-[#000000] text-[#000000]" : "border-transparent text-[#666666]"}`}>
+            {category.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Featured Dishes */}
+      <div className="flex gap-6 overflow-x-auto rounded-3xl">
         {dishes.map((dish, index) => (
-          <Card key={index} className="min-w-[280px] border-0 shadow-sm" style={{ backgroundColor: dish.bgColor }}>
-            <CardContent className="p-4">
-              <div className="relative mb-4 h-40">
-                <Image src={dish.image || "/placeholder.svg"} alt={dish.name} fill className="object-contain" />
-              </div>
+          <Card key={index} className="min-w-[300px] border-none shadow-none overflow-hidden" style={{ backgroundColor: dish.bgColor }}>
+            <div className="relative h-75">
+              <Image src={dish.image || "/placeholder.svg"} alt={dish.name} fill className="object-cover border-none" />
+            </div>
+            <CardContent className="p-4 pt-6">
               <h3 className="mb-3 font-semibold text-[#343434]">{dish.name}</h3>
-              <div className="flex items-center gap-4 text-xs text-[#666666]">
+              <div className="flex items-center gap-16 text-xs text-[#666666]">
                 <div className="flex items-center gap-1">
                   <Clock className="h-3 w-3" />
                   <span>{dish.time}</span>

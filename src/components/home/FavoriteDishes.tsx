@@ -17,11 +17,11 @@ export interface FavoriteDishesProps {
 const DEFAULT_DISHES: FavoriteDish[] = [
   {
     name: "Chicken Burger",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/chicken_burger.png",
   },
   {
     name: "Tiramisu",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/tiramisu.png",
   },
 ];
 
@@ -36,18 +36,18 @@ export const FavoriteDishes: React.FC<FavoriteDishesProps> = ({ dishes = DEFAULT
           </Button>
         )}
       </div>
-      <div className="rounded-2xl bg-[#f8b64c] p-4">
-        <div className="flex gap-4 overflow-x-auto">
+      <div className="rounded-3xl bg-[#f8b64c] p-4">
+        <div className="flex gap-6 overflow-x-auto">
           {dishes.map((dish, index) => (
-            <div key={index} className="relative min-w-[200px]">
-              <div className="relative mb-3 h-32 overflow-hidden rounded-xl">
+            <div key={index} className="relative min-w-[240px] flex-shrink-0">
+              <div className="relative h-48 overflow-hidden rounded-2xl">
                 <Image src={dish.image || "/placeholder.svg"} alt={dish.name} fill className="object-cover" />
-                <Button size="icon" variant="ghost" className="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/80 hover:bg-white">
-                  <Heart className="h-4 w-4 text-[#f8b64c]" />
+                <Button size="icon" variant="ghost" className="absolute top-3 right-3 h-10 w-10 rounded-full bg-white/90 hover:bg-white shadow-sm">
+                  <Heart className="h-5 w-5 text-[#f8b64c]" />
                 </Button>
-              </div>
-              <div className="rounded-lg bg-white px-3 py-2">
-                <span className="text-sm font-medium text-[#343434]">{dish.name}</span>
+                <div className="absolute bottom-3 left-6 right-6 rounded-2xl bg-white px-2 py-2 text-center">
+                  <span className="text-base font-semibold text-[#343434]">{dish.name}</span>
+                </div>
               </div>
             </div>
           ))}
