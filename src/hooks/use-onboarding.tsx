@@ -75,10 +75,10 @@ export const useOnboarding = () => {
   ])
 
   const [dietOptions, setDietOptions] = useState<DietOption[]>([
-    { id: "vegetarian", name: "Ăn chay", image: "/vegetarian-food-spread.png", selected: false },
-    { id: "sugar-free", name: "Kiêng đường", image: "/sugar-free-desserts.png", selected: false },
-    { id: "vegan", name: "Thuần chay", image: "/vibrant-vegan-meal.png", selected: false },
-    { id: "high-vegetable", name: "Bổ sung rau", image: "/vegetable-rich-meal.png", selected: false },
+    { id: "vegetarian", name: "Ăn chay", image: "/image.png", selected: false },
+    { id: "sugar-free", name: "Kiêng đường", image: "/image.png", selected: false },
+    { id: "vegan", name: "Thuần chay", image: "/image.png", selected: false },
+    { id: "high-vegetable", name: "Bổ sung rau", image: "/image.png", selected: false },
   ])
 
   const [menuPreferences, setMenuPreferences] = useState<MenuPreference[]>([
