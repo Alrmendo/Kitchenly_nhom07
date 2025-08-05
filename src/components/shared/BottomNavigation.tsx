@@ -20,6 +20,7 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
   { id: "home", icon: Home, label: "", isCenter: true },
   { id: "shop", icon: ShoppingCart, label: "Mua sắm" },
   { id: "more", icon: Plus, label: "Thêm" },
+  
 ];
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabChange, navItems = DEFAULT_NAV_ITEMS }) => {
