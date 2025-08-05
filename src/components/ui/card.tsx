@@ -5,7 +5,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className = "", children, ...props }, ref) => {
-  const classes = ["rounded-lg border bg-card text-card-foreground shadow-sm", className].join(" ");
+  const classes = ["rounded-3xl border bg-card text-card-foreground shadow-sm", className].join(" ");
 
   return (
     <div ref={ref} className={classes} {...props}>
