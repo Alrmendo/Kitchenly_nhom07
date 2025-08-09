@@ -1,6 +1,8 @@
 import "./App.css";
 import { HomePage } from "./components/home/HomePage";
-import OnboardingPage from "./pages/personalization";
+import OnboardingPage from "./pages/onboarding";
+import PersonalizationSettingPage from "./pages/personalization-setting";
+import DiscoveryPage from "./pages/discovery";
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 /**
@@ -39,6 +41,8 @@ const App = () => {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route path="/personalization-setting" element={<PersonalizationSettingPage />} />
+              <Route path="/discovery" element={<DiscoveryPage />} />
               {/* This route acts as a catch-all for any other path */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

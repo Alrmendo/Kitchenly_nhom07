@@ -1,10 +1,10 @@
 import { useOnboarding } from "@/hooks/use-onboarding"
 import { useGSAPAnimations } from "@/hooks/use-gsap-animations"
-import { IngredientSelection } from "@/components/personalization/ingredient-selection"
-import { AllergySelection } from "@/components/personalization/allergy-selection"
-import { DietSelection } from "@/components/personalization/diet-selection"
-import { MenuPreferences } from "@/components/personalization/menu-preferences"
-import { NavigationFooter } from "@/components/personalization/navigation-footer"
+import { IngredientSelection } from "@/components/onboarding/ingredient-selection"
+import { AllergySelection } from "@/components/onboarding/allergy-selection"
+import { DietSelection } from "@/components/onboarding/diet-selection"
+import { MenuPreferences } from "@/components/onboarding/menu-preferences"
+import { NavigationFooter } from "@/components/onboarding/navigation-footer"
 import { useState } from "react"
 
 export default function OnboardingPage() {
