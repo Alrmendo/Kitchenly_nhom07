@@ -1,5 +1,5 @@
+import { Home, Lightbulb, Plus, Refrigerator, ShoppingCart } from "lucide-react";
 import React from "react";
-import { Home, ShoppingCart, Plus, Refrigerator, Lightbulb } from "lucide-react";
 
 type NavItem = {
   id: string;
@@ -24,13 +24,13 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabChange, navItems = DEFAULT_NAV_ITEMS }) => {
   return (
-    <div className="fixed right-0 bottom-0 left-0 bg-[#f8b64c] px-6 py-2">
+    <div className="fixed right-0 bottom-0 left-0 bg-[#ff8c94] px-6 py-2">
       <div className="flex items-end justify-around">
         {navItems.map((tab) => (
           <button key={tab.id} onClick={() => onTabChange(tab.id)} className={`relative flex flex-col items-center gap-1 ${tab.isCenter ? "-mt-8" : ""}`}>
             {tab.isCenter ? (
-              <div className="rounded-full border-1 border-[#f8b64c] bg-white p-4 shadow-lg">
-                <tab.icon className="h-7 w-7 text-[#f8b64c]" />
+              <div className="rounded-full border-1 border-[#ff8c94] bg-white p-4 shadow-lg">
+                <tab.icon className="h-7 w-7 text-[#ff8c94]" />
               </div>
             ) : (
               <>
