@@ -60,7 +60,7 @@ export function IngredientSelection({
     <div ref={containerRef} className="p-6 max-w-md mx-auto bg-white max-h-full h-full overflow-y-auto">
       <div className="mb-6">
         <div className="text-right mb-4">
-          <Button variant="ghost" className="text-pink-400 text-sm">
+          <Button variant="ghost" className="text-red-400 text-sm">
             Bỏ qua
           </Button>
         </div>
@@ -77,9 +77,8 @@ export function IngredientSelection({
           <Card
             key={ingredient.id}
             ref={addToRefs}
-            className={`p-3 cursor-pointer transition-all ${
-              selectedIngredients.includes(ingredient.id) ? "ring-2 ring-pink-400 bg-pink-50" : "hover:bg-gray-50"
-            }`}
+            className={`p-3 cursor-pointer transition-all ${selectedIngredients.includes(ingredient.id) ? "ring-2 ring-red-400 bg-red-50" : "hover:bg-gray-50"
+              }`}
             onClick={(e) => handleIngredientClick(ingredient.id, e.currentTarget)}
             onMouseEnter={(e) => animateButton(e.currentTarget, "hover")}
             onMouseLeave={(e) => animateButton(e.currentTarget, "reset")}

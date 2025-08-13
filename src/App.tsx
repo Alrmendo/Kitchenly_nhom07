@@ -1,8 +1,6 @@
 import "./App.css";
-import { HomePage } from "./components/home/HomePage";
-import OnboardingPage from "./pages/onboarding";
-import PersonalizationSettingPage from "./pages/personalization-setting";
-import DiscoveryPage from "./pages/discovery";
+import OnboardingPage from "./pages/onboarding-v2";
+
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 /**
@@ -39,10 +37,8 @@ const App = () => {
           <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl max-w-full h-full">
             {/* Routes and Route components define the mapping between URL paths and components */}
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<OnboardingPage />} />
               <Route path="/onboarding" element={<OnboardingPage />} />
-              <Route path="/personalization-setting" element={<PersonalizationSettingPage />} />
-              <Route path="/discovery" element={<DiscoveryPage />} />
               {/* This route acts as a catch-all for any other path */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>

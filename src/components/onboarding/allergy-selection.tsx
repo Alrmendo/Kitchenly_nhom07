@@ -65,7 +65,7 @@ export function AllergySelection({ allergyTags, onToggleAllergy }: AllergySelect
     <div ref={containerRef} className="p-6 max-w-md mx-auto bg-white min-h-screen">
       <div className="mb-6">
         <div className="text-right mb-4">
-          <Button variant="ghost" className="text-pink-400 text-sm">
+          <Button variant="ghost" className="text-red-400 text-sm">
             Bỏ qua
           </Button>
         </div>
@@ -82,9 +82,8 @@ export function AllergySelection({ allergyTags, onToggleAllergy }: AllergySelect
           <Badge
             key={tag.id}
             variant={tag.selected ? "default" : "primary"}
-            className={`cursor-pointer px-4 py-2 transition-all ${
-              tag.selected ? "bg-pink-400 hover:bg-pink-500 text-white" : "hover:bg-gray-100"
-            }`}
+            className={`cursor-pointer px-4 py-2 transition-all ${tag.selected ? "bg-red-400 hover:bg-red-500 text-white" : "hover:bg-gray-100"
+              }`}
             onClick={(e) => handleTagClick(tag.id, e.currentTarget)}
           >
             {tag.name}

@@ -16,9 +16,8 @@ export function FoodPreferenceSelector({ preferences, onTogglePreference }: Food
           <Button
             key={preference.id}
             variant={preference.selected ? "default" : "outline"}
-            className={`justify-between h-12 ${
-              preference.selected ? "bg-pink-500 hover:bg-pink-600 text-white" : "border-gray-200 hover:bg-gray-50"
-            }`}
+            className={`justify-between h-12 ${preference.selected ? "bg-red-500 hover:bg-red-600 text-white" : "border-gray-200 hover:bg-gray-50"
+              }`}
             onClick={() => onTogglePreference(preference.id)}
           >
             <span>{preference.name}</span>

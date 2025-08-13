@@ -24,7 +24,7 @@ export const Header = () => {
             onChange={(e) => handleSearchChange(e.target.value)}
             onFocus={handleSearchFocus}
             onBlur={handleSearchBlur}
-            className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-300"
+            className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
           />
         </div>
         <button className="p-2">

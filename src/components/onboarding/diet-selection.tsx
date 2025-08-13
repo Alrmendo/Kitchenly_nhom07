@@ -16,7 +16,7 @@ export function DietSelection({ dietOptions, onToggleDietOption }: DietSelection
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
-  
+
   useEffect(() => {
     animateStepEntry()
 
@@ -71,7 +71,7 @@ export function DietSelection({ dietOptions, onToggleDietOption }: DietSelection
     <div ref={containerRef} className="p-6 max-w-md mx-auto bg-white min-h-screen">
       <div className="mb-6">
         <div className="text-right mb-4">
-          <Button variant="ghost" className="text-pink-400 text-sm">
+          <Button variant="ghost" className="text-red-400 text-sm">
             Bỏ qua
           </Button>
         </div>
@@ -88,9 +88,8 @@ export function DietSelection({ dietOptions, onToggleDietOption }: DietSelection
           <Card
             key={option.id}
             ref={addToRefs}
-            className={`p-4 cursor-pointer transition-all overflow-hidden ${
-              option.selected ? "ring-2 ring-pink-400 bg-pink-50" : "hover:bg-gray-50"
-            }`}
+            className={`p-4 cursor-pointer transition-all overflow-hidden ${option.selected ? "ring-2 ring-red-400 bg-red-50" : "hover:bg-gray-50"
+              }`}
             onClick={(e) => handleDietOptionClick(option.id, e.currentTarget)}
             onMouseEnter={(e) => animateButton(e.currentTarget, "hover")}
             onMouseLeave={(e) => animateButton(e.currentTarget, "reset")}

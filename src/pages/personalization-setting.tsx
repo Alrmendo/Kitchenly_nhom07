@@ -65,8 +65,8 @@ export default function PersonalizationSettingPage() {
 
         {/* Save Button */}
         <div className="px-4">
-          <Button onClick={handleSave} 
-                  className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3
+          <Button onClick={handleSave}
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-3
                             h-full overflow-y-auto">
             Lưu thiết lập
           </Button>

@@ -61,7 +61,7 @@ export function NavigationFooter({ currentStep, canProceed, onPrevStep, onNextSt
       <div className="w-full h-1 bg-gray-200 max-w-md mx-auto">
         <div
           ref={progressRef}
-          className="progress-bar h-full bg-pink-400 transition-all duration-800"
+          className="progress-bar h-full bg-red-400 transition-all duration-800"
           style={{ width: "0%" }}
         />
       </div>
@@ -79,29 +79,29 @@ export function NavigationFooter({ currentStep, canProceed, onPrevStep, onNextSt
         <Button
           onClick={(e) => handleButtonClick(onNextStep, e.currentTarget)}
           disabled={!canProceed}
-          className="px-6 bg-pink-400 hover:bg-pink-500 transition-all duration-200 hover:scale-105"
+          className="px-6 bg-red-400 hover:bg-red-500 transition-all duration-200 hover:scale-105"
         >
           {currentStep === 3 ? "Hoàn thành" : "Bước kế tiếp"}
         </Button>
       </div>
 
       {/* Bottom Navigation */}
-      {/* <div ref={navItemsRef} className="flex justify-around items-center py-2 bg-pink-100 max-w-md mx-auto">
+      {/* <div ref={navItemsRef} className="flex justify-around items-center py-2 bg-red-100 max-w-md mx-auto">
         <div className="flex flex-col items-center p-2 cursor-pointer hover:scale-110 transition-transform duration-200">
           <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mb-1 shadow-sm">
-            <Home className="w-5 h-5 text-pink-400" />
+            <Home className="w-5 h-5 text-red-400" />
           </div>
-          <span className="text-xs text-pink-400">Tự làm</span>
+          <span className="text-xs text-red-400">Tự làm</span>
         </div>
         <div className="flex flex-col items-center p-2 cursor-pointer hover:scale-110 transition-transform duration-200">
           <Search className="w-5 h-5 text-gray-400 mb-1" />
           <span className="text-xs text-gray-400">Đề xuất</span>
         </div>
         <div className="flex flex-col items-center p-2 cursor-pointer hover:scale-110 transition-transform duration-200">
-          <div className="w-10 h-10 rounded-full bg-pink-400 flex items-center justify-center mb-1 shadow-lg">
+          <div className="w-10 h-10 rounded-full bg-red-400 flex items-center justify-center mb-1 shadow-lg">
             <Home className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xs text-pink-400">Mua sắm</span>
+          <span className="text-xs text-red-400">Mua sắm</span>
         </div>
         <div className="flex flex-col items-center p-2 cursor-pointer hover:scale-110 transition-transform duration-200">
           <ShoppingCart className="w-5 h-5 text-gray-400 mb-1" />

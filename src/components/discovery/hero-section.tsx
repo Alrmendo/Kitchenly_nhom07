@@ -14,7 +14,7 @@ export const HeroSection = () => {
   return (
     <div
       ref={containerRef}
-      className="mx-4 mb-6 rounded-2xl overflow-hidden bg-gradient-to-r from-pink-400 to-pink-500 relative"
+      className="mx-4 mb-6 rounded-2xl overflow-hidden bg-gradient-to-r from-red-400 to-red-500 relative"
     >
       <div className="flex items-center h-48">
         <div className="flex-1 p-6">

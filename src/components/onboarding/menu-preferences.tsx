@@ -67,7 +67,7 @@ export function MenuPreferences({ menuPreferences, onToggleMenuPreference }: Men
     <div ref={containerRef} className="p-6 max-w-md mx-auto bg-white min-h-screen">
       <div className="mb-6">
         <div className="text-right mb-4">
-          <Button variant="ghost" className="text-pink-400 text-sm">
+          <Button variant="ghost" className="text-red-400 text-sm">
             Bỏ qua
           </Button>
         </div>
@@ -84,9 +84,8 @@ export function MenuPreferences({ menuPreferences, onToggleMenuPreference }: Men
           <Badge
             key={pref.id}
             variant={pref.selected ? "default" : "primary"}
-            className={`cursor-pointer px-4 py-2 transition-all ${
-              pref.selected ? "bg-pink-400 hover:bg-pink-500 text-white" : "hover:bg-gray-100"
-            }`}
+            className={`cursor-pointer px-4 py-2 transition-all ${pref.selected ? "bg-red-400 hover:bg-red-500 text-white" : "hover:bg-gray-100"
+              }`}
             onClick={(e) => handlePreferenceClick(pref.id, e.currentTarget)}
           >
             {pref.name}
