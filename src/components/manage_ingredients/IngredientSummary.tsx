@@ -9,7 +9,7 @@ const ingredientSummary = [
   { label: "Protein", value: 3, icon: "🥩" },
 ];
 
-export const IngredientSummary: React.FC = () => {
+export function IngredientSummary(): React.ReactElement {
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
@@ -28,7 +28,7 @@ export const IngredientSummary: React.FC = () => {
 
       <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
         <div className="mt-2 mb-4 grid grid-cols-2 gap-2">
-          {ingredientSummary.map((item, index) => (
+          {ingredientSummary.map((item, _) => (
             <div key={item.label} className="flex items-center gap-2 rounded-lg bg-white p-3 shadow transition-all duration-200 hover:shadow-md">
               <span className="text-xl">{item.icon}</span>
               <div>
@@ -41,4 +41,4 @@ export const IngredientSummary: React.FC = () => {
       </div>
     </div>
   );
-};
+}

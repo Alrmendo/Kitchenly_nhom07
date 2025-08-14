@@ -1,5 +1,6 @@
 import { ArrowUpDown, Edit, Plus, Trash2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export interface Ingredient {
   name: string;
@@ -12,14 +13,14 @@ export interface IngredientListProps {
   ingredients: Ingredient[];
   onDelete: (index: number) => void;
   onEdit: (index: number) => void;
-  onAdd: () => void;
 }
 
 const ingredientCategories = ["Rau củ", "Chế phẩm sữa", "Ngũ cốc", "Protein"];
 
 type SortType = "none" | "name-asc" | "name-desc" | "quantity-asc" | "quantity-desc";
 
-export const IngredientList: React.FC<IngredientListProps> = ({ ingredients, onDelete, onEdit, onAdd }) => {
+export function IngredientList({ ingredients, onDelete, onEdit }: IngredientListProps): React.ReactElement {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [sortType, setSortType] = useState<SortType>("none");
@@ -55,12 +56,13 @@ export const IngredientList: React.FC<IngredientListProps> = ({ ingredients, onD
         return b.name.localeCompare(a.name);
       case "quantity-asc":
         // Extract numeric value from amount string
-        const aNum = parseFloat(a.amount.replace(/[^0-9.]/g, "")) || 0;
-        const bNum = parseFloat(b.amount.replace(/[^0-9.]/g, "")) || 0;
-        return aNum - bNum;
+        const aNumAsc = parseFloat(a.amount) || 0;
+        const bNumAsc = parseFloat(b.amount) || 0;
+        return aNumAsc - bNumAsc;
       case "quantity-desc":
-        const aNumDesc = parseFloat(a.amount.replace(/[^0-9.]/g, "")) || 0;
-        const bNumDesc = parseFloat(b.amount.replace(/[^0-9.]/g, "")) || 0;
+        // Extract numeric value from amount string
+        const aNumDesc = parseFloat(a.amount) || 0;
+        const bNumDesc = parseFloat(b.amount) || 0;
         return bNumDesc - aNumDesc;
       default:
         return 0; // No sorting
@@ -72,7 +74,7 @@ export const IngredientList: React.FC<IngredientListProps> = ({ ingredients, onD
       <div className="mb-2 flex items-center justify-between">
         <div className="font-semibold">Nguyên liệu của bạn</div>
         <div className="relative flex gap-2" ref={sortMenuRef}>
-          <button className="rounded-full bg-[#ff8c94] p-2 text-white" onClick={onAdd}>
+          <button className="rounded-full bg-[#ff8c94] p-2 text-white" onClick={() => navigate("/add-ingredients")}>
             <Plus className="h-4 w-4" />
           </button>
           <button className="rounded-full bg-[#ff8c94] p-2 text-white" onClick={() => setShowSortMenu(!showSortMenu)}>
@@ -137,4 +139,4 @@ export const IngredientList: React.FC<IngredientListProps> = ({ ingredients, onD
       </div>
     </div>
   );
-};
+}

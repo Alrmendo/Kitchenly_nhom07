@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AddIngredientsPage } from "./components/add_ingredients";
 import { HomePage } from "./components/home/HomePage";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 
@@ -9,21 +11,15 @@ function App() {
     setActiveTab(tabId);
   };
 
-  const handleNavigateBack = () => {
-    setActiveTab("home");
-  };
-
-  const renderCurrentPage = () => {
-    switch (activeTab) {
-      case "fridge":
-        return <ManageIngredientsPage activeTab={activeTab} onTabChange={handleTabChange} onNavigateBack={handleNavigateBack} />;
-      case "home":
-      default:
-        return <HomePage activeTab={activeTab} onTabChange={handleTabChange} />;
-    }
-  };
-
-  return renderCurrentPage();
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+        <Route path="/manage-ingredients" element={<ManageIngredientsPage />} />
+        <Route path="/add-ingredients" element={<AddIngredientsPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
