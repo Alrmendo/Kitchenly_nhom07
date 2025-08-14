@@ -1,4 +1,4 @@
-import { Home, Lightbulb, Plus, Refrigerator, ShoppingCart } from "lucide-react";
+import { Home, Lightbulb, Refrigerator, ShoppingCart, User } from "lucide-react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -21,7 +21,7 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
   { id: "suggest", icon: Lightbulb, label: "Đề xuất", path: "/suggest" },
   { id: "home", icon: Home, label: "", isCenter: true, path: "/" },
   { id: "shop", icon: ShoppingCart, label: "Mua sắm", path: "/shop" },
-  { id: "more", icon: Plus, label: "Thêm", path: "/more" },
+  { id: "me", icon: User, label: "Tôi", path: "/me" },
 ];
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabChange, navItems = DEFAULT_NAV_ITEMS }) => {
