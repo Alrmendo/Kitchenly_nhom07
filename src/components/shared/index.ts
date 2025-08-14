@@ -1,1 +1,2 @@
-export { BottomNavigation, type BottomNavigationProps } from './BottomNavigation'
+export { BottomNavigation } from "./BottomNavigation";
+export * from "./manage_ingredients";

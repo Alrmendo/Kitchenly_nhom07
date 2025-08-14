@@ -9,7 +9,7 @@ export function Header(): React.ReactElement {
       <button onClick={() => navigate(-1)}>
         <ArrowLeft className="h-6 w-6 text-gray-600" />
       </button>
-      <h1 className="flex-1 -translate-x-2 text-center text-lg font-semibold">Quản lý nguyên liệu</h1>
+      <h1 className="flex-1 -translate-x-2 text-center text-lg font-semibold">Cập nhật nguyên liệu</h1>
     </div>
   );
 }

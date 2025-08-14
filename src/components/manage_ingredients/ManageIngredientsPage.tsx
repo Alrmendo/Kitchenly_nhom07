@@ -1,88 +1,101 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { IngredientFormData } from "../add_ingredients";
+import type { IngredientFormData } from "../shared";
 import { BottomNavigation } from "../shared/BottomNavigation";
 import type { Ingredient } from "./index";
 import { Header, IngredientList, IngredientSummary } from "./index";
 
-// Helper function to convert form data to ingredient with icon
-const convertFormDataToIngredient = (formData: IngredientFormData): Ingredient => {
-  const getCategoryIcon = (category: string): string => {
-    switch (category) {
-      case "rau-cu":
-        return "🥕";
-      case "che-pham-sua":
-        return "🥛";
-      case "ngu-coc":
-        return "🌾";
-      case "protein":
-        return "🥩";
-      default:
-        return "🍽️";
-    }
-  };
+const defaultIngredients: Ingredient[] = [
+  { name: "Sữa", category: "Chế phẩm sữa", amount: "500", unit: "ml", icon: "🥛" },
+  { name: "Cà chua", category: "Rau củ", amount: "2", unit: "", icon: "🍅" },
+  { name: "Cà rốt", category: "Rau củ", amount: "3", unit: "", icon: "🥕" },
+  { name: "Thịt bò", category: "Protein", amount: "1", unit: "kg", icon: "🥩" },
+];
 
-  const getCategoryLabel = (category: string): string => {
-    switch (category) {
-      case "rau-cu":
-        return "Rau củ";
-      case "che-pham-sua":
-        return "Chế phẩm sữa";
-      case "ngu-coc":
-        return "Ngũ cốc";
-      case "protein":
-        return "Protein";
-      default:
-        return "Khác";
+// Load ingredients from localStorage, fallback to default
+const loadIngredients = (): Ingredient[] => {
+  try {
+    const saved = localStorage.getItem("totalIngredients");
+    if (saved) {
+      return JSON.parse(saved);
+    } else {
+      localStorage.setItem("totalIngredients", JSON.stringify(defaultIngredients));
+      return defaultIngredients;
     }
-  };
-
-  return {
-    name: formData.name,
-    category: getCategoryLabel(formData.category),
-    amount: formData.unit ? `${formData.amount}${formData.unit}` : formData.amount,
-    icon: formData.icon || getCategoryIcon(formData.category), // Use custom icon if available
-  };
+  } catch (error) {
+    console.error("Error loading ingredients from localStorage:", error);
+  }
+  return defaultIngredients;
 };
 
-const initialIngredients: Ingredient[] = [
-  { name: "Sữa", category: "Chế phẩm sữa", amount: "500ml", icon: "🥛" },
-  { name: "Cà chua", category: "Rau củ", amount: "2", icon: "🍅" },
-  { name: "Cà rốt", category: "Rau củ", amount: "3", icon: "🥕" },
-  { name: "Thịt bò", category: "Protein", amount: "1kg", icon: "🥩" },
-];
+// Save ingredients to localStorage
+const saveIngredients = (ingredients: Ingredient[]) => {
+  try {
+    localStorage.setItem("totalIngredients", JSON.stringify(ingredients));
+  } catch (error) {
+    console.error("Error saving ingredients to localStorage:", error);
+  }
+};
 
 export function ManageIngredientsPage() {
   const navigate = useNavigate();
-  const [ingredients, setIngredients] = useState<Ingredient[]>(initialIngredients);
+  const [ingredients, setIngredients] = useState<Ingredient[]>(loadIngredients);
 
-  // Check for new ingredients from AddIngredientsPage
+  // Reload ingredients when returning from add/edit pages
   useEffect(() => {
-    const savedIngredients = localStorage.getItem("pendingIngredients");
-    if (savedIngredients) {
-      try {
-        const newIngredients: IngredientFormData[] = JSON.parse(savedIngredients);
-        const convertedIngredients = newIngredients.map(convertFormDataToIngredient);
-        setIngredients((prev) => [...prev, ...convertedIngredients]);
-        localStorage.removeItem("pendingIngredients");
-      } catch (error) {
-        console.error("Error processing saved ingredients:", error);
-      }
-    }
+    const handleFocus = () => {
+      // Reload ingredients from localStorage when window gains focus
+      const currentIngredients = loadIngredients();
+      setIngredients(currentIngredients);
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   const handleDeleteIngredient = (index: number) => {
-    setIngredients((prev) => prev.filter((_, i) => i !== index));
+    const updatedIngredients = ingredients.filter((_, i) => i !== index);
+    setIngredients(updatedIngredients);
+    saveIngredients(updatedIngredients);
   };
 
   const handleEditIngredient = (index: number) => {
-    // For now, just log the edit action - can be expanded later
-    console.log("Edit ingredient at index:", index);
+    // Save ingredient data for editing and navigate to edit page
+    const ingredientToEdit = ingredients[index];
+    const formData: IngredientFormData = {
+      name: ingredientToEdit.name,
+      category: getOriginalCategory(ingredientToEdit.category),
+      amount: ingredientToEdit.amount,
+      unit: ingredientToEdit.unit,
+      icon: ingredientToEdit.icon,
+    };
+
+    localStorage.setItem(`editIngredient_${index}`, JSON.stringify(formData));
+    navigate(`edit-ingredient/${index}`);
+  };
+
+  // Helper function to convert category label back to value
+  const getOriginalCategory = (categoryLabel: string): string => {
+    switch (categoryLabel) {
+      case "Rau củ":
+        return "rau-cu";
+      case "Chế phẩm sữa":
+        return "che-pham-sua";
+      case "Ngũ cốc":
+        return "ngu-coc";
+      case "Protein":
+        return "protein";
+      default:
+        return "khac";
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#fff] pb-24">
-      <Header onBack={() => navigate(-1)} />
+      <Header />
       <IngredientSummary />
       <IngredientList ingredients={ingredients} onDelete={handleDeleteIngredient} onEdit={handleEditIngredient} />
       <BottomNavigation

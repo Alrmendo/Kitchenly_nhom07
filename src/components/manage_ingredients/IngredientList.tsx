@@ -6,6 +6,7 @@ export interface Ingredient {
   name: string;
   category: string;
   amount: string;
+  unit: string;
   icon: string;
 }
 
@@ -74,7 +75,7 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
       <div className="mb-2 flex items-center justify-between">
         <div className="font-semibold">Nguyên liệu của bạn</div>
         <div className="relative flex gap-2" ref={sortMenuRef}>
-          <button className="rounded-full bg-[#ff8c94] p-2 text-white" onClick={() => navigate("/add-ingredients")}>
+          <button className="rounded-full bg-[#ff8c94] p-2 text-white" onClick={() => navigate("add-ingredients")}>
             <Plus className="h-4 w-4" />
           </button>
           <button className="rounded-full bg-[#ff8c94] p-2 text-white" onClick={() => setShowSortMenu(!showSortMenu)}>
@@ -126,7 +127,10 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
                 <div className="text-sm font-semibold">{ing.name}</div>
                 <div className="text-xs text-gray-500">{ing.category}</div>
               </div>
-              <div className="mr-3 text-sm font-medium">{ing.amount}</div>
+              <div className="mr-3 text-sm font-medium">
+                {ing.amount}
+                {ing.unit}
+              </div>
               <button className="mr-2 rounded-full bg-[#ff8c94] p-1.5 text-white transition-colors hover:bg-[#ff7a85]" onClick={() => onEdit(originalIndex)}>
                 <Edit className="h-4 w-4" />
               </button>
