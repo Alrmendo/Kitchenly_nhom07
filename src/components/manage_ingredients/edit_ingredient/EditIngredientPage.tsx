@@ -72,9 +72,14 @@ export function EditIngredientPage() {
     navigate("/manage-ingredients");
   };
 
+  const handleBack = () => {
+    localStorage.removeItem(`editIngredient_${index}`);
+    navigate(-1);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <Header />
+      <Header onBack={handleBack} />
 
       {/* Ingredient Form */}
       <div className="flex flex-col items-center px-4 pt-6">

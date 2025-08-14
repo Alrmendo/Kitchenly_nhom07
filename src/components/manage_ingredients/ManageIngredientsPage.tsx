@@ -96,7 +96,7 @@ export function ManageIngredientsPage() {
   return (
     <div className="min-h-screen bg-[#fff] pb-24">
       <Header />
-      <IngredientSummary />
+      <IngredientSummary ingredients={ingredients} />
       <IngredientList ingredients={ingredients} onDelete={handleDeleteIngredient} onEdit={handleEditIngredient} />
       <BottomNavigation
         activeTab="fridge"

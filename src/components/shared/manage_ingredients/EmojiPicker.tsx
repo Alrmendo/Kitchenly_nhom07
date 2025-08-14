@@ -4,7 +4,6 @@ export interface EmojiPickerProps {
   isOpen: boolean;
   onClose: () => void;
   onEmojiSelect: (emoji: string) => void;
-  position?: "top" | "bottom";
 }
 
 // Emoji options for selection
@@ -61,7 +60,7 @@ const emojiOptions = [
   "🧊",
 ];
 
-export function EmojiPicker({ isOpen, onClose, onEmojiSelect, position = "top" }: EmojiPickerProps) {
+export function EmojiPicker({ isOpen, onClose, onEmojiSelect }: EmojiPickerProps) {
   const emojiPickerRef = useRef<HTMLDivElement>(null);
 
   // Close emoji picker when clicking outside
@@ -80,10 +79,8 @@ export function EmojiPicker({ isOpen, onClose, onEmojiSelect, position = "top" }
 
   if (!isOpen) return null;
 
-  const positionClasses = position === "top" ? "top-16" : "bottom-16";
-
   return (
-    <div ref={emojiPickerRef} className={`absolute left-0 ${positionClasses} z-10 w-full rounded-lg border bg-white p-4 shadow-lg`}>
+    <div ref={emojiPickerRef} className={`absolute top-20 left-0 z-10 w-full rounded-lg border bg-white p-4 shadow-lg`}>
       <div className="mb-2 text-sm font-medium text-gray-700">Chọn biểu tượng:</div>
       <div className="grid max-h-48 grid-cols-8 gap-2 overflow-x-hidden overflow-y-auto">
         {emojiOptions.map((emoji, emojiIndex) => (

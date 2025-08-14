@@ -73,7 +73,7 @@ export function IngredientForm({ formData, onChange }: IngredientFormProps) {
       </div>
 
       {/* Emoji Picker */}
-      <EmojiPicker isOpen={showEmojiPicker} onClose={() => setShowEmojiPicker(false)} onEmojiSelect={handleEmojiSelect} position="top" />
+      <EmojiPicker isOpen={showEmojiPicker} onClose={() => setShowEmojiPicker(false)} onEmojiSelect={handleEmojiSelect} />
 
       {/* Form Fields */}
       <div className="space-y-4">

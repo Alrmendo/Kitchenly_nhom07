@@ -1,16 +1,47 @@
 import { ChevronUp } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
+import type { Ingredient } from "./index";
 
-const ingredientSummary = [
-  { label: "Tổng", value: 16, icon: "📊" },
-  { label: "Rau củ", value: 5, icon: "🥦" },
-  { label: "Chế phẩm sữa", value: 4, icon: "🥛" },
-  { label: "Ngũ cốc", value: 4, icon: "🌾" },
-  { label: "Protein", value: 3, icon: "🥩" },
-];
+interface IngredientSummaryProps {
+  ingredients: Ingredient[];
+}
 
-export function IngredientSummary(): React.ReactElement {
+export function IngredientSummary({ ingredients }: IngredientSummaryProps) {
   const [isExpanded, setIsExpanded] = useState(true);
+
+  // Calculate summary based on actual ingredients
+  const calculateSummary = () => {
+    const categoryCounts = ingredients.reduce(
+      (acc, ingredient) => {
+        acc[ingredient.category] = (acc[ingredient.category] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
+    const categoryIcons = {
+      "Rau củ": "🥦",
+      "Chế phẩm sữa": "🥛",
+      "Ngũ cốc": "🌾",
+      Protein: "🥩",
+    };
+
+    const summary = [{ label: "Tổng", value: ingredients.length, icon: "📊" }];
+
+    // Add category summaries
+    Object.entries(categoryIcons).forEach(([category, icon]) => {
+      const count = categoryCounts[category] || 0; // Object.entries(categoryCounts) - only included categories with items, so we have to do this
+      summary.push({
+        label: category,
+        value: count,
+        icon: icon,
+      });
+    });
+
+    return summary;
+  };
+
+  const ingredientSummary = calculateSummary();
 
   return (
     <div className="px-4 pt-4">
