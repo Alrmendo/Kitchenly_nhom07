@@ -6,6 +6,9 @@ import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
 import { CookingMode } from "./components/cooking-mode";
+import ShoppingListPage from "./components/shopping_list/ShoppingListPage";
+import EditItemPage from "./components/shopping_list/EditItemPage";
+import AddItemPage from "./components/shopping_list/AddItemPage";
 
 /**
  * A component for handling undefined routes (404 Not Found).
@@ -51,6 +54,13 @@ function App() {
                 <Route path="add-ingredients" element={<AddIngredientsPage />} />
                 <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
               </Route>
+              <Route path="/shop">
+                <Route index element={<ShoppingListPage />} />
+                <Route path="add" element={<AddItemPage />} />
+                <Route path="edit" element={<EditItemPage />} />
+              </Route>
+                            {/* <Route path="/shopping" element={<ShoppingListPage />} /> */}
+
               {/* This route acts as a catch-all for any other path */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
