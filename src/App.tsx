@@ -1,33 +1,10 @@
 import { useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { HomePage } from "./components/home/HomePage";
-import "./App.css";
 import OnboardingPage from "./pages/onboarding-v2";
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
-
-function App() {
-  const [activeTab, setActiveTab] = useState("home");
-
-  const handleTabChange = (tabId: string) => {
-    setActiveTab(tabId);
-  };
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
-        <Route path="/manage-ingredients">
-          <Route index element={<ManageIngredientsPage />} />
-          <Route path="add-ingredients" element={<AddIngredientsPage />} />
-          <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-}
 
 /**
  * A component for handling undefined routes (404 Not Found).
@@ -45,17 +22,18 @@ const NotFoundPage = () => (
   </div>
 );
 
-// --- Main App Component ---
-
 /**
  * The main application component using react-router-dom for navigation.
  * @returns {JSX.Element} The App component.
  */
-const App = () => {
-  // const [activeTab, setActiveTab] = useState<string>("home"); // or whatever your tab keys are
+function App() {
+  const [activeTab, setActiveTab] = useState("home");
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+  };
 
   return (
-    // BrowserRouter enables client-side routing
     <BrowserRouter>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center font-sans">
         {/* Page Content */}
@@ -65,6 +43,12 @@ const App = () => {
             <Routes>
               <Route path="/" element={<OnboardingPage />} />
               <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+              <Route path="/manage-ingredients">
+                <Route index element={<ManageIngredientsPage />} />
+                <Route path="add-ingredients" element={<AddIngredientsPage />} />
+                <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
+              </Route>
               {/* This route acts as a catch-all for any other path */}
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
@@ -83,5 +67,6 @@ const App = () => {
       </div>
     </BrowserRouter>
   );
-};
+}
+
 export default App;
