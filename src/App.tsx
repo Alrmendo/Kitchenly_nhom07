@@ -23,6 +23,7 @@ function App() {
           <Route index element={<ManageIngredientsPage />} />
           <Route path="add-ingredients" element={<AddIngredientsPage />} />
           <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
+          <Route path="/cooking" element={<CookingMode />} />
         </Route>
       </Routes>
     </BrowserRouter>
