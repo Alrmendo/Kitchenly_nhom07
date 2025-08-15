@@ -1,16 +1,18 @@
 import "./App.css";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { HomePage } from "./components/home/HomePage";
 import { CookingMode } from "./components";
 
 function App() {
-  const [currentView, setCurrentView] = useState<"home" | "cooking">("home");
-
-  if (currentView === "cooking") {
-    return <CookingMode onNavigateBack={() => setCurrentView("home")} />;
-  }
-
-  return <HomePage onNavigateToCooking={() => setCurrentView("cooking")} />;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cooking" element={<CookingMode />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

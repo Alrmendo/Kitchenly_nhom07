@@ -4,12 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Image } from "@/components/ui/image";
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 
-interface CookingModeProps {
-  onNavigateBack?: () => void;
-}
-
-export default function CookingMode({ onNavigateBack }: CookingModeProps = {}) {
+export default function CookingMode() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [timerMinutes, setTimerMinutes] = useState(5);
   const [timerSeconds, setTimerSeconds] = useState(0);
@@ -20,6 +18,10 @@ export default function CookingMode({ onNavigateBack }: CookingModeProps = {}) {
   const [isClosingAI, setIsClosingAI] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  const handleNavigateBack = () => {
+    navigate("/");
+  };
 
   const steps = useMemo(
     () => [
@@ -185,7 +187,7 @@ export default function CookingMode({ onNavigateBack }: CookingModeProps = {}) {
       {/* Fixed Header */}
       <div className="sticky top-0 z-10 rounded-b-[32px] bg-gradient-to-r from-[#FFC6C9] to-[#EC888D]/80 px-6 py-8 shadow-xl">
         <div className="mb-6 flex items-center justify-between">
-          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/20" onClick={onNavigateBack}>
+          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/20" onClick={handleNavigateBack}>
             <ArrowLeft className="h-6 w-6" />
           </Button>
           <h1 className="text-xl font-bold text-white drop-shadow-sm">Chế độ nấu ăn</h1>
@@ -311,10 +313,10 @@ export default function CookingMode({ onNavigateBack }: CookingModeProps = {}) {
                 Lưu vào mục đã nấu
               </Button>
               <Button
-                className="w-full rounded-2xl bg-gradient-to-r from-pink-500 to-pink-600 py-3 font-semibold shadow-lg hover:from-pink-600 hover:to-pink-700"
+                className="w-full rounded-2xl bg-gradient-to-r from-[#FFC6C9] to-[#EC888D]/80 py-3 font-semibold shadow-lg hover:from-pink-500 hover:to-pink-600"
                 onClick={() => {
                   setShowCompletionModal(false);
-                  onNavigateBack?.();
+                  handleNavigateBack();
                 }}>
                 Về lại Home
               </Button>
