@@ -1,11 +1,11 @@
-import type { IngredientFormData } from "@/components/shared";
 import { ArrowLeft, Mic } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VoiceChatDrawer } from "../../shared/manage_ingredients/VoiceChatDrawer";
+import type { Ingredient } from "../IngredientList";
 
 interface HeaderProps {
-  onAddIngredients: (ingredients: IngredientFormData[]) => void;
+  onAddIngredients: (ingredients: Ingredient[]) => void;
 }
 
 export function Header({ onAddIngredients }: HeaderProps) {

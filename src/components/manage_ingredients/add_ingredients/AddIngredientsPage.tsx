@@ -1,22 +1,23 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IngredientForm, type IngredientFormData } from "../../shared";
+import { IngredientForm } from "../../shared";
+import type { Ingredient } from "../IngredientList";
 import { Header } from "./Header";
 
 export interface AddIngredientsPageProps {}
 
 export function AddIngredientsPage() {
   const navigate = useNavigate();
-  const [ingredients, setIngredients] = useState<IngredientFormData[]>([{ name: "", category: "", amount: "", unit: "", icon: "" }]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([{ name: "", category: "", amount: "", unit: "", icon: "" }]);
 
-  const handleFormChange = (index: number, field: keyof IngredientFormData, value: string) => {
+  const handleFormChange = (index: number, field: keyof Ingredient, value: string) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients[index] = { ...updatedIngredients[index], [field]: value };
     setIngredients(updatedIngredients);
   };
 
-  const handleAIAddIngredients = (aiIngredients: IngredientFormData[]) => {
+  const handleAIAddIngredients = (aiIngredients: Ingredient[]) => {
     // Add to existing ingredients (which are not empty)
     const currentIngredients = ingredients.filter((ingredient) => ingredient.name.trim() || ingredient.category.trim() || ingredient.amount.trim());
 
@@ -76,7 +77,8 @@ export function AddIngredientsPage() {
         return {
           name: formData.name,
           category: getCategoryLabel(formData.category),
-          amount: formData.unit ? `${formData.amount}${formData.unit}` : formData.amount,
+          amount: formData.amount,
+          unit: formData.unit,
           icon: formData.icon || getCategoryIcon(formData.category),
         };
       });

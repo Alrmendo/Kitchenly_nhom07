@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { IngredientForm, type IngredientFormData } from "../../shared";
+import { IngredientForm } from "../../shared";
+import type { Ingredient } from "../IngredientList";
 import { Header } from "./Header";
 
 export function EditIngredientPage() {
@@ -8,7 +9,7 @@ export function EditIngredientPage() {
   const { index } = useParams<{ index: string }>();
 
   // Get ingredient data from localStorage or navigation state
-  const [ingredient, setIngredient] = useState<IngredientFormData>(() => {
+  const [ingredient, setIngredient] = useState<Ingredient>(() => {
     const savedIngredient = localStorage.getItem(`editIngredient_${index}`);
     if (savedIngredient) {
       return JSON.parse(savedIngredient);
@@ -23,7 +24,7 @@ export function EditIngredientPage() {
     };
   });
 
-  const handleFormChange = (field: keyof IngredientFormData, value: string) => {
+  const handleFormChange = (field: keyof Ingredient, value: string) => {
     setIngredient((prev) => ({ ...prev, [field]: value }));
   };
 

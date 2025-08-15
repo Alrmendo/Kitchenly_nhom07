@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { IngredientFormData } from "../shared";
 import { BottomNavigation } from "../shared/BottomNavigation";
 import type { Ingredient } from "./index";
 import { Header, IngredientList, IngredientSummary } from "./index";
@@ -65,7 +64,7 @@ export function ManageIngredientsPage() {
   const handleEditIngredient = (index: number) => {
     // Save ingredient data for editing and navigate to edit page
     const ingredientToEdit = ingredients[index];
-    const formData: IngredientFormData = {
+    const formData: Ingredient = {
       name: ingredientToEdit.name,
       category: getOriginalCategory(ingredientToEdit.category),
       amount: ingredientToEdit.amount,

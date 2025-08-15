@@ -1,20 +1,20 @@
+import type { Ingredient } from "@/components/manage_ingredients";
 import { GeminiServiceAddIngredients } from "@/services/geminiServiceAddIngredients";
 import { Mic, MicOff, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import type { IngredientFormData } from "./IngredientForm";
 
 interface ChatMessage {
   id: string;
   text: string;
   isUser: boolean;
   timestamp: Date;
-  ingredients?: IngredientFormData[]; // only for AI answers
+  ingredients?: Ingredient[]; // only for AI answers
 }
 
 interface VoiceChatDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddIngredients: (ingredients: IngredientFormData[]) => void;
+  onAddIngredients: (ingredients: Ingredient[]) => void;
 }
 
 export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChatDrawerProps) {

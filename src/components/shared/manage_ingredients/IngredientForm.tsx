@@ -1,19 +1,12 @@
+import type { Ingredient } from "@/components/manage_ingredients";
 import { useState } from "react";
 import type { DropdownOption } from "./DropdownSelect";
 import { DropdownSelect } from "./DropdownSelect";
 import { EmojiPicker } from "./EmojiPicker";
 
-export interface IngredientFormData {
-  name: string;
-  category: string;
-  amount: string;
-  unit: string;
-  icon: string;
-}
-
 export interface IngredientFormProps {
-  formData: IngredientFormData;
-  onChange: (field: keyof IngredientFormData, value: string) => void;
+  formData: Ingredient;
+  onChange: (field: keyof Ingredient, value: string) => void;
 }
 
 const categoryOptions: DropdownOption[] = [

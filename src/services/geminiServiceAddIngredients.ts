@@ -1,11 +1,11 @@
 // Gemini API configuration and service functions
 // ref on how to use: https://aistudio.google.com/apikey
 
-import type { IngredientFormData } from "@/components/shared";
+import type { Ingredient } from "@/components/manage_ingredients";
 
 export interface GeminiResponse {
   text: string;
-  ingredients?: IngredientFormData[];
+  ingredients?: Ingredient[];
 }
 
 const GEMINI_API_KEY = import.meta.env.VITE_APP_GEMINI_API_KEY || "concac";

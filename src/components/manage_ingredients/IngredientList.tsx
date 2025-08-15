@@ -121,7 +121,7 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
           const originalIndex = ingredients.findIndex((ingredient) => ingredient.name === ing.name && ingredient.category === ing.category);
 
           return (
-            <div key={`${ing.name}-${ing.category}`} className="flex items-center rounded-lg bg-white p-3 shadow">
+            <div key={crypto.randomUUID()} className="flex items-center rounded-lg bg-white p-3 shadow">
               <span className="mr-2 text-xl">{ing.icon}</span>
               <div className="flex-1">
                 <div className="text-sm font-semibold">{ing.name}</div>
