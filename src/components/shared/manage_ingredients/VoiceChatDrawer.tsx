@@ -1,6 +1,6 @@
+import { GeminiServiceAddIngredients } from "@/services/geminiServiceAddIngredients";
 import { Mic, MicOff, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { GeminiService } from "../../services/geminiService";
 
 interface ChatMessage {
   id: string;
@@ -229,7 +229,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   const processWithGemini = async (text: string) => {
     try {
       // Use Gemini API for processing - this should handle ALL ingredients
-      const response = await GeminiService.processTextWithGemini(text);
+      const response = await GeminiServiceAddIngredients.processTextWithGemini(text);
 
       // If Gemini found ingredients, use them
       if (response.ingredients && response.ingredients.length > 0) {

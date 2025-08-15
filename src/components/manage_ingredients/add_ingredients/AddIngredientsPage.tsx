@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BottomNavigation, IngredientForm, type IngredientFormData } from "../../shared";
+import { IngredientForm, type IngredientFormData } from "../../shared";
 import { Header } from "./Header";
 
 export interface AddIngredientsPageProps {}
@@ -129,13 +129,6 @@ export function AddIngredientsPage() {
           <Plus className="h-6 w-6" />
         </button>
       </div>
-
-      <BottomNavigation
-        activeTab="fridge"
-        onTabChange={(tabId: string) => {
-          console.log("Tab changed to:", tabId);
-        }}
-      />
     </div>
   );
 }

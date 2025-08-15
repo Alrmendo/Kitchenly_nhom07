@@ -15,7 +15,7 @@ export interface GeminiResponse {
 const GEMINI_API_KEY = import.meta.env.VITE_APP_GEMINI_API_KEY || "concac";
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-export class GeminiService {
+export class GeminiServiceAddIngredients {
   /**
    * Process text input with Gemini AI to extract ingredients and generate response
    */
