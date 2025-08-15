@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Header } from "./Header";
-import { FeaturedDishes } from "./FeaturedDishes";
-import { SeasonalDishes } from "./SeasonalDishes";
+import { BottomNavigation } from "../shared/BottomNavigation";
 import { FavoriteDishes } from "./FavoriteDishes";
-import { BottomNavigation } from "./BottomNavigation";
+import { FeaturedDishes } from "./FeaturedDishes";
+import { Header } from "./Header";
+import { SeasonalDishes } from "./SeasonalDishes";
 
-export const HomePage: React.FC = () => {
+export interface HomePageProps {
+  activeTab: string;
+  onTabChange: (tabId: string) => void;
+}
+
+export const HomePage: React.FC<HomePageProps> = ({ activeTab, onTabChange }) => {
   const [activeCategory, setActiveCategory] = useState("morning");
-  const [activeTab, setActiveTab] = useState("home");
 
   return (
     <div className="min-h-screen bg-[#fffdf9]">
@@ -19,7 +23,7 @@ export const HomePage: React.FC = () => {
 
       <FavoriteDishes />
 
-      <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <BottomNavigation activeTab={activeTab} onTabChange={onTabChange} />
     </div>
   );
 };
