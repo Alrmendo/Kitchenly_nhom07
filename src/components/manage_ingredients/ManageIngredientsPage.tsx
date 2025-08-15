@@ -83,17 +83,24 @@ export function ManageIngredientsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fff] pb-24">
-      <Header />
-      <IngredientSummary ingredients={ingredients} />
-      <IngredientList ingredients={ingredients} onDelete={handleDeleteIngredient} onEdit={handleEditIngredient} />
-      <BottomNavigation
-        activeTab="fridge"
-        onTabChange={(tabId: string) => {
-          // Handle tab changes if needed
-          console.log("Tab changed to:", tabId);
-        }}
-      />
-    </div>
+    <>
+      <article>
+        <title>Quản lý nguyên liệu</title>
+        <meta name="description" content="Quản lý nguyên liệu trong bếp của bạn một cách hiệu quả với Kitchenly." />
+      </article>
+
+      <div className="min-h-screen bg-[#fff] pb-24">
+        <Header />
+        <IngredientSummary ingredients={ingredients} />
+        <IngredientList ingredients={ingredients} onDelete={handleDeleteIngredient} onEdit={handleEditIngredient} />
+        <BottomNavigation
+          activeTab="fridge"
+          onTabChange={(tabId: string) => {
+            // Handle tab changes if needed
+            console.log("Tab changed to:", tabId);
+          }}
+        />
+      </div>
+    </>
   );
 }

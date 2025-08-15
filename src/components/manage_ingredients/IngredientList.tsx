@@ -118,6 +118,7 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
 
       <div className="space-y-2">
         {sortedIngredients.map((ing) => {
+          // in case of name duplication, it will delete the first one, so no duplication please
           const originalIndex = ingredients.findIndex((ingredient) => ingredient.name === ing.name && ingredient.category === ing.category);
 
           return (
