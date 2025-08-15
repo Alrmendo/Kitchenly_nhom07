@@ -20,25 +20,24 @@
   }
 }
 
-@layer utilities {
-  /* Custom animations for the voice chat drawer */
-  @keyframes slide-up {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
+/* Custom animations for the voice chat drawer */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
   }
+  to {
+    transform: translateY(0);
+  }
+}
 
-  @keyframes slide-down {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(100%);
-    }
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
   }
+  to {
+    transform: translateY(100%);
+  }
+}
 
   .animate-slide-up {
     animation: slide-up 0.3s ease-out;
