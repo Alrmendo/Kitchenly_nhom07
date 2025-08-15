@@ -16,6 +16,22 @@ export function AddIngredientsPage() {
     setIngredients(updatedIngredients);
   };
 
+  const handleAIAddIngredients = (aiIngredients: any[]) => {
+    // Add AI-extracted ingredients to the form
+    const newIngredients = aiIngredients.map((aiIngredient) => ({
+      name: aiIngredient.name,
+      category: aiIngredient.category,
+      amount: aiIngredient.amount,
+      unit: aiIngredient.unit,
+      icon: aiIngredient.icon,
+    }));
+
+    // Add to existing ingredients (remove the last empty one if it exists)
+    const currentIngredients = ingredients.filter((ingredient) => ingredient.name.trim() || ingredient.category.trim() || ingredient.amount.trim());
+
+    setIngredients([...currentIngredients, ...newIngredients]);
+  };
+
   const addNewIngredientForm = () => {
     setIngredients([...ingredients, { name: "", category: "", amount: "", unit: "", icon: "" }]);
   };
@@ -86,7 +102,7 @@ export function AddIngredientsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      <Header />
+      <Header onAddIngredients={handleAIAddIngredients} />
 
       {/* Finish Adding Button */}
       <div className="px-4 pt-4">
