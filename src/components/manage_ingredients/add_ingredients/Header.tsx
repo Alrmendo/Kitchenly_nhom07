@@ -1,4 +1,4 @@
-import { ArrowLeft, Camera, Mic } from "lucide-react";
+import { ArrowLeft, Mic } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VoiceChatDrawer } from "../../shared/VoiceChatDrawer";
@@ -35,14 +35,9 @@ export function Header({ onAddIngredients }: HeaderProps) {
           <ArrowLeft className="h-6 w-6 text-gray-600" />
         </button>
         <h1 className="translate-x-2 text-center text-lg font-semibold">Thêm nguyên liệu</h1>
-        <div className="flex gap-5">
-          <button onClick={() => setIsVoiceChatOpen(true)}>
-            <Mic className="h-6 w-6 text-gray-600" />
-          </button>
-          <button>
-            <Camera className="h-6 w-6 text-gray-600" />
-          </button>
-        </div>
+        <button onClick={() => setIsVoiceChatOpen(true)}>
+          <Mic className="h-6 w-6 text-gray-600" />
+        </button>
       </div>
 
       <VoiceChatDrawer isOpen={isVoiceChatOpen} onClose={() => setIsVoiceChatOpen(false)} onAddIngredients={handleAddIngredients} />
