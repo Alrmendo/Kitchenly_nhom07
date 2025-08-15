@@ -39,11 +39,10 @@
   }
 }
 
-  .animate-slide-up {
-    animation: slide-up 0.3s ease-out;
-  }
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
 
-  .animate-slide-down {
-    animation: slide-down 0.3s ease-in;
-  }
+.animate-slide-down {
+  animation: slide-down 0.3s ease-in;
 }

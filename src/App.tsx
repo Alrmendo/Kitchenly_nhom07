@@ -5,27 +5,7 @@ import OnboardingPage from "./pages/onboarding-v2";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
-
-function App() {
-  const [activeTab, setActiveTab] = useState("home");
-
-  const handleTabChange = (tabId: string) => {
-    setActiveTab(tabId);
-  };
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
-        <Route path="/manage-ingredients">
-          <Route index element={<ManageIngredientsPage />} />
-          <Route path="add-ingredients" element={<AddIngredientsPage />} />
-          <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-}
+import { CookingMode } from "./components/cooking-mode";
 
 /**
  * A component for handling undefined routes (404 Not Found).
@@ -65,6 +45,7 @@ function App() {
               <Route path="/" element={<OnboardingPage />} />
               <Route path="/onboarding" element={<OnboardingPage />} />
               <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+              <Route path="/cooking" element={<CookingMode />} />
               <Route path="/manage-ingredients">
                 <Route index element={<ManageIngredientsPage />} />
                 <Route path="add-ingredients" element={<AddIngredientsPage />} />

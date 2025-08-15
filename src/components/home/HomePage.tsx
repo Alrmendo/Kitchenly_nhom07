@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./Header";
-import { BottomNavigation } from "../shared/BottomNavigation";
+import { BottomNavigation } from "./BottomNavigation";
 import { FavoriteDishes } from "./FavoriteDishes";
 import { FeaturedDishes } from "./FeaturedDishes";
-import { Header } from "./Header";
 import { SeasonalDishes } from "./SeasonalDishes";
-import { FavoriteDishes } from "./FavoriteDishes";
-import { BottomNavigation } from "./BottomNavigation";
 import { Button } from "../ui/button";
-
-export const HomePage: React.FC = () => {
-  const navigate = useNavigate();
 
 export interface HomePageProps {
   activeTab: string;
@@ -19,6 +13,7 @@ export interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ activeTab, onTabChange }) => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("morning");
 
   const handleNavigateToCooking = () => {
