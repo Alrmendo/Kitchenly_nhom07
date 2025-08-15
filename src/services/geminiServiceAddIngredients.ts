@@ -1,15 +1,11 @@
 // Gemini API configuration and service functions
 // ref on how to use: https://aistudio.google.com/apikey
 
+import type { IngredientFormData } from "@/components/shared";
+
 export interface GeminiResponse {
   text: string;
-  ingredients?: Array<{
-    name: string;
-    category: string;
-    amount: string;
-    unit: string;
-    icon: string;
-  }>;
+  ingredients?: IngredientFormData[];
 }
 
 const GEMINI_API_KEY = import.meta.env.VITE_APP_GEMINI_API_KEY || "concac";
@@ -58,69 +54,6 @@ export class GeminiServiceAddIngredients {
   }
 
   /**
-   * Transcribe audio using Gemini's audio capabilities
-   */
-  static async transcribeAudio(audioBlob: Blob): Promise<string> {
-    try {
-      // Convert audio blob to base64 for Gemini API
-      const base64Audio = await this.blobToBase64(audioBlob);
-
-      // Use Gemini's multimodal API for audio transcription
-      const response = await fetch(GEMINI_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-goog-api-key": GEMINI_API_KEY,
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: "Vui lòng chuyển đổi âm thanh này thành văn bản tiếng Việt. Chỉ trả về nội dung được nói, không thêm gì khác.",
-                },
-                {
-                  inlineData: {
-                    mimeType: "audio/wav",
-                    data: base64Audio,
-                  },
-                },
-              ],
-            },
-          ],
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Gemini audio API error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const transcription = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
-
-      return transcription;
-    } catch (error) {
-      console.error("Error transcribing audio with Gemini:", error);
-      throw error; // Let the caller handle the fallback
-    }
-  }
-
-  /**
-   * Convert Blob to base64 string
-   */
-  private static async blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = (reader.result as string).split(",")[1]; // Remove data:audio/wav;base64, prefix
-        resolve(base64String);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  /**
    * Create a specialized prompt for ingredient extraction
    */
   private static createIngredientExtractionPrompt(userInput: string): string {
@@ -156,7 +89,7 @@ Hướng dẫn trích xuất:
 
 Trả lời theo định dạng JSON chính xác:
 {
-  "response": "Phản hồi thân thiện bằng tiếng Việt về những gì bạn đã hiểu",
+  "text": "Phản hồi thân thiện bằng tiếng Việt về những gì bạn đã hiểu",
   "ingredients": [
     {
       "name": "Tên nguyên liệu (viết hoa chữ cái đầu)",
@@ -201,8 +134,8 @@ Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         return {
-          text: parsed.response || "Tôi đã hiểu yêu cầu của bạn.",
-          ingredients: parsed.ingredients || [],
+          text: parsed.text,
+          ingredients: parsed.ingredients,
         };
       }
     } catch (error) {

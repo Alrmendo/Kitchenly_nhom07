@@ -16,20 +16,11 @@ export function AddIngredientsPage() {
     setIngredients(updatedIngredients);
   };
 
-  const handleAIAddIngredients = (aiIngredients: any[]) => {
-    // Add AI-extracted ingredients to the form
-    const newIngredients = aiIngredients.map((aiIngredient) => ({
-      name: aiIngredient.name,
-      category: aiIngredient.category,
-      amount: aiIngredient.amount,
-      unit: aiIngredient.unit,
-      icon: aiIngredient.icon,
-    }));
-
-    // Add to existing ingredients (remove the last empty one if it exists)
+  const handleAIAddIngredients = (aiIngredients: IngredientFormData[]) => {
+    // Add to existing ingredients (which are not empty)
     const currentIngredients = ingredients.filter((ingredient) => ingredient.name.trim() || ingredient.category.trim() || ingredient.amount.trim());
 
-    setIngredients([...currentIngredients, ...newIngredients]);
+    setIngredients([...currentIngredients, ...aiIngredients]);
   };
 
   const addNewIngredientForm = () => {

@@ -1,25 +1,20 @@
 import { GeminiServiceAddIngredients } from "@/services/geminiServiceAddIngredients";
 import { Mic, MicOff, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import type { IngredientFormData } from "./IngredientForm";
 
 interface ChatMessage {
   id: string;
   text: string;
   isUser: boolean;
   timestamp: Date;
-  ingredients?: Array<{
-    name: string;
-    category: string;
-    amount: string;
-    unit: string;
-    icon: string;
-  }>;
+  ingredients?: IngredientFormData[]; // only for AI answers
 }
 
 interface VoiceChatDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddIngredients?: (ingredients: any[]) => void;
+  onAddIngredients: (ingredients: IngredientFormData[]) => void;
 }
 
 export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChatDrawerProps) {
@@ -27,9 +22,9 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   const [isRecording, setIsRecording] = useState(false);
   const [textInput, setTextInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const [isClosing, setIsClosing] = useState(false); // for closing animation
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Use to mark the end of messages for scrolling
+  const recognitionRef = useRef<any>(null); // Speech recognition instance
   const finalTranscriptRef = useRef<string>(""); // Store accumulated final transcript
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -48,6 +43,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
     };
   }, []);
 
+  // Stop voice recording when drawer is closed
   useEffect(() => {
     if (!isOpen && recognitionRef.current) {
       stopVoiceRecording();
@@ -67,7 +63,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
-      setIsClosing(false);
+      setIsClosing(false); // so that the next time open the drawer, it will use `slide-up` animation
       onClose();
     }, 300); // Match the animation duration
   };
@@ -210,7 +206,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
 
       // If AI extracted ingredients, add them
       if (response.ingredients && response.ingredients.length > 0) {
-        onAddIngredients?.(response.ingredients);
+        onAddIngredients(response.ingredients);
       }
     } catch (error) {
       console.error("Error processing message:", error);
