@@ -4,27 +4,17 @@ import { BottomNavigation } from "../shared/BottomNavigation";
 import type { Ingredient } from "./index";
 import { Header, IngredientList, IngredientSummary } from "./index";
 
-const defaultIngredients: Ingredient[] = [
-  { name: "Sữa", category: "Chế phẩm sữa", amount: "500", unit: "ml", icon: "🥛" },
-  { name: "Cà chua", category: "Rau củ", amount: "2", unit: "", icon: "🍅" },
-  { name: "Cà rốt", category: "Rau củ", amount: "3", unit: "", icon: "🥕" },
-  { name: "Thịt bò", category: "Protein", amount: "1", unit: "kg", icon: "🥩" },
-];
-
 // Load ingredients from localStorage, fallback to default
 const loadIngredients = (): Ingredient[] => {
   try {
     const saved = localStorage.getItem("totalIngredients");
     if (saved) {
       return JSON.parse(saved);
-    } else {
-      localStorage.setItem("totalIngredients", JSON.stringify(defaultIngredients));
-      return defaultIngredients;
     }
   } catch (error) {
     console.error("Error loading ingredients from localStorage:", error);
   }
-  return defaultIngredients;
+  return [];
 };
 
 // Save ingredients to localStorage
