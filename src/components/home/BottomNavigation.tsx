@@ -24,7 +24,7 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabChange, navItems = DEFAULT_NAV_ITEMS }) => {
   return (
-    <div className="fixed right-0 bottom-0 left-0 bg-[#f8b64c] px-6 py-2">
+    <div className="fixed right-0 bottom-0 left-0 bg-[#FF8C94] px-6 py-2">
       <div className="flex items-end justify-around">
         {navItems.map((tab) => (
           <button 
@@ -35,8 +35,8 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, o
             }`}
           >
             {tab.isCenter ? (
-              <div className="bg-white rounded-full p-4 shadow-lg border-1 border-[#f8b64c]">
-                <tab.icon className="h-7 w-7 text-[#f8b64c]" />
+              <div className="bg-white rounded-full p-4 shadow-lg border-1 border-[#FF8C94]">
+                <tab.icon className="h-7 w-7 text-[#FF8C94]" />
               </div>
             ) : (
               <>
