@@ -36,7 +36,7 @@ export const FavoriteDishes: React.FC<FavoriteDishesProps> = ({ dishes = DEFAULT
           </Button>
         )}
       </div>
-      <div className="rounded-3xl bg-[#f8b64c] p-4">
+      <div className="rounded-3xl bg-[#FF8C94] p-4">
         <div className="flex gap-6 overflow-x-auto">
           {dishes.map((dish, index) => (
             <div key={index} className="relative min-w-[240px] flex-shrink-0">
