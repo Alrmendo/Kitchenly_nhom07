@@ -1,4 +1,5 @@
-import { GeminiServiceAddIngredients } from "@/services/geminiServiceAddIngredients";
+import type { Ingredient } from "@/components/manage_ingredients";
+import { GeminiServiceAddIngredients, type InvalidIngredient } from "@/services/geminiServiceAddIngredients";
 import { Mic, MicOff, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -7,19 +8,15 @@ interface ChatMessage {
   text: string;
   isUser: boolean;
   timestamp: Date;
-  ingredients?: Array<{
-    name: string;
-    category: string;
-    amount: string;
-    unit: string;
-    icon: string;
-  }>;
+  ingredients?: Ingredient[]; // only for AI answers
+  declinedReason?: string; // when AI declines a request
+  invalidIngredients?: InvalidIngredient[]; // invalid items that were filtered out
 }
 
 interface VoiceChatDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddIngredients?: (ingredients: any[]) => void;
+  onAddIngredients: (ingredients: Ingredient[]) => void;
 }
 
 export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChatDrawerProps) {
@@ -27,9 +24,9 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   const [isRecording, setIsRecording] = useState(false);
   const [textInput, setTextInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const [isClosing, setIsClosing] = useState(false); // for closing animation
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Use to mark the end of messages for scrolling
+  const recognitionRef = useRef<any>(null); // Speech recognition instance
   const finalTranscriptRef = useRef<string>(""); // Store accumulated final transcript
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -48,6 +45,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
     };
   }, []);
 
+  // Stop voice recording when drawer is closed
   useEffect(() => {
     if (!isOpen && recognitionRef.current) {
       stopVoiceRecording();
@@ -67,7 +65,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
-      setIsClosing(false);
+      setIsClosing(false); // so that the next time open the drawer, it will use `slide-up` animation
       onClose();
     }, 300); // Match the animation duration
   };
@@ -95,7 +93,6 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
       recognition.maxAlternatives = 1;
 
       recognition.onstart = () => {
-        console.log("Web Speech API started listening...");
         setIsRecording(true);
         setTextInput(""); // Clear input when starting
         finalTranscriptRef.current = ""; // Reset accumulated transcript
@@ -123,7 +120,6 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
         // Display accumulated final transcript + current interim results
         const displayText = finalTranscriptRef.current + interimTranscript;
         setTextInput(displayText);
-        console.log("Transcription:", displayText);
       };
 
       recognition.onerror = (event: any) => {
@@ -139,10 +135,8 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
       };
 
       recognition.onend = () => {
-        console.log("Speech recognition ended");
         // If we're still supposed to be recording, restart recognition
         if (isRecording && recognitionRef.current) {
-          console.log("Restarting recognition to continue listening...");
           try {
             recognitionRef.current.start();
           } catch (error) {
@@ -154,7 +148,6 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
         }
       };
 
-      console.log("Starting continuous Web Speech API recognition...");
       recognition.start();
     } catch (error) {
       console.error("Voice recognition failed:", error);
@@ -180,6 +173,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   };
 
   const sendMessage = async (text: string) => {
+    setIsRecording(false);
     if (!text.trim()) return;
 
     // Add user message
@@ -194,64 +188,101 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
     finalTranscriptRef.current = ""; // Reset accumulated transcript after sending
     setIsLoading(true);
 
+    // Create placeholder AI message for streaming
+    const aiMessageId = (Date.now() + 1).toString();
+    const placeholderAiMessage: ChatMessage = {
+      id: aiMessageId,
+      text: "",
+      isUser: false,
+      timestamp: new Date(),
+      ingredients: [],
+      declinedReason: undefined,
+      invalidIngredients: [],
+    };
+    setMessages((prev) => [...prev, placeholderAiMessage]);
+
     try {
-      // Send to Gemini API for processing
-      const response = await processWithGemini(text);
+      // Use streaming API for real-time response
+      let streamWorked = false;
 
-      // Add AI response
-      const aiMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        text: response.text,
-        isUser: false,
-        timestamp: new Date(),
-        ingredients: response.ingredients,
-      };
-      setMessages((prev) => [...prev, aiMessage]);
+      try {
+        const streamGenerator = GeminiServiceAddIngredients.processTextWithGeminiStreaming(text, (chunk) => {
+          streamWorked = true;
+          // Update the AI message in real-time
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId
+                ? {
+                    ...msg,
+                    text: chunk.text,
+                    // Append new ingredients to existing ones instead of replacing
+                    ingredients: chunk.isComplete ? chunk.ingredients : [...(msg.ingredients || []), ...(chunk.ingredients || [])],
+                    declinedReason: chunk.declinedReason,
+                    invalidIngredients: chunk.isComplete ? chunk.invalidIngredients : [...(msg.invalidIngredients || []), ...(chunk.invalidIngredients || [])],
+                  }
+                : msg
+            )
+          );
 
-      // If AI extracted ingredients, add them
-      if (response.ingredients && response.ingredients.length > 0) {
-        onAddIngredients?.(response.ingredients);
+          // If we have new ingredients during streaming, add them immediately
+          if (!chunk.isComplete && chunk.ingredients && chunk.ingredients.length > 0) {
+            onAddIngredients(chunk.ingredients);
+          }
+
+          // If streaming is complete and we have ingredients, add them
+          if (chunk.isComplete && chunk.ingredients && chunk.ingredients.length > 0) {
+            onAddIngredients(chunk.ingredients);
+          }
+        });
+
+        // Consume the stream
+        for await (const _chunk of streamGenerator) {
+          // The onChunk callback above handles the UI updates
+          // This loop just ensures we consume all chunks
+        }
+      } catch (streamError) {
+        console.warn("Streaming failed, falling back to non-streaming:", streamError);
+
+        // If streaming failed and we haven't received any chunks, fallback to non-streaming
+        if (!streamWorked) {
+          const response = await GeminiServiceAddIngredients.processTextWithGemini(text);
+
+          // Update the placeholder message with the non-streaming response
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId
+                ? {
+                    ...msg,
+                    text: response.text,
+                    ingredients: response.ingredients || [],
+                    declinedReason: response.declinedReason,
+                    invalidIngredients: response.invalidIngredients || [],
+                  }
+                : msg
+            )
+          );
+
+          // If AI extracted ingredients, add them
+          if (response.ingredients && response.ingredients.length > 0) {
+            onAddIngredients(response.ingredients);
+          }
+        }
       }
     } catch (error) {
       console.error("Error processing message:", error);
-      const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        text: "Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.",
-        isUser: false,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      // Update the placeholder message with error
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === aiMessageId
+            ? {
+                ...msg,
+                text: "Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.",
+              }
+            : msg
+        )
+      );
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const processWithGemini = async (text: string) => {
-    try {
-      // Use Gemini API for processing - this should handle ALL ingredients
-      const response = await GeminiServiceAddIngredients.processTextWithGemini(text);
-
-      // If Gemini found ingredients, use them
-      if (response.ingredients && response.ingredients.length > 0) {
-        return response;
-      }
-
-      // If Gemini didn't find ingredients but gave a response, return that
-      if (response.text) {
-        return {
-          text: response.text,
-          ingredients: [],
-        };
-      }
-
-      // Last resort fallback
-      throw new Error("Gemini returned empty response");
-    } catch (error) {
-      console.error("Gemini API failed", error);
-      return {
-        text: "Xin lỗi, tôi gặp sự cố với AI.",
-        ingredients: [],
-      };
     }
   };
 
@@ -276,7 +307,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
         </div>
 
         {/* Messages */}
-        <div className="h-full flex-1 overflow-y-auto p-4 pb-44">
+        <div className="h-full flex-1 overflow-y-auto p-4 pb-36">
           {messages.length === 0 && (
             <div className="mt-8 text-center text-gray-500">
               <div className="mb-2 text-4xl">🎤</div>
@@ -288,21 +319,48 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
           {messages.map((message) => (
             <div key={message.id} className={`mb-4 flex ${message.isUser ? "justify-end" : "justify-start"}`}>
               <div className={`max-w-xs rounded-2xl px-4 py-2 ${message.isUser ? "bg-[#ff8c94] text-white" : "bg-gray-100 text-gray-800"}`}>
-                <p className="text-sm">{message.text}</p>
+                {/* AI Response */}
+                <p className="text-sm whitespace-pre-line">{message.text}</p>
+
+                {/* Valid Ingredients - Show successfully added ingredients */}
                 {message.ingredients && message.ingredients.length > 0 && (
-                  <div className="mt-2 border-t border-gray-300 pt-2">
-                    <p className="mb-1 text-xs opacity-75">Đã thêm nguyên liệu:</p>
-                    {message.ingredients.map((ingredient, index) => (
-                      <div key={index} className="flex items-center gap-1 text-xs">
-                        <span>{ingredient.icon}</span>
-                        <span>
-                          {ingredient.name} - {ingredient.amount}
-                          {ingredient.unit}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="mt-2 rounded-lg border border-green-200 bg-green-50 p-2">
+                    <div className="mb-1 flex items-center gap-1">
+                      <span className="text-green-500">✅</span>
+                      <p className="text-xs font-medium text-green-700">Đã thêm nguyên liệu:</p>
+                    </div>
+                    <div className="space-y-1 pl-4">
+                      {message.ingredients.map((ingredient, index) => (
+                        <div key={index} className="flex items-center gap-1 text-xs text-green-700">
+                          <span>{ingredient.icon}</span>
+                          <span>
+                            {ingredient.name} - {ingredient.amount}
+                            {ingredient.unit}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
+
+                {/* Invalid Ingredients - Show filtered out items */}
+                {message.invalidIngredients && message.invalidIngredients.length > 0 && (
+                  <div className="mt-2 rounded-lg border border-yellow-200 bg-yellow-50 p-2">
+                    <div className="mb-1 flex items-center gap-1">
+                      <span className="text-yellow-500">⚠️</span>
+                      <p className="text-xs font-medium text-yellow-700">Không thể thêm:</p>
+                    </div>
+                    {message.declinedReason && <p className="mb-2 pl-4 text-xs text-yellow-600">{message.declinedReason}</p>}
+                    <div className="space-y-1 pl-4">
+                      {message.invalidIngredients.map((invalidItem, index) => (
+                        <div key={index} className="text-xs">
+                          <span className="font-medium text-yellow-700">• {invalidItem.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="mt-1 text-xs opacity-75">{message.timestamp.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</div>
               </div>
             </div>
@@ -332,7 +390,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), sendMessage(textInput))}
-                placeholder="Nói để tương tác..."
+                placeholder={isRecording ? "Đang ghi âm..." : "Nói để tương tác..."}
                 className="max-h-32 min-h-[20px] flex-1 resize-none overflow-y-auto bg-transparent text-sm outline-none"
                 disabled={isRecording}
                 rows={1}
@@ -355,13 +413,9 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
             <button
               onClick={startVoiceRecording}
               disabled={isLoading}
-              className={`flex-shrink-0 rounded-full p-3 ${isRecording ? "animate-pulse bg-red-500 text-white" : "bg-[#ff8c94] text-white hover:bg-[#ff7a85]"} disabled:opacity-50`}>
+              className={`flex-shrink-0 rounded-full bg-[#ff8c94] p-3 text-white ${isRecording ? "animate-pulse" : "text-white"} disabled:opacity-50`}>
               {isRecording ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
             </button>
-          </div>
-
-          <div className="mt-2 text-center">
-            <p className="text-xs text-gray-500">{isRecording ? "Đang nghe... Nhấn để dừng" : "Nhấn để nói hoặc gõ tin nhắn"}</p>
           </div>
         </div>
       </div>
