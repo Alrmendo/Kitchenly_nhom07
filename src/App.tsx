@@ -5,6 +5,10 @@ import { HomePage } from "./components/home/HomePage";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
+import { CookingMode } from "./components/cooking-mode";
+import ShoppingListPage from "./components/shopping_list/ShoppingListPage";
+import EditItemPage from "./components/shopping_list/EditItemPage";
+import AddItemPage from "./components/shopping_list/AddItemPage";
 import { WeeklyMenuDemo } from "./components/weekly-menu-planner";
 import OnboardingPage from "./pages/onboarding-v2";
 
@@ -35,7 +39,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
+            <Routes>
         <Route path="/" element={<OnboardingPage />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
@@ -49,6 +53,17 @@ function App() {
         {/* This route acts as a catch-all for any other path */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+              <Route path="/shop">
+                <Route index element={<ShoppingListPage />} />
+                <Route path="add" element={<AddItemPage />} />
+                <Route path="edit" element={<EditItemPage />} />
+              </Route>
+                            {/* <Route path="/shopping" element={<ShoppingListPage />} /> */}
+
+              {/* This route acts as a catch-all for any other path */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+
     </BrowserRouter>
   );
 }
