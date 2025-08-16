@@ -1,6 +1,4 @@
-"use client"
-
-import { useOnboarding } from "@/hooks/use-onboarding-v2"
+import { useOnboarding } from "../../hooks/use-onboarding-v2"
 import { CookingLevelStep } from "./cooking-level-step"
 import { DietPreferencesStep } from "./diet-preferences-step"
 import { FoodPreferencesStep } from "./food-preferences-step"

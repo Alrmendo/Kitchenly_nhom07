@@ -5,6 +5,7 @@ import { HomePage } from "./components/home/HomePage";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
+import { WeeklyMenuDemo } from "./components/weekly-menu-planner";
 import OnboardingPage from "./pages/onboarding-v2";
 
 /**
@@ -39,6 +40,7 @@ function App() {
         <Route path="/onboarding" element={<OnboardingPage />} />
         <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
         <Route path="/cooking" element={<CookingMode />} />
+        <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
         <Route path="/manage-ingredients">
           <Route index element={<ManageIngredientsPage />} />
           <Route path="add-ingredients" element={<AddIngredientsPage />} />

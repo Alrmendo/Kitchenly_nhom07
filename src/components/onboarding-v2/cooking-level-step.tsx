@@ -1,7 +1,5 @@
-"use client"
-
 import { OnboardingLayout } from "./onboarding-layout"
-import { useStaggerAnimation } from "@/hooks/use-gsap-animations-v2"
+import { useStaggerAnimation } from "../../hooks/use-gsap-animations-v2"
 
 const COOKING_LEVELS = [
     {

@@ -1,5 +1,4 @@
-"use client"
-import { useStaggerAnimation } from "@/hooks/use-gsap-animations-v2"
+import { useStaggerAnimation } from "../../hooks/use-gsap-animations-v2"
 
 interface SelectionItem {
     id: string
