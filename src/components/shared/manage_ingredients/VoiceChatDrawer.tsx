@@ -176,6 +176,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
   };
 
   const sendMessage = async (text: string) => {
+    setIsRecording(false);
     if (!text.trim()) return;
 
     // Add user message
@@ -272,7 +273,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
         </div>
 
         {/* Messages */}
-        <div className="h-full flex-1 overflow-y-auto p-4 pb-44">
+        <div className="h-full flex-1 overflow-y-auto p-4 pb-36">
           {messages.length === 0 && (
             <div className="mt-8 text-center text-gray-500">
               <div className="mb-2 text-4xl">🎤</div>
@@ -351,13 +352,9 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
             <button
               onClick={startVoiceRecording}
               disabled={isLoading}
-              className={`flex-shrink-0 rounded-full bg-red-500 p-3 text-white ${isRecording ? "animate-pulse" : "text-white"} disabled:opacity-50`}>
+              className={`flex-shrink-0 rounded-full bg-[#ff8c94] p-3 text-white ${isRecording ? "animate-pulse" : "text-white"} disabled:opacity-50`}>
               {isRecording ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
             </button>
-          </div>
-
-          <div className="mt-2 text-center">
-            <p className="text-xs text-gray-500">{isRecording ? "Đang nghe... Nhấn để dừng" : "Nhấn để nói hoặc gõ tin nhắn"}</p>
           </div>
         </div>
       </div>
