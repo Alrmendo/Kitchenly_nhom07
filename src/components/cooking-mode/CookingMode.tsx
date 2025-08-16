@@ -20,7 +20,7 @@ export default function CookingMode() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleNavigateBack = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   const steps = useMemo(

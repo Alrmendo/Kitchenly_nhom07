@@ -1,4 +1,4 @@
-import React from "react";
+
 import SectionWrapper from "./SectionWrapper";
 import ItemCard from "./ItemCard";
 import type { Section, Item } from "./data";

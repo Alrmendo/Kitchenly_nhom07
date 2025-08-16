@@ -1,16 +1,24 @@
 import { useState } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./hooks/use-auth";
 import { CookingMode } from "./components/cooking-mode";
 import { HomePage } from "./components/home/HomePage";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
-import { CookingMode } from "./components/cooking-mode";
 import ShoppingListPage from "./components/shopping_list/ShoppingListPage";
 import EditItemPage from "./components/shopping_list/EditItemPage";
 import AddItemPage from "./components/shopping_list/AddItemPage";
 import { WeeklyMenuDemo } from "./components/weekly-menu-planner";
 import OnboardingPage from "./pages/onboarding-v2";
+import SettingsPage from "./components/setting/setting";
+import NotificationSettings from "./components/setting/notification";
+import FAQPage from "./components/setting/help";
+import { LoginPage, RegisterPage, WelcomePage } from "./components/auth";
+
+import WeeklyPlannerPage from "./pages/weekly-planner";
+import WeeklyPlannerPreferencesPage from "./pages/weekly-planner/preferences";
+import RecipeEditorPage from "./pages/weekly-planner/recipe-editor";
 
 /**
  * A component for handling undefined routes (404 Not Found).
@@ -30,41 +38,66 @@ const NotFoundPage = () => (
  * The main application component using react-router-dom for navigation.
  * @returns {JSX.Element} The App component.
  */
-function App() {
+function AppRoutes() {
   const [activeTab, setActiveTab] = useState("home");
+  const { isAuthenticated, isOnboardingCompleted } = useAuth();
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
   };
 
+  const getHomeRoute = () => {
+    if (!isAuthenticated) {
+      return <WelcomePage />;
+    }
+    if (!isOnboardingCompleted) {
+      return <Navigate to="/onboarding" replace />;
+    }
+    return <Navigate to="/home" replace />;
+  };
+
   return (
-    <BrowserRouter>
-            <Routes>
-        <Route path="/" element={<OnboardingPage />} />
-        <Route path="/onboarding" element={<OnboardingPage />} />
-        <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
-        <Route path="/cooking" element={<CookingMode />} />
-        <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
-        <Route path="/manage-ingredients">
-          <Route index element={<ManageIngredientsPage />} />
-          <Route path="add-ingredients" element={<AddIngredientsPage />} />
-          <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
-        </Route>
-        {/* This route acts as a catch-all for any other path */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-              <Route path="/shop">
-                <Route index element={<ShoppingListPage />} />
-                <Route path="add" element={<AddItemPage />} />
-                <Route path="edit" element={<EditItemPage />} />
-              </Route>
-                            {/* <Route path="/shopping" element={<ShoppingListPage />} /> */}
+    <Routes>
+      {/* Auth Routes */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      
+      {/* Main Route - Redirect based on auth and onboarding status */}
+      <Route path="/" element={getHomeRoute()} />
+      <Route path="/onboarding" element={isAuthenticated ? <OnboardingPage /> : <Navigate to="/login" replace />} />
+      <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/cooking" element={<CookingMode />} />
+      <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
+      <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />
+      <Route path="/weekly-planner/preferences" element={<WeeklyPlannerPreferencesPage />} />
+      <Route path="/weekly-planner/recipe-editor" element={<RecipeEditorPage />} />
+      <Route path="/manage-ingredients">
+        <Route index element={<ManageIngredientsPage />} />
+        <Route path="add-ingredients" element={<AddIngredientsPage />} />
+        <Route path="edit-ingredient/:index" element={<EditIngredientPage />} />
+      </Route>
+      <Route path="/shop">
+        <Route index element={<ShoppingListPage />} />
+        <Route path="add" element={<AddItemPage />} />
+        <Route path="edit" element={<EditItemPage />} />
+      </Route>
+      <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/settings/notifications" element={<NotificationSettings />} />
+      <Route path="/settings/help" element={<FAQPage />} />
 
-              {/* This route acts as a catch-all for any other path */}
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
+      {/* This route acts as a catch-all for any other path */}
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  );
+}
 
-    </BrowserRouter>
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

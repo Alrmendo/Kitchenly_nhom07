@@ -1,4 +1,4 @@
-import React from "react";
+
 import { CheckCircle2, Circle, Edit2 } from "lucide-react";
 import type { Item } from "./data";
 

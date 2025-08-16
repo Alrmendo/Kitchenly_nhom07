@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./Header";
-import { BottomNavigation } from "./BottomNavigation";
+import { BottomNavigation } from "../shared/BottomNavigation";
 import { FavoriteDishes } from "./FavoriteDishes";
 import { FeaturedDishes } from "./FeaturedDishes";
 import { SeasonalDishes } from "./SeasonalDishes";
@@ -29,12 +29,18 @@ export const HomePage: React.FC<HomePageProps> = ({ activeTab, onTabChange }) =>
         <Button onClick={handleNavigateToCooking} className="w-full bg-orange-500 text-white hover:bg-orange-600">
           🍳 Chế độ nấu ăn - Taco cá nướng
         </Button>
-        <Button 
+        {/* <Button 
           onClick={() => navigate("/weekly-menu")} 
           className="w-full bg-blue-500 text-white hover:bg-blue-600"
         >
           📅 Lập kế hoạch thực đơn tuần
-        </Button>
+        </Button> */}
+        {/* <Button 
+          onClick={() => navigate("/shop")} 
+          className="w-full bg-green-500 text-white hover:bg-green-600"
+        >
+          🛒 Danh sách mua sắm
+        </Button> */}
       </div>
 
       <FeaturedDishes activeCategory={activeCategory} onCategoryChange={setActiveCategory} />

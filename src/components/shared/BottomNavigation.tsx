@@ -18,10 +18,10 @@ export interface BottomNavigationProps {
 
 const DEFAULT_NAV_ITEMS: NavItem[] = [
   { id: "fridge", icon: Refrigerator, label: "Tủ lạnh", path: "/manage-ingredients" },
-  { id: "suggest", icon: Lightbulb, label: "Đề xuất", path: "/suggest" },
-  { id: "home", icon: Home, label: "", isCenter: true, path: "/" },
+  { id: "suggest", icon: Lightbulb, label: "Đề xuất", path: "/weekly-planner" },
+  { id: "home", icon: Home, label: "", isCenter: true, path: "/home" },
   { id: "shop", icon: ShoppingCart, label: "Mua sắm", path: "/shop" },
-  { id: "me", icon: User, label: "Tôi", path: "/me" },
+  { id: "me", icon: User, label: "Tôi", path: "/settings" },
 ];
 
 export const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabChange, navItems = DEFAULT_NAV_ITEMS }) => {
