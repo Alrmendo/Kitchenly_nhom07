@@ -1,3 +1,4 @@
+import { FOOD_CATEGORIES } from "@/constants/foodCategories";
 import { ChevronUp } from "lucide-react";
 import { useState } from "react";
 import type { Ingredient } from "./index";
@@ -19,12 +20,14 @@ export function IngredientSummary({ ingredients }: IngredientSummaryProps) {
       {} as Record<string, number>
     );
 
-    const categoryIcons = {
-      "Rau củ": "🥦",
-      "Chế phẩm sữa": "🥛",
-      "Ngũ cốc": "🌾",
-      Protein: "🥩",
-    };
+    // Create dynamic category map from our food categories
+    const categoryIcons = FOOD_CATEGORIES.reduce(
+      (acc, category) => {
+        acc[category.label] = category.icon;
+        return acc;
+      },
+      {} as Record<string, string>
+    );
 
     const summary = [{ label: "Tổng", value: ingredients.length, icon: "📊" }];
 

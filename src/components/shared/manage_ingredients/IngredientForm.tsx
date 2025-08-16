@@ -1,52 +1,18 @@
+import type { Ingredient } from "@/components/manage_ingredients";
+import { getCategoryDropdownOptions, getCategoryIcon, getUnitDropdownOptions } from "@/constants/foodCategories";
 import { useState } from "react";
 import type { DropdownOption } from "./DropdownSelect";
 import { DropdownSelect } from "./DropdownSelect";
 import { EmojiPicker } from "./EmojiPicker";
 
-export interface IngredientFormData {
-  name: string;
-  category: string;
-  amount: string;
-  unit: string;
-  icon: string;
-}
-
 export interface IngredientFormProps {
-  formData: IngredientFormData;
-  onChange: (field: keyof IngredientFormData, value: string) => void;
+  formData: Ingredient;
+  onChange: (field: keyof Ingredient, value: string) => void;
 }
 
-const categoryOptions: DropdownOption[] = [
-  { value: "rau-cu", label: "Rau củ" },
-  { value: "che-pham-sua", label: "Chế phẩm sữa" },
-  { value: "ngu-coc", label: "Ngũ cốc" },
-  { value: "protein", label: "Protein" },
-];
-
-const unitOptions: DropdownOption[] = [
-  { value: "", label: "Trống" },
-  { value: "g", label: "g" },
-  { value: "kg", label: "kg" },
-  { value: "mg", label: "mg" },
-  { value: "ml", label: "ml" },
-  { value: "l", label: "l" },
-];
-
-// Helper function to get emoji icon based on category
-const getCategoryIcon = (category: string): string => {
-  switch (category) {
-    case "rau-cu":
-      return "🥕";
-    case "che-pham-sua":
-      return "🥛";
-    case "ngu-coc":
-      return "🌾";
-    case "protein":
-      return "🥩";
-    default:
-      return "🍽️";
-  }
-};
+// Get category and unit options from centralized constants
+const categoryOptions: DropdownOption[] = getCategoryDropdownOptions();
+const unitOptions: DropdownOption[] = getUnitDropdownOptions();
 
 export function IngredientForm({ formData, onChange }: IngredientFormProps) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -93,7 +59,7 @@ export function IngredientForm({ formData, onChange }: IngredientFormProps) {
           {/* Category */}
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">Phân loại</label>
-            <DropdownSelect value={formData.category} onChange={(value) => onChange("category", value)} options={categoryOptions} placeholder="Protein" />
+            <DropdownSelect value={formData.category} onChange={(value) => onChange("category", value)} options={categoryOptions} />
           </div>
         </div>
         {/* Amount and Unit */}

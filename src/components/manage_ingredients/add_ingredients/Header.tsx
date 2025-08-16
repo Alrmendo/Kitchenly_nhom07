@@ -2,31 +2,15 @@ import { ArrowLeft, Mic } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { VoiceChatDrawer } from "../../shared/manage_ingredients/VoiceChatDrawer";
+import type { Ingredient } from "../IngredientList";
 
 interface HeaderProps {
-  onAddIngredients?: (ingredients: any[]) => void;
+  onAddIngredients: (ingredients: Ingredient[]) => void;
 }
 
 export function Header({ onAddIngredients }: HeaderProps) {
   const navigate = useNavigate();
   const [isVoiceChatOpen, setIsVoiceChatOpen] = useState(false);
-
-  const handleAddIngredients = (ingredients: any[]) => {
-    // Convert to the format expected by AddIngredientsPage
-    const convertedIngredients = ingredients.map((ingredient) => ({
-      name: ingredient.name,
-      category: ingredient.category,
-      amount: ingredient.amount,
-      unit: ingredient.unit,
-      icon: ingredient.icon,
-    }));
-
-    // Pass ingredients to parent component (AddIngredientsPage)
-    onAddIngredients?.(convertedIngredients);
-
-    // Close the drawer and show success message
-    setIsVoiceChatOpen(false);
-  };
 
   return (
     <>
@@ -40,7 +24,7 @@ export function Header({ onAddIngredients }: HeaderProps) {
         </button>
       </div>
 
-      <VoiceChatDrawer isOpen={isVoiceChatOpen} onClose={() => setIsVoiceChatOpen(false)} onAddIngredients={handleAddIngredients} />
+      <VoiceChatDrawer isOpen={isVoiceChatOpen} onClose={() => setIsVoiceChatOpen(false)} onAddIngredients={onAddIngredients} />
     </>
   );
 }

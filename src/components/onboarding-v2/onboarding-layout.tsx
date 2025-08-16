@@ -1,10 +1,8 @@
-"use client"
-
 import type React from "react"
 
 import { ChevronLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { useSlideInAnimation, useFadeInAnimation } from "@/hooks/use-gsap-animations-v2"
+import { Button } from "../ui/button"
+import { useSlideInAnimation, useFadeInAnimation } from "../../hooks/use-gsap-animations-v2"
 
 interface OnboardingLayoutProps {
     title: string

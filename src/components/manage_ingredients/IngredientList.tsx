@@ -1,3 +1,4 @@
+import { FOOD_CATEGORIES } from "@/constants/foodCategories";
 import { ArrowUpDown, Edit, Plus, Trash2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,8 @@ export interface IngredientListProps {
   onEdit: (index: number) => void;
 }
 
-const ingredientCategories = ["Rau củ", "Chế phẩm sữa", "Ngũ cốc", "Protein"];
+// Get ingredient categories from centralized constants
+const ingredientCategories = FOOD_CATEGORIES.map((category) => category.label);
 
 type SortType = "none" | "name-asc" | "name-desc" | "quantity-asc" | "quantity-desc";
 
@@ -105,12 +107,13 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
         </div>
       </div>
 
-      <div className="mb-3 flex gap-2">
+      <div className="mb-3 flex flex-wrap gap-2">
         {ingredientCategories.map((cat) => (
           <button
             key={cat}
-            className={`rounded px-2 py-2 text-xs ${selectedCategory === cat ? "bg-[#ff8c94] text-white" : "bg-gray-100"}`}
-            onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}>
+            className={`max-w-32 truncate rounded px-2 py-2 text-xs ${selectedCategory === cat ? "bg-[#ff8c94] text-white" : "bg-gray-100"}`}
+            onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
+            title={cat}>
             {cat}
           </button>
         ))}
@@ -118,10 +121,11 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
 
       <div className="space-y-2">
         {sortedIngredients.map((ing) => {
+          // in case of name duplication, it will delete the first one, so no duplication please
           const originalIndex = ingredients.findIndex((ingredient) => ingredient.name === ing.name && ingredient.category === ing.category);
 
           return (
-            <div key={`${ing.name}-${ing.category}`} className="flex items-center rounded-lg bg-white p-3 shadow">
+            <div key={crypto.randomUUID()} className="flex items-center rounded-lg bg-white p-3 shadow">
               <span className="mr-2 text-xl">{ing.icon}</span>
               <div className="flex-1">
                 <div className="text-sm font-semibold">{ing.name}</div>

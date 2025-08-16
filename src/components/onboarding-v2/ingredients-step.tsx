@@ -1,12 +1,10 @@
-"use client"
-
 import { useState } from "react"
 import { OnboardingLayout } from "./onboarding-layout"
 import { SelectionGrid } from "./selection-grid"
-import { Button } from "@/components/ui/button"
-import Input from "@/components/ui/input"
+import { Button } from "../ui/button"
+import Input from "../ui/input"
 import { Trash2 } from "lucide-react"
-import { Modal } from "@/components/ui/modal" // Assuming you have a reusable Modal component
+import { Modal } from "../ui/modal" // Assuming you have a reusable Modal component
 
 interface IngredientsStepProps {
     data: any

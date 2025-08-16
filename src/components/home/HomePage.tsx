@@ -24,10 +24,16 @@ export const HomePage: React.FC<HomePageProps> = ({ activeTab, onTabChange }) =>
     <div className="min-h-screen bg-[#fffdf9]">
       <Header />
 
-      {/* Temporary button to access Cooking Mode */}
-      <div className="mb-4 px-4">
+      {/* Quick Access Buttons */}
+      <div className="mb-4 px-4 space-y-2">
         <Button onClick={handleNavigateToCooking} className="w-full bg-orange-500 text-white hover:bg-orange-600">
           🍳 Chế độ nấu ăn - Taco cá nướng
+        </Button>
+        <Button 
+          onClick={() => navigate("/weekly-menu")} 
+          className="w-full bg-blue-500 text-white hover:bg-blue-600"
+        >
+          📅 Lập kế hoạch thực đơn tuần
         </Button>
       </div>
 

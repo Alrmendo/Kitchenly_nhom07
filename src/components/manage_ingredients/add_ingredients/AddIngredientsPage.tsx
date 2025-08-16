@@ -1,35 +1,28 @@
+import { getCategoryIcon, getCategoryLabel } from "@/constants/foodCategories";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IngredientForm, type IngredientFormData } from "../../shared";
+import { IngredientForm } from "../../shared";
+import type { Ingredient } from "../IngredientList";
 import { Header } from "./Header";
 
 export interface AddIngredientsPageProps {}
 
 export function AddIngredientsPage() {
   const navigate = useNavigate();
-  const [ingredients, setIngredients] = useState<IngredientFormData[]>([{ name: "", category: "", amount: "", unit: "", icon: "" }]);
+  const [ingredients, setIngredients] = useState<Ingredient[]>([{ name: "", category: "", amount: "", unit: "", icon: "" }]);
 
-  const handleFormChange = (index: number, field: keyof IngredientFormData, value: string) => {
+  const handleFormChange = (index: number, field: keyof Ingredient, value: string) => {
     const updatedIngredients = [...ingredients];
     updatedIngredients[index] = { ...updatedIngredients[index], [field]: value };
     setIngredients(updatedIngredients);
   };
 
-  const handleAIAddIngredients = (aiIngredients: any[]) => {
-    // Add AI-extracted ingredients to the form
-    const newIngredients = aiIngredients.map((aiIngredient) => ({
-      name: aiIngredient.name,
-      category: aiIngredient.category,
-      amount: aiIngredient.amount,
-      unit: aiIngredient.unit,
-      icon: aiIngredient.icon,
-    }));
-
-    // Add to existing ingredients (remove the last empty one if it exists)
+  const handleAIAddIngredients = (aiIngredients: Ingredient[]) => {
+    // Add to existing ingredients (which are not empty)
     const currentIngredients = ingredients.filter((ingredient) => ingredient.name.trim() || ingredient.category.trim() || ingredient.amount.trim());
 
-    setIngredients([...currentIngredients, ...newIngredients]);
+    setIngredients([...currentIngredients, ...aiIngredients]);
   };
 
   const addNewIngredientForm = () => {
@@ -52,40 +45,11 @@ export function AddIngredientsPage() {
 
       // Convert form data to ingredient format
       const convertedIngredients = validIngredients.map((formData) => {
-        const getCategoryIcon = (category: string): string => {
-          switch (category) {
-            case "rau-cu":
-              return "🥕";
-            case "che-pham-sua":
-              return "🥛";
-            case "ngu-coc":
-              return "🌾";
-            case "protein":
-              return "🥩";
-            default:
-              return "🍽️";
-          }
-        };
-
-        const getCategoryLabel = (category: string): string => {
-          switch (category) {
-            case "rau-cu":
-              return "Rau củ";
-            case "che-pham-sua":
-              return "Chế phẩm sữa";
-            case "ngu-coc":
-              return "Ngũ cốc";
-            case "protein":
-              return "Protein";
-            default:
-              return "Khác";
-          }
-        };
-
         return {
           name: formData.name,
           category: getCategoryLabel(formData.category),
-          amount: formData.unit ? `${formData.amount}${formData.unit}` : formData.amount,
+          amount: formData.amount,
+          unit: formData.unit,
           icon: formData.icon || getCategoryIcon(formData.category),
         };
       });
