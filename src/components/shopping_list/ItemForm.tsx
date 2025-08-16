@@ -1,12 +1,17 @@
 import React from "react";
-import { guessImageForName, toISO } from "./data";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as RDRCalendar } from "react-date-range";
+import vi from "date-fns/locale/vi";
+import { guessImageForName, toISO, toDate } from "./data";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 export type ItemFormValues = {
   name: string;
   quantity: string;
   unit: string;
   note: string;
-  date: string; //yyyy-mm-dd
+  date: string; // yyyy-mm-dd
 };
 
 export function parseQty(qText?: string) {
@@ -30,6 +35,7 @@ export default function ItemForm({
   const [unit, setUnit] = React.useState(initial?.unit ?? "");
   const [note, setNote] = React.useState(initial?.note ?? "");
   const [date, setDate] = React.useState(initial?.date ?? toISO(new Date()));
+  const [openCal, setOpenCal] = React.useState(false);
 
   const canSubmit = name.trim() && quantity.trim() && date;
 
@@ -51,6 +57,7 @@ export default function ItemForm({
         });
       }}
     >
+      {/* Tên + ảnh */}
       <div className="flex items-center gap-3">
         <div className="flex-1">
           <input
@@ -69,6 +76,7 @@ export default function ItemForm({
         </div>
       </div>
 
+      {/* Số lượng + đơn vị */}
       <div className="grid grid-cols-2 gap-3">
         <input
           value={quantity}
@@ -84,14 +92,46 @@ export default function ItemForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="text-sm text-gray-600">Ngày</div>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="w-full border rounded-2xl px-3 py-2 text-sm shadow-sm bg-white"
-        />
+      <div className="mt-2">
+        <div className="relative inline-block">
+          <button
+            type="button"
+            onClick={() => setOpenCal((v) => !v)}
+            className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2
+                       text-sm shadow-sm hover:shadow transition"
+          >
+            <CalendarIcon className="h-4 w-4 text-gray-400" />
+            <span className="text-gray-400">
+              {(toDate(date) ?? new Date()).toLocaleDateString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })}
+            </span>
+          </button>
+
+          {openCal && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setOpenCal(false)} />
+              <div
+                className="absolute left-0 mt-2 z-50 rounded-2xl border border-gray-200 bg-white
+                           shadow-xl overflow-hidden"
+              >
+                <RDRCalendar
+                  date={toDate(date) ?? new Date()}
+                  onChange={(d: any) => {
+                    const picked = Array.isArray(d) ? d[0] : (d as Date);
+                    setDate(toISO(picked));
+                    setOpenCal(false);
+                  }}
+                  locale={vi}
+                  className="!p-2"
+                  color="#FF8C94"
+                />
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       <textarea
@@ -100,8 +140,6 @@ export default function ItemForm({
         className="w-full border rounded-2xl px-3 py-3 text-sm shadow-sm bg-white min-h-[120px] placeholder:text-gray-400"
         placeholder="Ghi chú"
       />
-
-      
     </form>
   );
 }
