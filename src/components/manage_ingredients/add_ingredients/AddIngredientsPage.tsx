@@ -1,3 +1,4 @@
+import { getCategoryIcon, getCategoryLabel } from "@/constants/foodCategories";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -44,36 +45,6 @@ export function AddIngredientsPage() {
 
       // Convert form data to ingredient format
       const convertedIngredients = validIngredients.map((formData) => {
-        const getCategoryIcon = (category: string): string => {
-          switch (category) {
-            case "rau-cu":
-              return "🥕";
-            case "che-pham-sua":
-              return "🥛";
-            case "ngu-coc":
-              return "🌾";
-            case "protein":
-              return "🥩";
-            default:
-              return "🍽️";
-          }
-        };
-
-        const getCategoryLabel = (category: string): string => {
-          switch (category) {
-            case "rau-cu":
-              return "Rau củ";
-            case "che-pham-sua":
-              return "Chế phẩm sữa";
-            case "ngu-coc":
-              return "Ngũ cốc";
-            case "protein":
-              return "Protein";
-            default:
-              return "Khác";
-          }
-        };
-
         return {
           name: formData.name,
           category: getCategoryLabel(formData.category),

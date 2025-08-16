@@ -1,3 +1,4 @@
+import { getCategoryLabel } from "@/constants/foodCategories";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IngredientForm } from "../../shared";
@@ -39,21 +40,6 @@ export function EditIngredientPage() {
     const totalIngredients = JSON.parse(localStorage.getItem("totalIngredients") || "[]");
 
     // Convert form data to ingredient format
-    const getCategoryLabel = (category: string): string => {
-      switch (category) {
-        case "rau-cu":
-          return "Rau củ";
-        case "che-pham-sua":
-          return "Chế phẩm sữa";
-        case "ngu-coc":
-          return "Ngũ cốc";
-        case "protein":
-          return "Protein";
-        default:
-          return "Khác";
-      }
-    };
-
     const updatedIngredientData = {
       name: ingredient.name,
       category: getCategoryLabel(ingredient.category),

@@ -328,7 +328,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
                 value={textInput}
                 onChange={(e) => setTextInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), sendMessage(textInput))}
-                placeholder="Nói để tương tác..."
+                placeholder={isRecording ? "Đang ghi âm..." : "Nói để tương tác..."}
                 className="max-h-32 min-h-[20px] flex-1 resize-none overflow-y-auto bg-transparent text-sm outline-none"
                 disabled={isRecording}
                 rows={1}
@@ -351,7 +351,7 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
             <button
               onClick={startVoiceRecording}
               disabled={isLoading}
-              className={`flex-shrink-0 rounded-full p-3 ${isRecording ? "animate-pulse bg-red-500 text-white" : "bg-[#ff8c94] text-white hover:bg-[#ff7a85]"} disabled:opacity-50`}>
+              className={`flex-shrink-0 rounded-full bg-red-500 p-3 text-white ${isRecording ? "animate-pulse" : "text-white"} disabled:opacity-50`}>
               {isRecording ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
             </button>
           </div>

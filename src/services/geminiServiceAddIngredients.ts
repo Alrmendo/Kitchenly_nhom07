@@ -69,15 +69,14 @@ của bạn và yêu cầu họ cung cấp yêu cầu khác.
 QUAN TRỌNG: Phải trích xuất ĐÚNG số lượng và đơn vị đi kèm với mỗi nguyên liệu.
 
 Quy tắc phân loại:
-- "rau-cu": rau củ, rau lá, củ quả (ví dụ: cà chua, cà rốt, hành tây, tỏi, giá đỗ, xà lách, khoai tây, v.v.)
-- "che-pham-sua": sữa, phô mai, bơ, kem, sữa chua, v.v.
-- "ngu-coc": gạo, mì, bánh mì, yến mạch, bột mì, v.v.
-- "protein": thịt (gà, bò, heo, cá), trứng, đậu hũ/đậu phụ/tàu hũ, đậu, tôm, v.v.
-
-Danh sách nguyên liệu thường gặp:
-- Gà: ức gà, đùi gà, cánh gà, thịt gà
-- Đậu hũ: đậu phụ, tàu hũ, đậu hũ tươi, đậu hũ chiên
-- Rau: cà chua, hành tây, tỏi, gừng, ớt
+- "rau-cu-qua": cà chua, cà rốt, hành tây, tỏi, giá đỗ, xà lách, khoai tây, nấm,...
+- "thit-ca-hai-san": thịt tươi, cá, tôm, cua, mực,...
+- "sua-trung-pho-mai": sữa, phô mai, bơ, kem, sữa chua, trứng,...
+- "gao-bun-my": gạo, bún, mỳ, bánh mì, yến mạch, bột mì,...
+- "dau-hat-do-kho": đậu các loại, hạt, thực phẩm khô
+- "gia-vi-tuong": muối, đường, tiêu nước mắm, tương ớt, tương cà, tương bần,...
+- "dau-an-mo-thuc-vat": dầu ăn, dầu oliu, bơ thực vật, mỡ heo,...
+- "do-uong-nuoc-dung": nước lọc, nước dùng gà, coca cola,...
 
 Hướng dẫn trích xuất:
 1. ĐỌC KỸ toàn bộ câu và tìm TẤT CẢ nguyên liệu
@@ -93,7 +92,7 @@ Trả lời theo định dạng JSON chính xác:
   "ingredients": [
     {
       "name": "Tên nguyên liệu (viết hoa chữ cái đầu)",
-      "category": "rau-cu|che-pham-sua|ngu-coc|protein",
+      "category": "rau-cu-qua|thit-ca-hai-san|sua-trung-pho-mai|gao-bun-my|dau-hat-do-kho|gia-vi-tuong|dau-an-mo-thuc-vat|do-uong-nuoc-dung",
       "amount": "Số lượng (để trống nếu không đề cập)",
       "unit": " \"\"|g|kg|mg|ml|l ",
       "icon": "Emoji phù hợp"
@@ -103,20 +102,20 @@ Trả lời theo định dạng JSON chính xác:
 
 Ví dụ phân tích chi tiết:
 - "2kg ức gà, 100g giá đỗ" → 
-  * Ức gà (protein, "2", "kg", "🐔")
-  * Giá đỗ (rau-cu, "100", "g", "🌱")
+  * Ức gà (thit-ca-hai-san, "2", "kg", "🐔")
+  * Giá đỗ (rau-cu-qua, "100", "g", "🌱")
 
 - "300g cà chua 200g đậu phụ" → 
-  * Cà chua (rau-cu, "300", "g", "🍅")
-  * Đậu phụ (protein, "200", "g", "🧈")
+  * Cà chua (rau-cu-qua, "300", "g", "🍅")
+  * Đậu phụ (dau-hat-do-kho, "200", "g", "🧈")
 
 - "2 cái xúc xích" → 
-  * Xúc xích (protein, "2", "", "🌭")
+  * Xúc xích (thit-ca-hai-san, "2", "", "🌭")
 
-- "Thêm cho tôi gà, bò, 100g thịt cừu" → 
-  * Gà (protein, "", "", "🐔")
-  * Bò (protein, "", "", "🐮")
-  * Thịt cừu (protein, "100", "g", "🐑")
+- "Thêm cho tôi gà, bò, 100g muối" → 
+  * Gà (thit-ca-hai-san, "", "", "🐔")
+  * Bò (thit-ca-hai-san, "", "", "🐮")
+  * Muối (gia-vi-tuong, "100", "g", "🧂")
 
 CHÚ Ý: Hãy đọc kỹ và tách riêng từng nguyên liệu với đúng số lượng của nó.
 

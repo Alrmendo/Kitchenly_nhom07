@@ -1,3 +1,4 @@
+import { FOOD_CATEGORIES } from "@/constants/foodCategories";
 import { ArrowUpDown, Edit, Plus, Trash2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,8 @@ export interface IngredientListProps {
   onEdit: (index: number) => void;
 }
 
-const ingredientCategories = ["Rau củ", "Chế phẩm sữa", "Ngũ cốc", "Protein"];
+// Get ingredient categories from centralized constants
+const ingredientCategories = FOOD_CATEGORIES.map((category) => category.label);
 
 type SortType = "none" | "name-asc" | "name-desc" | "quantity-asc" | "quantity-desc";
 
@@ -105,12 +107,13 @@ export function IngredientList({ ingredients, onDelete, onEdit }: IngredientList
         </div>
       </div>
 
-      <div className="mb-3 flex gap-2">
+      <div className="mb-3 flex flex-wrap gap-2">
         {ingredientCategories.map((cat) => (
           <button
             key={cat}
-            className={`rounded px-2 py-2 text-xs ${selectedCategory === cat ? "bg-[#ff8c94] text-white" : "bg-gray-100"}`}
-            onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}>
+            className={`max-w-32 truncate rounded px-2 py-2 text-xs ${selectedCategory === cat ? "bg-[#ff8c94] text-white" : "bg-gray-100"}`}
+            onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
+            title={cat}>
             {cat}
           </button>
         ))}

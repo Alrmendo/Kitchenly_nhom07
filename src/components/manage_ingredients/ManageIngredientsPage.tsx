@@ -1,3 +1,4 @@
+import { getCategoryId } from "@/constants/foodCategories";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BottomNavigation } from "../shared/BottomNavigation";
@@ -56,7 +57,7 @@ export function ManageIngredientsPage() {
     const ingredientToEdit = ingredients[index];
     const formData: Ingredient = {
       name: ingredientToEdit.name,
-      category: getOriginalCategory(ingredientToEdit.category),
+      category: getCategoryId(ingredientToEdit.category),
       amount: ingredientToEdit.amount,
       unit: ingredientToEdit.unit,
       icon: ingredientToEdit.icon,
@@ -66,41 +67,18 @@ export function ManageIngredientsPage() {
     navigate(`edit-ingredient/${index}`);
   };
 
-  // Helper function to convert category label back to value
-  const getOriginalCategory = (categoryLabel: string): string => {
-    switch (categoryLabel) {
-      case "Rau củ":
-        return "rau-cu";
-      case "Chế phẩm sữa":
-        return "che-pham-sua";
-      case "Ngũ cốc":
-        return "ngu-coc";
-      case "Protein":
-        return "protein";
-      default:
-        return "khac";
-    }
-  };
-
   return (
-    <>
-      <article>
-        <title>Quản lý nguyên liệu</title>
-        <meta name="description" content="Quản lý nguyên liệu trong bếp của bạn một cách hiệu quả với Kitchenly." />
-      </article>
-
-      <div className="min-h-screen bg-[#fff] pb-24">
-        <Header />
-        <IngredientSummary ingredients={ingredients} />
-        <IngredientList ingredients={ingredients} onDelete={handleDeleteIngredient} onEdit={handleEditIngredient} />
-        <BottomNavigation
-          activeTab="fridge"
-          onTabChange={(tabId: string) => {
-            // Handle tab changes if needed
-            console.log("Tab changed to:", tabId);
-          }}
-        />
-      </div>
-    </>
+    <div className="min-h-screen bg-[#fff] pb-24">
+      <Header />
+      <IngredientSummary ingredients={ingredients} />
+      <IngredientList ingredients={ingredients} onDelete={handleDeleteIngredient} onEdit={handleEditIngredient} />
+      <BottomNavigation
+        activeTab="fridge"
+        onTabChange={(tabId: string) => {
+          // Handle tab changes if needed
+          console.log("Tab changed to:", tabId);
+        }}
+      />
+    </div>
   );
 }

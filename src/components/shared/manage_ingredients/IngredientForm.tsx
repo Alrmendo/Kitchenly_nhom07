@@ -1,4 +1,5 @@
 import type { Ingredient } from "@/components/manage_ingredients";
+import { getCategoryDropdownOptions, getCategoryIcon } from "@/constants/foodCategories";
 import { useState } from "react";
 import type { DropdownOption } from "./DropdownSelect";
 import { DropdownSelect } from "./DropdownSelect";
@@ -9,12 +10,8 @@ export interface IngredientFormProps {
   onChange: (field: keyof Ingredient, value: string) => void;
 }
 
-const categoryOptions: DropdownOption[] = [
-  { value: "rau-cu", label: "Rau củ" },
-  { value: "che-pham-sua", label: "Chế phẩm sữa" },
-  { value: "ngu-coc", label: "Ngũ cốc" },
-  { value: "protein", label: "Protein" },
-];
+// Get category options from centralized constants
+const categoryOptions: DropdownOption[] = getCategoryDropdownOptions();
 
 const unitOptions: DropdownOption[] = [
   { value: "", label: "Trống" },
@@ -24,22 +21,6 @@ const unitOptions: DropdownOption[] = [
   { value: "ml", label: "ml" },
   { value: "l", label: "l" },
 ];
-
-// Helper function to get emoji icon based on category
-const getCategoryIcon = (category: string): string => {
-  switch (category) {
-    case "rau-cu":
-      return "🥕";
-    case "che-pham-sua":
-      return "🥛";
-    case "ngu-coc":
-      return "🌾";
-    case "protein":
-      return "🥩";
-    default:
-      return "🍽️";
-  }
-};
 
 export function IngredientForm({ formData, onChange }: IngredientFormProps) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
