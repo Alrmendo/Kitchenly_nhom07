@@ -1,5 +1,14 @@
-// Food category constants and utilities
-// Centralized dictionary for all food categories in the application
+// For dropdown options
+export const UNIT_OPTIONS = [
+  { value: "", label: "Trống" },
+  { value: "g", label: "g" },
+  { value: "kg", label: "kg" },
+  { value: "mg", label: "mg" },
+  { value: "ml", label: "ml" },
+  { value: "l", label: "l" },
+];
+
+export const getUnitDropdownOptions = () => UNIT_OPTIONS;
 
 export interface FoodCategory {
   id: string;

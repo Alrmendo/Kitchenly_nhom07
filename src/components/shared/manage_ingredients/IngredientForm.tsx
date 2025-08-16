@@ -1,5 +1,5 @@
 import type { Ingredient } from "@/components/manage_ingredients";
-import { getCategoryDropdownOptions, getCategoryIcon } from "@/constants/foodCategories";
+import { getCategoryDropdownOptions, getCategoryIcon, getUnitDropdownOptions } from "@/constants/foodCategories";
 import { useState } from "react";
 import type { DropdownOption } from "./DropdownSelect";
 import { DropdownSelect } from "./DropdownSelect";
@@ -10,17 +10,9 @@ export interface IngredientFormProps {
   onChange: (field: keyof Ingredient, value: string) => void;
 }
 
-// Get category options from centralized constants
+// Get category and unit options from centralized constants
 const categoryOptions: DropdownOption[] = getCategoryDropdownOptions();
-
-const unitOptions: DropdownOption[] = [
-  { value: "", label: "Trống" },
-  { value: "g", label: "g" },
-  { value: "kg", label: "kg" },
-  { value: "mg", label: "mg" },
-  { value: "ml", label: "ml" },
-  { value: "l", label: "l" },
-];
+const unitOptions: DropdownOption[] = getUnitDropdownOptions();
 
 export function IngredientForm({ formData, onChange }: IngredientFormProps) {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -67,7 +59,7 @@ export function IngredientForm({ formData, onChange }: IngredientFormProps) {
           {/* Category */}
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">Phân loại</label>
-            <DropdownSelect value={formData.category} onChange={(value) => onChange("category", value)} options={categoryOptions} placeholder="Protein" />
+            <DropdownSelect value={formData.category} onChange={(value) => onChange("category", value)} options={categoryOptions} />
           </div>
         </div>
         {/* Amount and Unit */}
