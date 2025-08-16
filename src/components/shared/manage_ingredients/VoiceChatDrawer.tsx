@@ -1,5 +1,5 @@
 import type { Ingredient } from "@/components/manage_ingredients";
-import { GeminiServiceAddIngredients } from "@/services/geminiServiceAddIngredients";
+import { GeminiServiceAddIngredients, type InvalidIngredient } from "@/services/geminiServiceAddIngredients";
 import { Mic, MicOff, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -9,6 +9,8 @@ interface ChatMessage {
   isUser: boolean;
   timestamp: Date;
   ingredients?: Ingredient[]; // only for AI answers
+  declinedReason?: string; // when AI declines a request
+  invalidIngredients?: InvalidIngredient[]; // invalid items that were filtered out
 }
 
 interface VoiceChatDrawerProps {
@@ -194,6 +196,8 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
       isUser: false,
       timestamp: new Date(),
       ingredients: [],
+      declinedReason: undefined,
+      invalidIngredients: [],
     };
     setMessages((prev) => [...prev, placeholderAiMessage]);
 
@@ -213,6 +217,8 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
                     text: chunk.text,
                     // Append new ingredients to existing ones instead of replacing
                     ingredients: chunk.isComplete ? chunk.ingredients : [...(msg.ingredients || []), ...(chunk.ingredients || [])],
+                    declinedReason: chunk.declinedReason,
+                    invalidIngredients: chunk.isComplete ? chunk.invalidIngredients : [...(msg.invalidIngredients || []), ...(chunk.invalidIngredients || [])],
                   }
                 : msg
             )
@@ -249,6 +255,8 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
                     ...msg,
                     text: response.text,
                     ingredients: response.ingredients || [],
+                    declinedReason: response.declinedReason,
+                    invalidIngredients: response.invalidIngredients || [],
                   }
                 : msg
             )
@@ -311,21 +319,48 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
           {messages.map((message) => (
             <div key={message.id} className={`mb-4 flex ${message.isUser ? "justify-end" : "justify-start"}`}>
               <div className={`max-w-xs rounded-2xl px-4 py-2 ${message.isUser ? "bg-[#ff8c94] text-white" : "bg-gray-100 text-gray-800"}`}>
-                <p className="text-sm">{message.text}</p>
+                {/* AI Response */}
+                <p className="text-sm whitespace-pre-line">{message.text}</p>
+
+                {/* Valid Ingredients - Show successfully added ingredients */}
                 {message.ingredients && message.ingredients.length > 0 && (
-                  <div className="mt-2 border-t border-gray-300 pt-2">
-                    <p className="mb-1 text-xs opacity-75">Đã thêm nguyên liệu:</p>
-                    {message.ingredients.map((ingredient, index) => (
-                      <div key={index} className="flex items-center gap-1 text-xs">
-                        <span>{ingredient.icon}</span>
-                        <span>
-                          {ingredient.name} - {ingredient.amount}
-                          {ingredient.unit}
-                        </span>
-                      </div>
-                    ))}
+                  <div className="mt-2 rounded-lg border border-green-200 bg-green-50 p-2">
+                    <div className="mb-1 flex items-center gap-1">
+                      <span className="text-green-500">✅</span>
+                      <p className="text-xs font-medium text-green-700">Đã thêm nguyên liệu:</p>
+                    </div>
+                    <div className="space-y-1 pl-4">
+                      {message.ingredients.map((ingredient, index) => (
+                        <div key={index} className="flex items-center gap-1 text-xs text-green-700">
+                          <span>{ingredient.icon}</span>
+                          <span>
+                            {ingredient.name} - {ingredient.amount}
+                            {ingredient.unit}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
+
+                {/* Invalid Ingredients - Show filtered out items */}
+                {message.invalidIngredients && message.invalidIngredients.length > 0 && (
+                  <div className="mt-2 rounded-lg border border-yellow-200 bg-yellow-50 p-2">
+                    <div className="mb-1 flex items-center gap-1">
+                      <span className="text-yellow-500">⚠️</span>
+                      <p className="text-xs font-medium text-yellow-700">Không thể thêm:</p>
+                    </div>
+                    {message.declinedReason && <p className="mb-2 pl-4 text-xs text-yellow-600">{message.declinedReason}</p>}
+                    <div className="space-y-1 pl-4">
+                      {message.invalidIngredients.map((invalidItem, index) => (
+                        <div key={index} className="text-xs">
+                          <span className="font-medium text-yellow-700">• {invalidItem.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="mt-1 text-xs opacity-75">{message.timestamp.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</div>
               </div>
             </div>

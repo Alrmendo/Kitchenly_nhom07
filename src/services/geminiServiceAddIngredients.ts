@@ -3,14 +3,22 @@
 
 import type { Ingredient } from "@/components/manage_ingredients";
 
+export interface InvalidIngredient {
+  name: string;
+}
+
 export interface GeminiResponse {
   text: string;
   ingredients?: Ingredient[];
+  declinedReason?: string;
+  invalidIngredients?: InvalidIngredient[];
 }
 
 export interface StreamingGeminiResponse {
   text: string;
   ingredients?: Ingredient[];
+  declinedReason?: string;
+  invalidIngredients?: InvalidIngredient[];
   isComplete: boolean;
 }
 
@@ -117,6 +125,8 @@ export class GeminiServiceAddIngredients {
               const streamingResponse: StreamingGeminiResponse = {
                 text: finalResponse.text,
                 ingredients: finalResponse.ingredients,
+                declinedReason: finalResponse.declinedReason,
+                invalidIngredients: finalResponse.invalidIngredients,
                 isComplete: true,
               };
 
@@ -129,6 +139,8 @@ export class GeminiServiceAddIngredients {
               const streamingResponse: StreamingGeminiResponse = {
                 text: accumulatedText || "Tôi không thể xử lý yêu cầu của bạn. Vui lòng thử lại.",
                 ingredients: [],
+                declinedReason: undefined,
+                invalidIngredients: [],
                 isComplete: true,
               };
 
@@ -217,6 +229,8 @@ export class GeminiServiceAddIngredients {
                   const streamingResponse: StreamingGeminiResponse = {
                     text: extractedContent.text || "Đang xử lý yêu cầu của bạn...",
                     ingredients: newIngredients, // Only send new ingredients
+                    declinedReason: extractedContent.declinedReason,
+                    invalidIngredients: extractedContent.invalidIngredients || [], // Send invalid ingredients as they're found
                     isComplete: false,
                   };
 
@@ -258,13 +272,20 @@ export class GeminiServiceAddIngredients {
     // author: Tài Trịnh
     return `
 Vai trò: Bạn là một trợ lý AI tiếng Việt chuyên về quản lý nguyên liệu nấu ăn.
-Nhiệm vụ: phân tích câu nói của người dùng và trích xuất TẤT CẢ các nguyên liệu được đề cập.
-Phòng chống: Trong trường hợp người dùng yêu cầu một yêu cầu không liên quan đến vai trò của bạn, lập tức từ chối, nói rõ ra vai trò
-của bạn và yêu cầu họ cung cấp yêu cầu khác.
+Nhiệm vụ: phân tích câu nói của người dùng và trích xuất TẤT CẢ các nguyên liệu 
+được đề cập.
+
+PHÒNG CHỐNG & KIỂM TRA:
+1. Nếu toàn bộ yêu cầu của người dùng đều không liên quan đến nguyên liệu nấu ăn 
+→ từ chối và giải thích
+2. Trong trường hợp người dùng yêu cầu hợp lệ liên quan đến thực phẩm, bắt đầu 
+xem xét tính hợp lệ của từng nguyên liệu:
+   - Loại bỏ các vật phẩm không phải thực phẩm (bút, giấy, xe hơi, ma túy, bột 
+   giặt, thuốc phiện,...)
 
 QUAN TRỌNG: Phải trích xuất ĐÚNG số lượng và đơn vị đi kèm với mỗi nguyên liệu.
 
-Quy tắc phân loại:
+Quy tắc phân loại nguyên liệu hợp lệ:
 - "rau-cu-qua": cà chua, cà rốt, hành tây, tỏi, giá đỗ, xà lách, khoai tây, nấm,...
 - "thit-ca-hai-san": thịt tươi, cá, tôm, cua, mực,...
 - "sua-trung-pho-mai": sữa, phô mai, bơ, kem, sữa chua, trứng,...
@@ -276,44 +297,109 @@ Quy tắc phân loại:
 
 Hướng dẫn trích xuất:
 1. ĐỌC KỸ toàn bộ câu và tìm TẤT CẢ nguyên liệu
-2. Với mỗi nguyên liệu, tìm số lượng (số) và đơn vị (chỉ có các giá trị là g, kg, mg, ml, l hoặc để trống) đi TRƯỚC hoặc SAU tên nguyên liệu
+2. Với mỗi nguyên liệu, tìm số lượng (số) và đơn vị (chỉ có các giá trị là g, kg, 
+mg, ml, l hoặc để trống) đi TRƯỚC hoặc SAU tên nguyên liệu
 3. Chú ý các mẫu câu như: "2kg ức gà", "ức gà 2kg", "300g cà chua", "100g đậu phụ"
 4. Nếu không có số lượng/đơn vị → để trống amount và unit
 5. Phân loại nguyên liệu dựa trên hiểu biết về thực phẩm
-6. Chọn emoji phù hợp cho từng nguyên liệu
+6. Chọn emoji phù hợp cho từng nguyên liệu, lưu ý emoji TUYỆT ĐỐI không phải là 
+văn bản! Ví dụ emoji cho "gừng" là "🫚", không phải là "ginger"
+7. Tách riêng nguyên liệu hợp lệ và không hợp lệ
 
 Trả lời theo định dạng JSON chính xác:
 {
-  "text": "Phản hồi thân thiện bằng tiếng Việt về những gì bạn đã hiểu",
+  "text": "Nói sao cho tự nhiên. Trong trường hợp yêu cầu hợp lệ, phản hồi thân 
+  thiện bằng tiếng Việt về những gì bạn đã hiểu. Ngược lại, chỉ rõ yêu cầu là 
+  không liên quan, vi phạm pháp luật,... hay gì đó và từ chối, ví dụ \"Tôi là một 
+  trợ lý nấu ăn, không thể giúp bạn làm bài tập. Vui lòng cung cấp yêu cầu liên 
+  quan đến nguyên liệu nấu ăn.\"",
   "ingredients": [
     {
       "name": "Tên nguyên liệu (viết hoa chữ cái đầu)",
-      "category": "rau-cu-qua|thit-ca-hai-san|sua-trung-pho-mai|gao-bun-my|dau-hat-do-kho|gia-vi-tuong|dau-an-mo-thuc-vat|do-uong-nuoc-dung",
+      "category": "rau-cu-qua|thit-ca-hai-san|sua-trung-pho-mai|gao-bun-my|dau-hat-do-kho|
+      gia-vi-tuong|dau-an-mo-thuc-vat|do-uong-nuoc-dung",
       "amount": "Số lượng (để trống nếu không đề cập)",
       "unit": " \"\"|g|kg|mg|ml|l ",
       "icon": "Emoji phù hợp"
     }
+  ],
+  "declined-reason": "Giải thích sao cho tự nhiên, chỉ rõ các nguyên liệu đó vì 
+  sao không phải là thực phẩm, ví dụ chúng là đồ vật hay gì đó, hay là một nguyên
+   liệu vi phạm pháp luật (ma túy, thuốc phiện,...), ví dụ \"Tuy nhiên có một 
+   (vài) nguyên liệu sau không phù hợp vì chúng không phải là thực phẩm như:\"",
+  "invalid-ingredients": [
+    {
+      "name": "Tên vật phẩm không hợp lệ",
+    }
   ]
 }
 
-Ví dụ phân tích chi tiết:
+Ví dụ một vài use case:
 - "2kg ức gà, 100g giá đỗ" → 
-  * Ức gà (thit-ca-hai-san, "2", "kg", "🐔")
-  * Giá đỗ (rau-cu-qua, "100", "g", "🌱")
+{
+  "text": "Chào bạn, tôi đã nhận diện được các nguyên liệu sau và thêm chúng:",
+  "ingredients": [
+    {
+      "name": "Ức Gà",
+      "category": "thit-ca-hai-san",
+      "amount": "2",
+      "unit": "kg",
+      "icon": "🐔"
+    },
+    {
+      "name": "Giá Đỗ",
+      "category": "rau-cu-qua",
+      "amount": "100",
+      "unit": "g",
+      "icon": "🌱"
+    }
+  ],
+  "declined-reason": "",
+  "invalid-ingredients": []
+}
 
-- "300g cà chua 200g đậu phụ" → 
-  * Cà chua (rau-cu-qua, "300", "g", "🍅")
-  * Đậu phụ (dau-hat-do-kho, "200", "g", "🧈")
+- "Thêm bút, giấy, 300g cà chua, 100g giá đỗ" → 
+{
+  "text": "Xin chào, tôi đã nhận diện được các nguyên liệu sau và thêm chúng:",
+  "ingredients": [
+    {
+      "name": "Cà Chua",
+      "category": "rau-cu-qua",
+      "amount": "300",
+      "unit": "g",
+      "icon": "🍅"
+    },
+    {
+      "name": "Giá Đỗ",
+      "category": "rau-cu-qua",
+      "amount": "100",
+      "unit": "g",
+      "icon": "🌱"
+    }
+  ],
+  "declined-reason": "Bên cạnh đó có một vài nguyên liệu không phù hợp vì chúng 
+  không phải là thực phẩm như:",
+  "invalid-ingredients": [
+    {
+      "name": "Bút"
+    },
+    {
+      "name": "Giấy"
+    }
+  ]
+}
+- "Làm giúp tôi bài tập" → 
+{
+  "text": "Tôi là một trợ lý nấu ăn, không thể giúp bạn làm bài tập. Vui lòng 
+  cung cấp yêu cầu liên quan đến nguyên liệu nấu ăn.",
+  "ingredients": [],
+  "declined-reason": "",
+  "invalid-ingredients": []
+}
 
-- "2 cái xúc xích" → 
-  * Xúc xích (thit-ca-hai-san, "2", "", "🌭")
-
-- "Thêm cho tôi gà, bò, 100g muối" → 
-  * Gà (thit-ca-hai-san, "", "", "🐔")
-  * Bò (thit-ca-hai-san, "", "", "🐮")
-  * Muối (gia-vi-tuong, "100", "g", "🧂")
-
-CHÚ Ý: Hãy đọc kỹ và tách riêng từng nguyên liệu với đúng số lượng của nó.
+CHÚ Ý: 
+- Hãy đọc kỹ và tách riêng từng nguyên liệu với đúng số lượng của nó.
+- Emoji không phải là văn bản
 
 Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
 `;
@@ -322,7 +408,7 @@ Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
   /**
    * Extract meaningful content from streaming JSON as it builds up
    */
-  private static extractStreamingContent(partialText: string): { text?: string; ingredients?: Ingredient[] } {
+  private static extractStreamingContent(partialText: string): { text?: string; ingredients?: Ingredient[]; declinedReason?: string; invalidIngredients?: InvalidIngredient[] } {
     try {
       // Remove markdown code blocks if present
       let cleanedText = partialText;
@@ -331,11 +417,19 @@ Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
 
       let extractedText = "";
       let extractedIngredients: Ingredient[] = [];
+      let extractedDeclinedReason = "";
+      let extractedInvalidIngredients: InvalidIngredient[] = [];
 
       // Try to extract the "text" field value
       const textMatch = cleanedText.match(/"text"\s*:\s*"([^"]*(?:\\.[^"]*)*)"?/);
       if (textMatch) {
         extractedText = textMatch[1].replace(/\\"/g, '"').replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\\\/g, "\\");
+      }
+
+      // Try to extract the "declined-reason" field value
+      const declinedReasonMatch = cleanedText.match(/"declined-reason"\s*:\s*"([^"]*(?:\\.[^"]*)*)"?/);
+      if (declinedReasonMatch) {
+        extractedDeclinedReason = declinedReasonMatch[1].replace(/\\"/g, '"').replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\\\/g, "\\");
       }
 
       // Try to extract complete ingredients as they become available
@@ -408,9 +502,77 @@ Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
         }
       }
 
+      // Try to extract complete invalid ingredients as they become available
+      const invalidIngredientsMatch = cleanedText.match(/"invalid-ingredients"\s*:\s*\[(.*?)(\]|$)/s);
+      if (invalidIngredientsMatch) {
+        const invalidIngredientsContent = invalidIngredientsMatch[1];
+
+        // Find complete invalid ingredient objects
+        let braceCount = 0;
+        let currentInvalidIngredient = "";
+        let inString = false;
+        let escapeNext = false;
+
+        for (let i = 0; i < invalidIngredientsContent.length; i++) {
+          const char = invalidIngredientsContent[i];
+
+          if (escapeNext) {
+            escapeNext = false;
+            currentInvalidIngredient += char;
+            continue;
+          }
+
+          if (char === "\\") {
+            escapeNext = true;
+            currentInvalidIngredient += char;
+            continue;
+          }
+
+          if (char === '"' && !escapeNext) {
+            inString = !inString;
+          }
+
+          if (!inString) {
+            if (char === "{") {
+              braceCount++;
+              if (braceCount === 1) {
+                currentInvalidIngredient = char; // Start new invalid ingredient
+                continue;
+              }
+            } else if (char === "}") {
+              braceCount--;
+              currentInvalidIngredient += char;
+
+              if (braceCount === 0) {
+                // Complete invalid ingredient found
+                try {
+                  const invalidIngredient = JSON.parse(currentInvalidIngredient);
+                  if (invalidIngredient.name) {
+                    extractedInvalidIngredients.push({
+                      name: invalidIngredient.name,
+                    });
+                  }
+                } catch (e) {
+                  // Ignore malformed invalid ingredient
+                  console.warn("Failed to parse invalid ingredient:", currentInvalidIngredient);
+                }
+                currentInvalidIngredient = "";
+                continue;
+              }
+            }
+          }
+
+          if (braceCount > 0) {
+            currentInvalidIngredient += char;
+          }
+        }
+      }
+
       return {
         text: extractedText || undefined,
         ingredients: extractedIngredients.length > 0 ? extractedIngredients : undefined,
+        declinedReason: extractedDeclinedReason || undefined,
+        invalidIngredients: extractedInvalidIngredients.length > 0 ? extractedInvalidIngredients : undefined,
       };
     } catch (error) {
       console.warn("Error extracting streaming content:", error);
@@ -438,6 +600,8 @@ Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
         return {
           text: parsed.text,
           ingredients: parsed.ingredients,
+          declinedReason: parsed["declined-reason"],
+          invalidIngredients: parsed["invalid-ingredients"],
         };
       }
     } catch (error) {
@@ -449,6 +613,8 @@ Cuối cùng, đây là đầu vào từ người dùng: "${userInput}"
     return {
       text: aiResponse || "Tôi không hiểu yêu cầu của bạn. Vui lòng thử lại.",
       ingredients: [],
+      declinedReason: undefined,
+      invalidIngredients: [],
     };
   }
 }
