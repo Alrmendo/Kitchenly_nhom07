@@ -91,7 +91,6 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
       recognition.maxAlternatives = 1;
 
       recognition.onstart = () => {
-        console.log("Web Speech API started listening...");
         setIsRecording(true);
         setTextInput(""); // Clear input when starting
         finalTranscriptRef.current = ""; // Reset accumulated transcript
@@ -119,7 +118,6 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
         // Display accumulated final transcript + current interim results
         const displayText = finalTranscriptRef.current + interimTranscript;
         setTextInput(displayText);
-        console.log("Transcription:", displayText);
       };
 
       recognition.onerror = (event: any) => {
@@ -135,10 +133,8 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
       };
 
       recognition.onend = () => {
-        console.log("Speech recognition ended");
         // If we're still supposed to be recording, restart recognition
         if (isRecording && recognitionRef.current) {
-          console.log("Restarting recognition to continue listening...");
           try {
             recognitionRef.current.start();
           } catch (error) {
@@ -150,7 +146,6 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
         }
       };
 
-      console.log("Starting continuous Web Speech API recognition...");
       recognition.start();
     } catch (error) {
       console.error("Voice recognition failed:", error);
@@ -191,64 +186,95 @@ export function VoiceChatDrawer({ isOpen, onClose, onAddIngredients }: VoiceChat
     finalTranscriptRef.current = ""; // Reset accumulated transcript after sending
     setIsLoading(true);
 
+    // Create placeholder AI message for streaming
+    const aiMessageId = (Date.now() + 1).toString();
+    const placeholderAiMessage: ChatMessage = {
+      id: aiMessageId,
+      text: "",
+      isUser: false,
+      timestamp: new Date(),
+      ingredients: [],
+    };
+    setMessages((prev) => [...prev, placeholderAiMessage]);
+
     try {
-      // Send to Gemini API for processing
-      const response = await processWithGemini(text);
+      // Use streaming API for real-time response
+      let streamWorked = false;
 
-      // Add AI response
-      const aiMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        text: response.text,
-        isUser: false,
-        timestamp: new Date(),
-        ingredients: response.ingredients,
-      };
-      setMessages((prev) => [...prev, aiMessage]);
+      try {
+        const streamGenerator = GeminiServiceAddIngredients.processTextWithGeminiStreaming(text, (chunk) => {
+          streamWorked = true;
+          // Update the AI message in real-time
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId
+                ? {
+                    ...msg,
+                    text: chunk.text,
+                    // Append new ingredients to existing ones instead of replacing
+                    ingredients: chunk.isComplete ? chunk.ingredients : [...(msg.ingredients || []), ...(chunk.ingredients || [])],
+                  }
+                : msg
+            )
+          );
 
-      // If AI extracted ingredients, add them
-      if (response.ingredients && response.ingredients.length > 0) {
-        onAddIngredients(response.ingredients);
+          // If we have new ingredients during streaming, add them immediately
+          if (!chunk.isComplete && chunk.ingredients && chunk.ingredients.length > 0) {
+            onAddIngredients(chunk.ingredients);
+          }
+
+          // If streaming is complete and we have ingredients, add them
+          if (chunk.isComplete && chunk.ingredients && chunk.ingredients.length > 0) {
+            onAddIngredients(chunk.ingredients);
+          }
+        });
+
+        // Consume the stream
+        for await (const _chunk of streamGenerator) {
+          // The onChunk callback above handles the UI updates
+          // This loop just ensures we consume all chunks
+        }
+      } catch (streamError) {
+        console.warn("Streaming failed, falling back to non-streaming:", streamError);
+
+        // If streaming failed and we haven't received any chunks, fallback to non-streaming
+        if (!streamWorked) {
+          const response = await GeminiServiceAddIngredients.processTextWithGemini(text);
+
+          // Update the placeholder message with the non-streaming response
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === aiMessageId
+                ? {
+                    ...msg,
+                    text: response.text,
+                    ingredients: response.ingredients || [],
+                  }
+                : msg
+            )
+          );
+
+          // If AI extracted ingredients, add them
+          if (response.ingredients && response.ingredients.length > 0) {
+            onAddIngredients(response.ingredients);
+          }
+        }
       }
     } catch (error) {
       console.error("Error processing message:", error);
-      const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        text: "Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.",
-        isUser: false,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      // Update the placeholder message with error
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === aiMessageId
+            ? {
+                ...msg,
+                text: "Xin lỗi, tôi gặp lỗi khi xử lý yêu cầu của bạn. Vui lòng thử lại.",
+              }
+            : msg
+        )
+      );
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const processWithGemini = async (text: string) => {
-    try {
-      // Use Gemini API for processing - this should handle ALL ingredients
-      const response = await GeminiServiceAddIngredients.processTextWithGemini(text);
-
-      // If Gemini found ingredients, use them
-      if (response.ingredients && response.ingredients.length > 0) {
-        return response;
-      }
-
-      // If Gemini didn't find ingredients but gave a response, return that
-      if (response.text) {
-        return {
-          text: response.text,
-          ingredients: [],
-        };
-      }
-
-      // Last resort fallback
-      throw new Error("Gemini returned empty response");
-    } catch (error) {
-      console.error("Gemini API failed", error);
-      return {
-        text: "Xin lỗi, tôi gặp sự cố với AI.",
-        ingredients: [],
-      };
     }
   };
 
