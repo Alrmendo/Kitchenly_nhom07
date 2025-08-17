@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 type Category = {
@@ -20,12 +21,17 @@ const DEFAULT_CATEGORIES: Category[] = [
 ];
 
 export const CategoryTabs: React.FC<CategoryTabsProps> = ({ categories = DEFAULT_CATEGORIES, activeCategory, onCategoryChange, showViewAll = true }) => {
+  const navigate = useNavigate();
   return (
     <div className="mb-6 px-6">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#000000]">Phân loại</h2>
         {showViewAll && (
-          <Button variant="ghost" className="h-auto p-0 text-sm text-[#666666]">
+          <Button 
+            variant="ghost" 
+            className="h-auto p-0 text-sm text-[#666666] hover:text-[#ff8c94]"
+            onClick={() => navigate("/view-all")}
+          >
             Xem tất cả
           </Button>
         )}

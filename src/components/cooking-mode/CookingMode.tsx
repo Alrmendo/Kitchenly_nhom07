@@ -303,13 +303,13 @@ export default function CookingMode() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
           <div className="w-full max-w-sm rounded-[32px] bg-white p-8 text-center shadow-2xl">
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-pink-100 to-orange-100">
-              <Check className="h-10 w-10 text-pink-500" />
+              <Check className="h-10 w-10 text-pink-300" />
             </div>
             <h2 className="mb-3 text-3xl font-bold text-gray-900">Hoàn thành!</h2>
             <p className="mb-8 leading-relaxed text-gray-600">Bạn đã hoàn thành tất cả các bước nấu ăn. Chúc ngon miệng!</p>
 
             <div className="space-y-4">
-              <Button variant="outline" className="w-full rounded-2xl border-pink-300 bg-transparent py-3 font-semibold text-pink-600 hover:bg-pink-50" onClick={() => setShowCompletionModal(false)}>
+              <Button variant="outline" className="w-full rounded-2xl border-pink-300 bg-transparent py-3 font-semibold text-[#FF8C94] hover:bg-pink-50" onClick={() => setShowCompletionModal(false)}>
                 Lưu vào mục đã nấu
               </Button>
               <Button

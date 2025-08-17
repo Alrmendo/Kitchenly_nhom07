@@ -22,7 +22,7 @@ export default function WeeklyMenu() {
 
   const menuData = [
     {
-      day: "Thu 8th",
+      day: "Thứ 2",
       meals: [
         {
           name: "Avocado Toast",
@@ -51,7 +51,7 @@ export default function WeeklyMenu() {
       ],
     },
     {
-      day: "Thu 9th",
+      day: "Thứ 3",
       meals: [
         {
           name: "Grilled Chicken Salad",
@@ -80,7 +80,7 @@ export default function WeeklyMenu() {
       ],
     },
     {
-      day: "Thu 10",
+      day: "Thứ 4",
       meals: [
         {
           name: "Vegetarian Stir Fry",
@@ -109,7 +109,7 @@ export default function WeeklyMenu() {
       ],
     },
     {
-      day: "Thu 11th",
+      day: "Thứ 5",
       meals: [
         {
           name: "Overnight Oats",
@@ -138,7 +138,7 @@ export default function WeeklyMenu() {
       ],
     },
     {
-      day: "Thu 12th",
+      day: "Thứ 6",
       meals: [
         {
           name: "Salmon Teriyaki",
@@ -167,7 +167,7 @@ export default function WeeklyMenu() {
       ],
     },
     {
-      day: "Thu 13th",
+      day: "Thứ 7",
       meals: [
         {
           name: "Quinoa Buddha Bowl",
@@ -196,7 +196,7 @@ export default function WeeklyMenu() {
       ],
     },
     {
-      day: "Fri 14th",
+      day: "Chủ nhật",
       meals: [
         {
           name: "Greek Yogurt Parfait",
@@ -224,7 +224,7 @@ export default function WeeklyMenu() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#fffdf9] pb-20">
+    <div className="min-h-screen bg-[#fffdf9]">
       {/* Header */}
       <div className="bg-[#ff8c94] px-4 py-6">
         <div className="flex items-center justify-between mb-2">

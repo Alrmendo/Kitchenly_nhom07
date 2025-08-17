@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import { CookingMode } from "./components/cooking-mode";
-import { HomePage } from "./components/home/HomePage";
+import { HomePage, FoodSuggestionsPage, NotificationsHomePage, TiramisuRecipePage, ViewAllPage } from "./components/home";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
@@ -66,6 +66,10 @@ function AppRoutes() {
       <Route path="/" element={getHomeRoute()} />
       <Route path="/onboarding" element={isAuthenticated ? <OnboardingPage /> : <Navigate to="/login" replace />} />
       <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/food-suggestions" element={<FoodSuggestionsPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/notifications" element={<NotificationsHomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/recipe/tiramisu" element={<TiramisuRecipePage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/view-all" element={<ViewAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/cooking" element={<CookingMode />} />
       <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
       <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />

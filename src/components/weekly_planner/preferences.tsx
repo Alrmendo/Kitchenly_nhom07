@@ -95,8 +95,7 @@ export default function PreferencesPage() {
         </button>
         <div>
           <h1 className="text-xl font-semibold text-white flex items-center gap-2">
-            <span>⚙️</span>
-            Tùy chỉnh thực đơn
+            <span>Tùy chỉnh thực đơn</span>
           </h1>
           <p className="text-sm text-white/80">Cá nhân hóa gợi ý món ăn của bạn</p>
         </div>
@@ -274,7 +273,7 @@ export default function PreferencesPage() {
 
         {/* Save Button */}
         <Button className="w-full bg-[#ff8c94] hover:bg-[#f07784] text-white py-4 text-lg font-semibold">
-          💾 Lưu tùy chỉnh
+          Lưu tùy chỉnh
         </Button>
       </div>
     </div>

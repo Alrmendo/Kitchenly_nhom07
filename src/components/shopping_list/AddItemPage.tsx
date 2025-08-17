@@ -10,7 +10,7 @@ export default function AddItemPage() {
     <div className="mx-auto h-[100dvh] max-w-[430px] bg-gray-50 flex flex-col">
       <div className="sticky top-0 z-30 bg-white border-b">
         <div className="flex items-center px-4 py-3">
-          <button onClick={() => navigate(-1)} className="p-1 rounded-lg hover:bg-gray-100" aria-label="Quay lại">
+          <button onClick={() => navigate("/shop")} className="p-1 rounded-lg hover:bg-gray-100" aria-label="Quay lại danh sách">
             <ArrowLeft className="h-6 w-6 text-gray-600" />
           </button>
           <h1 className="flex-1 text-center text-lg font-semibold -translate-x-2">Thêm sản phẩm</h1>

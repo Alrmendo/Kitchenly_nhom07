@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 
@@ -21,12 +22,17 @@ const DEFAULT_DISHES: SeasonalDish[] = [
 ];
 
 export const SeasonalDishes: React.FC<SeasonalDishesProps> = ({ dishes = DEFAULT_DISHES, showViewAll = true, title = "Món ăn theo mùa" }) => {
+  const navigate = useNavigate();
   return (
     <div className="mb-8 px-6">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#000000]">{title}</h2>
         {showViewAll && (
-          <Button variant="ghost" className="h-auto p-0 text-sm text-[#666666]">
+          <Button 
+            variant="ghost" 
+            className="h-auto p-0 text-sm text-[#666666] hover:text-[#ff8c94]"
+            onClick={() => navigate("/view-all")}
+          >
             Xem tất cả
           </Button>
         )}
