@@ -1,1 +1,1 @@
-# Kitchenly_nhom07
+Kitchenly -- Nhóm 7
