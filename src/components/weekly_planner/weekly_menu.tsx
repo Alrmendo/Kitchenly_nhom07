@@ -226,7 +226,7 @@ export default function WeeklyMenu() {
   return (
     <div className="min-h-screen bg-[#fffdf9]">
       {/* Header */}
-      <div className="bg-[#ff8c94] px-4 py-6">
+      <div className="bg-[#ff8c94] px-4 py-4">
         <div className="flex items-center justify-between mb-2">
           <Search className="w-6 h-6 text-white" />
           <h1 className="text-xl font-semibold text-white">Thực đơn tuần</h1>
@@ -238,7 +238,7 @@ export default function WeeklyMenu() {
       </div>
 
       {/* Menu Content */}
-      <div className="px-4 pb-6 space-y-4">
+      <div className="px-4 pb-6 pt-7 space-y-4">
         {menuData.map((dayData, dayIndex) => (
           <Card key={dayIndex} className="bg-white rounded-2xl p-4 shadow-sm border border-[#ff8c94]/20">
             <h2 className="text-lg font-medium text-[#32201c] mb-4">{dayData.day}</h2>
