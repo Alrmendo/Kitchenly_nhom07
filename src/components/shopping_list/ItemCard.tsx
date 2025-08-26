@@ -25,7 +25,7 @@ export default function ItemCard({ item, onToggle, onEdit }: {
 
       <div className="flex-1 min-w-0">
         <div className={`truncate text-[15px] font-semibold ${item.checked ? "text-gray-400" : ""}`}>{item.name}</div>
-        <div className={`text-xs mt-0.5 ${item.checked ? "text-gray-400" : "text-gray-500"}`}>{item.qty}</div>
+        <div className={`text-xs mt-0.5 ${item.checked ? "text-gray-400" : "text-gray-500"}`}>{item.qty} {item.unit}</div>
       </div>
 
       <button onClick={() => onEdit(item.id)} className="p-2 rounded-lg active:scale-95 transition" aria-label="Sửa">

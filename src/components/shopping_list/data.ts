@@ -1,10 +1,11 @@
 export type Item = {
   id: string;
   name: string;
-  qty: string;
+  qty: number;
+  unit?: string;
   img?: string;
   checked: boolean;
-  date?: string;
+  date: string;
   note?: string;
 };
 
@@ -23,6 +24,8 @@ const imageKeywords: Array<{ src: string; keywords: string[] }> = [
   { src: "/salmon.png", keywords: ["ca hoi", "salmon"] },
   { src: "/mineralwater.png", keywords: ["nuoc khoang", "nuoc suoi", "mineral water", "water"] },
   { src: "/almondmilk.png", keywords: ["sua hanh nhan", "almond milk"] },
+  { src: "/eggplant.png", keywords: ["ca tim", "eggplant"] },
+  { src: "/fish.png", keywords: ["ca", "fish"] },
 ];
 
 export const guessImageForName = (name: string): string | undefined => {
@@ -78,28 +81,28 @@ export const initialSections: Section[] = [
   {
     title: "Danh sách của tôi",
     items: [
-      { id: "1", name: "Cà chua", qty: "2 kg", img: "/tomato.png", checked: false, date: "2025-08-15" },
-      { id: "2", name: "Yến mạch", qty: "2 packets", img: "/oat.png", checked: false, date: "2025-08-10" },
+      { id: "1", name: "Cà chua", qty: 2, unit: "kg", img: "/tomato.png", checked: false, date: "2025-08-15" },
+      { id: "2", name: "Yến mạch", qty: 2, unit: "packets", img: "/oat.png", checked: false, date: "2025-08-10" },
     ],
   },
   {
     title: "Hải sản",
     items: [
-      { id: "3", name: "Phi lê cá hồi", qty: "200g", img: "/salmon.png", checked: false, date: "2025-08-10" },
-      { id: "4", name: "Tôm", qty: "500g", img: "/shrimp.png", checked: false, date: "2025-08-12" },
+      { id: "3", name: "Phi lê cá hồi", qty: 200, unit: "g", img: "/salmon.png", checked: false, date: "2025-08-10" },
+      { id: "4", name: "Tôm", qty: 500, unit: "g", img: "/shrimp.png", checked: false, date: "2025-08-12" },
     ],
   },
   {
     title: "Đồ uống",
     items: [
-      { id: "5", name: "Nước khoáng", qty: "12 chai", img: "/mineralwater.png", checked: true, date: "2025-08-08" },
-      { id: "6", name: "Sữa hạnh nhân", qty: "1 hộp", img: "/almondmilk.png", checked: false, date: "2025-08-11" },
+      { id: "5", name: "Nước khoáng", qty: 12, unit: "chai", img: "/mineralwater.png", checked: true, date: "2025-08-08" },
+      { id: "6", name: "Sữa hạnh nhân", qty: 1, unit: "hộp", img: "/almondmilk.png", checked: false, date: "2025-08-11" },
     ],
   },
 ];
 
-export const STORAGE_KEY = "shopping_sections";
 
+export const STORAGE_KEY = "shopping_sections";
 export const loadSections = (): Section[] => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -110,7 +113,6 @@ export const loadSections = (): Section[] => {
     return initialSections;
   }
 };
-
 export const saveSections = (sections: Section[]) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sections));

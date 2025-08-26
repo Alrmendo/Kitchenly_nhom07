@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import ItemForm, { parseQty } from "./ItemForm";
+import ItemForm  from "./ItemForm";
 import { loadSections, saveSections, guessImageForName, type Item } from "./data";
 
 export default function EditItemPage() {
@@ -9,8 +9,6 @@ export default function EditItemPage() {
   const { state } = useLocation() as { state?: { item?: Item } };
   const item = state?.item;
   if (!item) return <div className="p-6">Không có dữ liệu để sửa.</div>;
-
-  const parsed = parseQty(item.qty);
 
   return (
     <div className="mx-auto h-[100dvh] max-w-[430px] bg-gray-50 flex flex-col">
@@ -33,17 +31,17 @@ export default function EditItemPage() {
       <div className="flex-1 overflow-y-auto bg-[#F7F8FA]">
         <ItemForm
           formId={FORM_ID}
-          initial={{ name: item.name, quantity: parsed.quantity, unit: parsed.unit, note: item.note ?? "", date: item.date ?? "" }}
+          initial={{ name: item.name, quantity: String(item.qty ?? ""), unit: item.unit ?? "", note: item.note ?? "", date: item.date ?? "" }}
           onSubmit={(v) => {
             const sections = loadSections();
             for (const sec of sections) {
               const idx = sec.items.findIndex(x => x.id === item.id);
               if (idx !== -1) {
-                const qty = v.unit ? `${v.quantity} ${v.unit}` : v.quantity;
                 sec.items[idx] = {
                   ...sec.items[idx],
                   name: v.name,
-                  qty,
+                  qty: Number(v.quantity.replace(",", ".")),
+                  unit: v.unit || undefined,
                   img: v.img ?? guessImageForName(v.name) ?? sec.items[idx].img,
                   date: v.date,
                   note: v.note || undefined,

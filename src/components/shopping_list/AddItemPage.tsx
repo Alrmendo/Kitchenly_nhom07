@@ -37,7 +37,8 @@ export default function AddItemPage() {
             first.items.unshift({
               id: nextId,
               name: v.name,
-              qty: v.unit ? `${v.quantity} ${v.unit}` : v.quantity,
+              qty: Number(v.quantity.replace(",", ".")),
+              unit: v.unit || undefined,
               img: v.img ?? guessImageForName(v.name),
               checked: false,
               date: v.date,

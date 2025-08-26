@@ -17,7 +17,6 @@ export default function ShoppingListPage() {
   const [sections, setSections] = React.useState<Section[]>(() => loadSections());
   const [q, setQ] = React.useState("");
   const navigate = useNavigate();
-  // const location = useLocation() as { state?: { add?: any; edit?: any } };
 
   const [openCal, setOpenCal] = React.useState(false);
   const todayStart = startOfDay(new Date());
