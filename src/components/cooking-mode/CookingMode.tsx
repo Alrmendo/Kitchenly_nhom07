@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, Mic, RotateCcw, SkipForward, Play, Pause, Plus, Minus, Volume2, Check } from "lucide-react";
+import { ArrowLeft, Bell, Mic, RotateCcw, SkipForward, Plus, Minus, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
