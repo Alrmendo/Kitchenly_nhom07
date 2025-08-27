@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Clock, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
 
-type Category = {
-  id: string;
-  label: string;
-};
 
 type FeaturedDish = {
   name: string;
@@ -44,11 +40,7 @@ const DEFAULT_DISHES: FeaturedDish[] = [
   },
 ];
 
-export const FeaturedDishes: React.FC<FeaturedDishesProps> = ({ dishes = DEFAULT_DISHES, activeCategory: externalActiveCategory, onCategoryChange: externalOnCategoryChange }) => {
-  const [internalActiveCategory, setInternalActiveCategory] = useState("morning");
-
-  const activeCategory = externalActiveCategory || internalActiveCategory;
-  const onCategoryChange = externalOnCategoryChange || setInternalActiveCategory;
+export const FeaturedDishes: React.FC<FeaturedDishesProps> = ({ dishes = DEFAULT_DISHES }) => {
 
   return (
     <div className="mb-8 px-6">
