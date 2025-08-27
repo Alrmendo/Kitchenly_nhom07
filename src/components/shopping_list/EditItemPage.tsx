@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import ItemForm  from "./ItemForm";
-import { loadSections, saveSections, guessImageForName, type Item } from "./data";
+import ItemForm from "./ItemForm";
+import { guessImageForName, type Item, isCustomId, updateCustomItem, addCustomItem } from "./data";
 
 export default function EditItemPage() {
   const navigate = useNavigate();
@@ -9,6 +9,14 @@ export default function EditItemPage() {
   const { state } = useLocation() as { state?: { item?: Item } };
   const item = state?.item;
   if (!item) return <div className="p-6">Không có dữ liệu để sửa.</div>;
+
+  const initial = {
+    name: item.name,
+    quantity: String(item.qty ?? ""),
+    unit: item.unit ?? "",
+    note: item.note ?? "",
+    date: item.date ?? "",
+  };
 
   return (
     <div className="mx-auto h-[100dvh] max-w-[430px] bg-gray-50 flex flex-col">
@@ -31,25 +39,28 @@ export default function EditItemPage() {
       <div className="flex-1 overflow-y-auto bg-[#F7F8FA]">
         <ItemForm
           formId={FORM_ID}
-          initial={{ name: item.name, quantity: String(item.qty ?? ""), unit: item.unit ?? "", note: item.note ?? "", date: item.date ?? "" }}
+          initial={initial}
           onSubmit={(v) => {
-            const sections = loadSections();
-            for (const sec of sections) {
-              const idx = sec.items.findIndex(x => x.id === item.id);
-              if (idx !== -1) {
-                sec.items[idx] = {
-                  ...sec.items[idx],
-                  name: v.name,
-                  qty: Number(v.quantity.replace(",", ".")),
-                  unit: v.unit || undefined,
-                  img: v.img ?? guessImageForName(v.name) ?? sec.items[idx].img,
-                  date: v.date,
-                  note: v.note || undefined,
-                };
-                break;
-              }
+            const qty = Number(v.quantity.replace(",", "."));
+            if (!Number.isFinite(qty) || qty <= 0) return;
+
+            const patch = {
+              name: v.name.trim(),
+              qty,
+              unit: v.unit || undefined,
+              img: v.img ?? guessImageForName(v.name) ?? item.img,
+              date: v.date,
+              note: v.note || undefined,
+            };
+
+            if (isCustomId(item.id)) {
+              // Sửa trực tiếp mục custom
+              updateCustomItem(item.id, patch);
+            } else {
+              // Item sinh từ plan: tạo 1 mục custom để override/hợp nhất
+              addCustomItem({ ...patch, checked: item.checked ?? false });
             }
-            saveSections(sections);                 
+
             navigate("/shop", { replace: true });
           }}
         />

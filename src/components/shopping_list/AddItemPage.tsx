@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import ItemForm from "./ItemForm";
-import { loadSections, saveSections, type Item, guessImageForName } from "./data";
+import { addCustomItem, guessImageForName } from "./data";
 
 export default function AddItemPage() {
   const navigate = useNavigate();
   const FORM_ID = "add-item-form";
+
   return (
     <div className="mx-auto h-[100dvh] max-w-[430px] bg-gray-50 flex flex-col">
       <div className="sticky top-0 z-30 bg-white border-b">
@@ -22,29 +23,23 @@ export default function AddItemPage() {
             Thêm
           </button>
         </div>
-
       </div>
 
       <div className="flex-1 overflow-y-auto bg-[#F7F8FA]">
         <ItemForm
           formId={FORM_ID}
           onSubmit={(v) => {
-            const sections = loadSections();
-            const first = sections[0] ?? { title: "Danh sách của tôi", items: [] as Item[] };
-            if (!sections[0]) sections.unshift(first);
-            const nextId =
-              String(Math.max(0, ...sections.flatMap(s => s.items.map(i => Number(i.id)))) + 1);
-            first.items.unshift({
-              id: nextId,
-              name: v.name,
-              qty: Number(v.quantity.replace(",", ".")),
+            const qty = Number(v.quantity.replace(",", "."));
+            if (!Number.isFinite(qty) || qty <= 0) return;
+            addCustomItem({
+              name: v.name.trim(),
+              qty,
               unit: v.unit || undefined,
               img: v.img ?? guessImageForName(v.name),
               checked: false,
               date: v.date,
               note: v.note || undefined,
             });
-            saveSections(sections);               
             navigate("/shop", { replace: true });
           }}
         />

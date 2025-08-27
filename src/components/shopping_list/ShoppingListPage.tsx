@@ -9,8 +9,11 @@ import { BottomNavigation } from "@/components/shared/BottomNavigation";
 import {
   type Section,
   startOfDay, isSameDay, fmt, isInSelectedDateRange,
-  loadSections, saveSections,
+  loadSections,
+  groupItemsByCategory,
+  saveSections,
 } from "./data";
+import { WEEKLY_PLAN_KEY } from "../weekly_planner/planStore";
 
 export default function ShoppingListPage() {
   const [activeTab, setActiveTab] = React.useState("shop");
@@ -25,9 +28,31 @@ export default function ShoppingListPage() {
     endDate: todayStart,
   });
 
+  // cập nhật khi plan thay đổi (localStorage) hoặc event nội bộ
   React.useEffect(() => {
-    saveSections(sections);
-  }, [sections]);
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === WEEKLY_PLAN_KEY) setSections(loadSections());
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  React.useEffect(() => {
+    const onPlanUpdated = () => setSections(loadSections());
+    window.addEventListener("plan:updated", onPlanUpdated as EventListener);
+    return () => window.removeEventListener("plan:updated", onPlanUpdated as EventListener);
+  }, []);
+
+  // khi custom items thay đổi
+  React.useEffect(() => {
+    const onCustom = () => setSections(loadSections());
+    window.addEventListener("shopping:custom_updated", onCustom as EventListener);
+    return () => window.removeEventListener("shopping:custom_updated", onCustom as EventListener);
+  }, []);
+
+  React.useEffect(() => {
+    setSections(loadSections());
+  }, []);
 
   const displayRange = () => {
     if (!range.startDate || !range.endDate) return "Chọn ngày";
@@ -44,7 +69,8 @@ export default function ShoppingListPage() {
   const filtered: Section[] = React.useMemo(() => {
     const s = q.trim().toLowerCase();
     const { startDate, endDate } = range;
-    return sections
+
+    const filteredByTextDate = sections
       .map((sec) => ({
         ...sec,
         items: sec.items.filter((i) => {
@@ -54,15 +80,23 @@ export default function ShoppingListPage() {
         }),
       }))
       .filter((sec) => sec.items.length);
+
+    if (!startDate || !endDate) return filteredByTextDate;
+
+    const flat = filteredByTextDate.flatMap((sec) => sec.items);
+    return groupItemsByCategory(flat);
   }, [q, sections, range]);
 
   const toggle = (id: string) => {
-    setSections((prev) =>
-      prev.map((sec) => ({
+    setSections((prev) => {
+      const next = prev.map((sec) => ({
         ...sec,
         items: sec.items.map((i) => (i.id === id ? { ...i, checked: !i.checked } : i)),
-      }))
-    );
+      }));
+      // 🔸 LƯU trạng thái tích/note
+      saveSections(next);
+      return next;
+    });
   };
 
   const edit = (id: string) => {
@@ -87,8 +121,6 @@ export default function ShoppingListPage() {
       <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
 
       <DateRangeModal open={openCal} onClose={() => setOpenCal(false)} value={range} onApply={(sel) => setRange(sel)} />
-
-
     </div>
   );
 }
