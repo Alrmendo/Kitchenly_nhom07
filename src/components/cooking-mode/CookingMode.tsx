@@ -35,7 +35,6 @@ export default function CookingMode() {
       },
       {
         title: "Nước sốt cà chua",
-        content: "Chuẩn bị nước sốt cà chua thơm ngon cho taco",
         timer: 300, // 5 p
         ingredients: ["2 quả cà chua chín", "1/4 hành tây băm nhỏ", "2 tép tỏi băm nhỏ", "1 muỗng canh dầu olive", "Muối, tiêu theo khẩu vị"],
         image: "/sot_nam.png",
@@ -43,7 +42,6 @@ export default function CookingMode() {
       },
       {
         title: "Sơ chế cá",
-        content: "Chuẩn bị và làm sạch cá để tẩm ướp",
         timer: 0,
         ingredients: ["2 phi lê cá tươi (khoảng 400g)", "Rửa sạch và thấm khô bằng khăn giấy", "Cắt thành miếng vừa ăn"],
         image: "/ga_vien.png",
@@ -51,7 +49,6 @@ export default function CookingMode() {
       },
       {
         title: "Ướp cá",
-        content: "Tẩm ướp cá với gia vị trong 15 phút",
         timer: 900, // 15 p
         ingredients: ["Phi lê cá đã sơ chế", "2 muỗng canh dầu olive", "1 muỗng cà phê bột ớt paprika", "1/2 muỗng cà phê bột tỏi", "Muối, tiêu theo khẩu vị", "Nước cốt chanh (1 muỗng canh)"],
         image: "/ga_vien.png",
@@ -59,7 +56,6 @@ export default function CookingMode() {
       },
       {
         title: "Nướng cá",
-        content: "Nướng cá ướp đã tẩm ướp trong 12 phút",
         timer: 720, // 12 p
         ingredients: ["Cá đã ướp", "Làm nóng chảo hoặc grill ở nhiệt độ trung bình", "Nướng mỗi mặt 5-6 phút", "Cá chín khi dễ dàng tách bằng nĩa"],
         image: "/ga_vien.png",
@@ -67,7 +63,6 @@ export default function CookingMode() {
       },
       {
         title: "Ướp cá",
-        content: "Tiếp tục ướp cá với gia vị bổ sung trong 15 phút",
         timer: 900, // 15 p
         ingredients: ["Cá đã nướng sơ", "1 muỗng canh mật ong", "1/2 muỗng cà phê bột ớt chipotle", "Rắc thêm muối biển", "Để cá thấm gia vị thêm 15 phút"],
         image: "/ga_vien.png",
@@ -75,7 +70,6 @@ export default function CookingMode() {
       },
       {
         title: "Lắp ráp Taco",
-        content: "Lắp ráp taco với tất cả nguyên liệu đã chuẩn bị",
         timer: 0,
         ingredients: ["Bánh tortilla làm ấm", "Cá nướng đã hoàn thành", "Kem chua đã pha chế", "Sốt cà chua", "Rau xà lách tươi", "Hành tây thái lát mỏng", "Rau mùi tươi"],
         image: "/tiramisu.png",
@@ -83,7 +77,6 @@ export default function CookingMode() {
       },
       {
         title: "Hoàn thành!",
-        content: "Taco cá nướng đã sẵn sàng để thưởng thức",
         timer: 0,
         ingredients: ["Taco đã hoàn thành", "Trang trí với lát chanh", "Phục vụ ngay khi còn nóng", "Thưởng thức cùng gia đình"],
         image: "/tiramisu.png",
@@ -117,6 +110,10 @@ export default function CookingMode() {
       setTimerMinutes(minutes);
       setTimerSeconds(seconds);
       setTimeLeft(stepTimer);
+    } else {
+      setTimerMinutes(0);
+      setTimerSeconds(0);
+      setTimeLeft(0);
     }
     setIsTimerRunning(false);
   }, [currentStep, steps]);
@@ -178,119 +175,133 @@ export default function CookingMode() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex h-screen flex-col bg-gray-50 overflow-hidden">
       {/* Hidden audio element for timer notification */}
       <audio ref={audioRef} preload="auto">
         <source src="/sounds/timer-terminer-342934.mp3" type="audio/mpeg" />
       </audio>
 
       {/* Fixed Header */}
-      <div className="sticky top-0 z-10 rounded-b-[32px] bg-gradient-to-r from-[#FFC6C9] to-[#EC888D]/80 px-6 py-8 shadow-xl">
-        <div className="mb-6 flex items-center justify-between">
-          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/20" onClick={handleNavigateBack}>
-            <ArrowLeft className="h-6 w-6" />
+      <div className="flex-shrink-0 rounded-b-[20px] bg-gradient-to-r from-[#FFC6C9] to-[#EC888D]/80 px-4 py-3 shadow-lg">
+        <div className="mb-3 flex items-center justify-between">
+          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-white hover:bg-white/20" onClick={handleNavigateBack}>
+            <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-xl font-bold text-white drop-shadow-sm">Chế độ nấu ăn</h1>
-          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/20">
-            <Bell className="h-6 w-6" />
+          <h1 className="text-lg font-bold text-white drop-shadow-sm">Chế độ nấu ăn</h1>
+          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-white hover:bg-white/20">
+            <Bell className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Progress */}
         <div className="text-center">
-          <p className="mb-3 text-sm font-semibold text-white">
+          <p className="mb-2 text-xs font-semibold text-white">
             Bước {currentStep + 1}/{steps.length}
           </p>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-white/30">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/30">
             <div className="h-full rounded-full bg-white transition-all duration-300 ease-out" style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }} />
           </div>
         </div>
       </div>
 
-      {/* Scrollable Main Content */}
+      {/* Main Content */}
       <div className="flex-1 overflow-y-auto">
-        <div className="px-4 pt-6 pb-32">
-          <Card className="overflow-hidden rounded-[28px] border-0 bg-white shadow-2xl">
+        <div className="px-3 pt-2 pb-20">
+          <Card className="overflow-hidden rounded-[20px] border-0 bg-white shadow-lg">
             <CardContent className="p-0">
               {/* Recipe Image */}
               <div className="relative">
-                <Image src={currentStepData.image || "/placeholder.svg"} alt={currentStepData.imageAlt} width={400} height={240} className="h-56 w-full object-cover" />
-                <div className="absolute top-4 right-4">
-                  <Badge variant="secondary" className="rounded-full bg-black/70 px-3 py-1 text-xs font-semibold text-white">
+                <Image src={currentStepData.image || "/placeholder.svg"} alt={currentStepData.imageAlt} width={400} height={120} className="h-44 w-full rounded-lg mt-2 object-cover" />
+                <div className="absolute top-3 right-3">
+                  <Badge variant="secondary" className="rounded-full bg-black/70 px-2 py-0.5 text-xs font-semibold text-white">
                     {currentStep + 1}/{steps.length}
                   </Badge>
                 </div>
               </div>
 
-              <div className="p-6">
+              <div className="p-4">
                 {/* Step Title */}
-                <h2 className="mb-4 text-2xl leading-tight font-bold text-gray-900">{currentStepData.title}</h2>
+                <h2 className="mb-3 text-xl leading-tight font-bold text-gray-900">{currentStepData.title}</h2>
 
                 {/* Step Content */}
-                <div className="mb-6 rounded-2xl border-l-[4px] border-[#EC888D] bg-[#FFC6C9]/30 p-4">
-                  <p className="leading-relaxed font-medium text-[#1F2937]">{currentStepData.content}</p>
-                </div>
+                  {/* <div className="mb-6 rounded-2xl border-l-[4px] border-[#EC888D] bg-[#FFC6C9]/30 p-4">
+                    <p className="leading-relaxed font-medium text-[#1F2937]">{currentStepData.content}</p>
+                  </div> */}
 
                 {/* Timer Section */}
                 {currentStepData.timer > 0 && (
-                  <div className="mb-6 rounded-3xl border border-[#FF8C94] bg-[#FFDFD9]/30 p-6">
-                    <div className="mb-4 flex items-center justify-center">
-                      <h3 className="flex items-center text-lg font-bold text-[#09090B]">
-                        <Volume2 className="mr-3 h-5 w-5 text-[#FF8C94]" />
-                        Đồng hồ đếm ngược
-                      </h3>
+                  <div className="mb-3 rounded-xl border border-[#FF8C94] bg-white p-3 text-center shadow-sm">
+                    {/* Time Display */}
+                    <div className="mb-2 text-5xl font-bold text-[#FF8C94]">
+                      {formatTime(timeLeft)}
                     </div>
 
-                    <div className="mb-6 text-center">
-                      <div className="mb-4 text-5xl font-bold tracking-tight text-[#FF8C94]">{formatTime(timeLeft)}</div>
-
-                      {!isTimerRunning && (
-                        <div className="mb-3 flex items-center justify-center gap-2">
-                          <div className="flex items-center gap-1">
-                            <Button variant="outline" size="icon" className="h-8 w-8 bg-transparent" onClick={() => adjustTimer("minutes", "subtract")}>
-                              <Minus className="h-3 w-3" />
-                            </Button>
-                            <span className="w-8 text-center text-sm font-medium">{timerMinutes}m</span>
-                            <Button variant="outline" size="icon" className="h-8 w-8 bg-transparent" onClick={() => adjustTimer("minutes", "add")}>
-                              <Plus className="h-3 w-3" />
-                            </Button>
-                          </div>
-
-                          <div className="flex items-center gap-1">
-                            <Button variant="outline" size="icon" className="h-8 w-8 bg-transparent" onClick={() => adjustTimer("seconds", "subtract")}>
-                              <Minus className="h-3 w-3" />
-                            </Button>
-                            <span className="w-8 text-center text-sm font-medium">{timerSeconds}s</span>
-                            <Button variant="outline" size="icon" className="h-8 w-8 bg-transparent" onClick={() => adjustTimer("seconds", "add")}>
-                              <Plus className="h-3 w-3" />
-                            </Button>
-                          </div>
+                    {/* Adjust time */}
+                    {!isTimerRunning && (
+                      <div className="mb-3 flex items-center justify-center gap-4 text-sm text-gray-700">
+                        <div className="flex items-center gap-2">
+                          <button
+                            className="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
+                            onClick={() => adjustTimer("minutes", "subtract")}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+                          <span className="text-sm font-medium">{timerMinutes}m</span>
+                          <button
+                            className="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
+                            onClick={() => adjustTimer("minutes", "add")}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </button>
                         </div>
-                      )}
 
-                      <div className="flex justify-center gap-3">
-                        <Button onClick={isTimerRunning ? pauseTimer : startTimer} className="rounded-full bg-[#FF8C94] px-8 py-3 font-semibold text-white shadow hover:bg-[#f07784]">
-                          {isTimerRunning ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-                          {isTimerRunning ? "Tạm dừng" : "Bắt đầu"}
-                        </Button>
-
-                        <Button variant="outline" onClick={resetTimer} className="rounded-full border-[#FF8C94] px-6 py-3 font-semibold text-[#FF8C94] hover:bg-[#FFDFD9]/50">
-                          Đặt lại
-                        </Button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            className="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
+                            onClick={() => adjustTimer("seconds", "subtract")}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+                          <span className="text-sm font-medium">{timerSeconds}s</span>
+                          <button
+                            className="flex h-5 w-5 items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
+                            onClick={() => adjustTimer("seconds", "add")}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </button>
+                        </div>
                       </div>
+                    )}
+
+                    {/* Buttons */}
+                    <div className="flex justify-center gap-3">
+                      <button
+                        onClick={isTimerRunning ? pauseTimer : startTimer}
+                        className="rounded-lg bg-[#FF8C94] px-3 py-1 text-xs font-semibold text-white hover:bg-[#f07784]"
+                      >
+                        {isTimerRunning ? "Tạm dừng" : "Bắt đầu"}
+                      </button>
+                      <button
+                        onClick={resetTimer}
+                        className="rounded-lg border border-[#FF8C94] bg-white px-3 py-1 text-xs font-semibold text-[#FF8C94] hover:bg-[#FFDFD9]/50"
+                      >
+                        Đặt lại
+                      </button>
                     </div>
                   </div>
                 )}
 
                 {/* Ingredients */}
-                <div className="space-y-3">
-                  <h3 className="mb-4 text-lg font-bold text-gray-900">Nguyên liệu cần:</h3>
-                  {currentStepData.ingredients.map((ingredient, index) => (
-                    <div key={index} className="flex items-start rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                      <div className="mt-2.5 mr-4 h-2 w-2 flex-shrink-0 rounded-full bg-pink-400"></div>
-                      <p className="leading-relaxed font-medium text-gray-700">{ingredient}</p>
-                    </div>
-                  ))}
+                <div className="space-y-2">
+                  <h3 className="mb-2 text-base font-bold text-gray-900">Nguyên liệu cần:</h3>
+                  <div className="space-y-1">
+                    {currentStepData.ingredients.map((ingredient, index) => (
+                      <div key={index} className="flex items-start rounded-lg border border-gray-100 bg-gray-50 p-2">
+                        <div className="mt-1.5 mr-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-pink-400"></div>
+                        <p className="text-sm leading-relaxed font-medium text-gray-700">{ingredient}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -326,31 +337,31 @@ export default function CookingMode() {
       )}
 
       {/* Bottom Navigation */}
-      <div className="fixed right-0 bottom-0 left-0 border-t border-gray-100 bg-white px-6 py-6 shadow-2xl">
+      <div className="flex-shrink-0 border-t border-gray-100 bg-white px-4 py-2 shadow-lg">
         <div className="flex items-center justify-between">
           <Button
             variant="ghost"
-            className="h-14 w-14 rounded-full border-0 bg-gray-100 p-0 text-gray-600 hover:bg-gray-200 disabled:opacity-40"
+            className="h-12 w-12 rounded-full border-0 bg-gray-100 p-0 text-gray-600 hover:bg-gray-200 disabled:opacity-40"
             style={{ borderRadius: "50%" }}
             onClick={() => currentStep > 0 && setCurrentStep(currentStep - 1)}
             disabled={currentStep === 0}>
-            <RotateCcw className="h-6 w-6" />
+            <RotateCcw className="h-5 w-5" />
           </Button>
 
           <div className="flex flex-col items-center">
-            <Button variant="ghost" className="h-16 w-16 rounded-full border-0 bg-[#FF8C94] bg-gradient-to-r p-0 shadow-lg" style={{ borderRadius: "50%" }} onClick={() => setShowAIAssistant(true)}>
-              <Mic className="h-8 w-8 text-white" />
+            <Button variant="ghost" className="h-14 w-14 rounded-full border-0 bg-[#FF8C94] bg-gradient-to-r p-0 shadow-lg" style={{ borderRadius: "50%" }} onClick={() => setShowAIAssistant(true)}>
+              <Mic className="h-6 w-6 text-white" />
             </Button>
-            <p className="mt-2 text-xs font-medium text-gray-500">Nói để tương tác</p>
+            <p className="mt-1 text-xs font-medium text-gray-500">Nói để tương tác</p>
           </div>
 
           <Button
             variant="ghost"
-            className="h-14 w-14 rounded-full border-0 bg-gray-100 p-0 text-gray-600 hover:bg-gray-200 disabled:opacity-40"
+            className="h-12 w-12 rounded-full border-0 bg-gray-100 p-0 text-gray-600 hover:bg-gray-200 disabled:opacity-40"
             style={{ borderRadius: "50%" }}
             onClick={() => currentStep < steps.length - 1 && setCurrentStep(currentStep + 1)}
             disabled={currentStep === steps.length - 1}>
-            <SkipForward className="h-6 w-6" />
+            <SkipForward className="h-5 w-5" />
           </Button>
         </div>
       </div>

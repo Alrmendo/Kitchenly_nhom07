@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import { CookingMode } from "./components/cooking-mode";
-import { HomePage, FoodSuggestionsPage, NotificationsHomePage, TiramisuRecipePage, ViewAllPage } from "./components/home";
+import { HomePage, FoodSuggestionsPage, NotificationsHomePage, TiramisuRecipePage, ViewAllPage, IngredientSuggestionsAllPage, WeeklyHotDishAllPage, SeasonalDishesAllPage, FavoriteDishesAllPage } from "./components/home";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
@@ -10,7 +10,9 @@ import ShoppingListPage from "./components/shopping_list/ShoppingListPage";
 import EditItemPage from "./components/shopping_list/EditItemPage";
 import AddItemPage from "./components/shopping_list/AddItemPage";
 import { WeeklyMenuDemo } from "./components/weekly-menu-planner";
-import OnboardingPage from "./pages/onboarding-v2";
+import UserPersonalizationPage from "./pages/onboarding-v2";
+import OnboardingPage from "./pages/onboarding-new";
+import OnboardingPage2 from "./pages/onboarding-new-2";
 import SettingsPage from "./components/setting/setting";
 import NotificationSettings from "./components/setting/notification";
 import FAQPage from "./components/setting/help";
@@ -47,11 +49,12 @@ function AppRoutes() {
   };
 
   const getHomeRoute = () => {
+    // First check if user needs onboarding intro (regardless of auth status)
+    if (!isOnboardingCompleted) {
+      return <Navigate to="/onboarding-intro" replace />;
+    }
     if (!isAuthenticated) {
       return <WelcomePage />;
-    }
-    if (!isOnboardingCompleted) {
-      return <Navigate to="/onboarding" replace />;
     }
     return <Navigate to="/home" replace />;
   };
@@ -64,12 +67,19 @@ function AppRoutes() {
       
       {/* Main Route - Redirect based on auth and onboarding status */}
       <Route path="/" element={getHomeRoute()} />
-      <Route path="/onboarding" element={isAuthenticated ? <OnboardingPage /> : <Navigate to="/login" replace />} />
+      <Route path="/onboarding-intro" element={<OnboardingPage />} />
+      <Route path="/onboarding-step-2" element={<OnboardingPage2 />} />
+      <Route path="/welcome" element={<WelcomePage />} />
+      <Route path="/onboarding" element={isAuthenticated ? <UserPersonalizationPage /> : <Navigate to="/login" replace />} />
       <Route path="/home" element={<HomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/food-suggestions" element={<FoodSuggestionsPage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/notifications" element={<NotificationsHomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/recipe/tiramisu" element={<TiramisuRecipePage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/view-all" element={<ViewAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/ingredient-suggestions-all" element={<IngredientSuggestionsAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/weekly-hot-dishes" element={<WeeklyHotDishAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/seasonal-dishes" element={<SeasonalDishesAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/favorite-dishes" element={<FavoriteDishesAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/cooking" element={<CookingMode />} />
       <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
       <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />

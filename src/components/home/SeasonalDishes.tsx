@@ -30,8 +30,8 @@ export const SeasonalDishes: React.FC<SeasonalDishesProps> = ({ dishes = DEFAULT
         {showViewAll && (
           <Button 
             variant="ghost" 
-            className="h-auto p-0 text-sm text-[#666666] hover:text-[#ff8c94]"
-            onClick={() => navigate("/view-all")}
+            className="text-[#ff8c94] text-sm font-medium hover:text-[#ff8c94]/80 transition-colors"
+            onClick={() => navigate("/seasonal-dishes")}
           >
             Xem tất cả
           </Button>

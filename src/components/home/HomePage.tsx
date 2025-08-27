@@ -5,6 +5,8 @@ import { CategoryTabs } from "./CategoryTabs";
 import { FavoriteDishes } from "./FavoriteDishes";
 import { FeaturedDishes } from "./FeaturedDishes";
 import { SeasonalDishes } from "./SeasonalDishes";
+import { IngredientSuggestions } from "./IngredientSuggestions";
+import { WeeklyHotDishes } from "./WeeklyHotDishes";
 
 export interface HomePageProps {
   activeTab: string;
@@ -23,6 +25,10 @@ export const HomePage: React.FC<HomePageProps> = ({ activeTab, onTabChange }) =>
       <FeaturedDishes activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
 
       <SeasonalDishes />
+
+      <IngredientSuggestions />
+
+      <WeeklyHotDishes />
 
       <FavoriteDishes />
 
