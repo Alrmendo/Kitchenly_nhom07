@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import { CookingMode } from "./components/cooking-mode";
-import { HomePage, FoodSuggestionsPage, NotificationsHomePage, TiramisuRecipePage, ViewAllPage } from "./components/home";
+import { HomePage, FoodSuggestionsPage, NotificationsHomePage, TiramisuRecipePage, ViewAllPage, IngredientSuggestionsAllPage, WeeklyHotDishAllPage, SeasonalDishesAllPage, FavoriteDishesAllPage } from "./components/home";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
 import { EditIngredientPage } from "./components/manage_ingredients/edit_ingredient";
@@ -70,6 +70,10 @@ function AppRoutes() {
       <Route path="/notifications" element={<NotificationsHomePage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/recipe/tiramisu" element={<TiramisuRecipePage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/view-all" element={<ViewAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/ingredient-suggestions-all" element={<IngredientSuggestionsAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/weekly-hot-dishes" element={<WeeklyHotDishAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/seasonal-dishes" element={<SeasonalDishesAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
+      <Route path="/favorite-dishes" element={<FavoriteDishesAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/cooking" element={<CookingMode />} />
       <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
       <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />

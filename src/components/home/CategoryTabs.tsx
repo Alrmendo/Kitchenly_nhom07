@@ -29,7 +29,7 @@ export const CategoryTabs: React.FC<CategoryTabsProps> = ({ categories = DEFAULT
         {showViewAll && (
           <Button 
             variant="ghost" 
-            className="h-auto p-0 text-sm text-[#666666] hover:text-[#ff8c94]"
+            className="text-[#ff8c94] text-sm font-medium hover:text-[#ff8c94]/80 transition-colors"
             onClick={() => navigate("/view-all")}
           >
             Xem tất cả
