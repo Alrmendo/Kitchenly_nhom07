@@ -21,6 +21,7 @@ import { LoginPage, RegisterPage, WelcomePage } from "./components/auth";
 import WeeklyPlannerPage from "./pages/weekly-planner";
 import WeeklyPlannerPreferencesPage from "./pages/weekly-planner/preferences";
 import RecipeEditorPage from "./pages/weekly-planner/recipe-editor";
+import DayAddRecipe from "./components/weekly_planner/DayAddRecipe";
 
 /**
  * A component for handling undefined routes (404 Not Found).
@@ -83,6 +84,8 @@ function AppRoutes() {
       <Route path="/cooking" element={<CookingMode />} />
       <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
       <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />
+      <Route path="/weekly-planner/day-add" element={<DayAddRecipe />} />
+
       <Route path="/weekly-planner/preferences" element={<WeeklyPlannerPreferencesPage />} />
       <Route path="/weekly-planner/recipe-editor" element={<RecipeEditorPage />} />
       <Route path="/manage-ingredients">

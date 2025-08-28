@@ -5,21 +5,15 @@ import vi from "date-fns/locale/vi";
 import { guessImageForName, toISO, toDate } from "./data";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import UnitDropdown from "./UnitDropdown";
 
 export type ItemFormValues = {
   name: string;
   quantity: string;
   unit: string;
   note: string;
-  date: string; // yyyy-mm-dd
+  date: string;
 };
-
-export function parseQty(qText?: string) {
-  if (!qText) return { quantity: "", unit: "" };
-  const m = qText.match(/^\s*(\S+)\s*(.*)$/);
-  if (!m) return { quantity: qText, unit: "" };
-  return { quantity: m[1] ?? "", unit: (m[2] ?? "").trim() };
-}
 
 export default function ItemForm({
   initial,
@@ -37,7 +31,8 @@ export default function ItemForm({
   const [date, setDate] = React.useState(initial?.date ?? toISO(new Date()));
   const [openCal, setOpenCal] = React.useState(false);
 
-  const canSubmit = name.trim() && quantity.trim() && date;
+  const qtyNumber = Number(quantity.replace(",", "."));
+  const canSubmit = Boolean(name.trim()) && Number.isFinite(qtyNumber) && qtyNumber > 0 && Boolean(date);
 
   return (
     <form
@@ -57,7 +52,6 @@ export default function ItemForm({
         });
       }}
     >
-      {/* Tên + ảnh */}
       <div className="flex items-center gap-3">
         <div className="flex-1">
           <input
@@ -65,6 +59,7 @@ export default function ItemForm({
             onChange={(e) => setName(e.target.value)}
             className="w-full border rounded-2xl px-3 py-3 text-sm shadow-sm bg-white placeholder:text-gray-400"
             placeholder="Tên sản phẩm"
+            required
           />
         </div>
         <div className="h-12 w-12 rounded-xl bg-gray-100 overflow-hidden flex items-center justify-center">
@@ -76,20 +71,18 @@ export default function ItemForm({
         </div>
       </div>
 
-      {/* Số lượng + đơn vị */}
       <div className="grid grid-cols-2 gap-3">
         <input
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
           className="w-full border rounded-2xl px-3 py-3 text-sm shadow-sm bg-white placeholder:text-gray-400"
           placeholder="Số lượng"
+          required
         />
-        <input
-          value={unit}
-          onChange={(e) => setUnit(e.target.value)}
-          className="w-full border rounded-2xl px-3 py-3 text-sm shadow-sm bg-white placeholder:text-gray-400"
-          placeholder="Đơn vị"
-        />
+
+        <UnitDropdown value={unit} onChange={setUnit} />
+
+
       </div>
 
       <div className="mt-2">
