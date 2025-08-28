@@ -59,36 +59,6 @@ export default function DayAddRecipe() {
           </div>
         </div>
 
-        <div className="px-6 mb-6 space-y-3">
-          <div className="flex gap-3">
-            <div className="flex-1">
-              <Button
-                variant="outline"
-                className="w-full justify-between bg-[#fafafa] border-[#e5e5e5] text-[#666666]"
-              >
-                All Levels
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="flex-1">
-              <Button
-                variant="outline"
-                className="w-full justify-between bg-[#fafafa] border-[#e5e5e5] text-[#666666]"
-              >
-                Any Time
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            className="w-full justify-between bg-[#fafafa] border-[#e5e5e5] text-[#666666]"
-          >
-            All Diets
-            <ChevronDown className="h-4 w-4" />
-          </Button>
-        </div>
-
         <div className="px-6 pb-6 space-y-3">
           {filtered.map((recipe) => (
             <button

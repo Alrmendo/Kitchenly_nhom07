@@ -7,12 +7,13 @@ import { BottomNavigation } from "../shared/BottomNavigation";
 
 import {
   loadPlan,
-  removeRecipeAt,
   seedWeekIfEmpty,
   WEEK_START_ISO,
   addDaysLocal,
+  savePlan,
 } from "./planStore";
 import { RECIPES } from "./recipes";
+import ConfirmDialog from "../shared/confirmDialog";
 
 const isoByDayIndex = (dayIndex: number) => addDaysLocal(WEEK_START_ISO, dayIndex);
 const RECIPES_BY_ID = new Map(RECIPES.map((r) => [r.id, r]));
@@ -22,11 +23,17 @@ const RECIPE_IMAGE_BY_NAME: Record<string, string> = {
   "overnight oats": "/overnight-oats.png?height=40&width=40",
   "grilled chicken salad": "/GrilledChickenSalad.png?height=40&width=40",
   "vegetarian stir fry": "/VegetarianStirFry.png?height=40&width=40",
+  "salmon teriyaki": "/SalmonTeriyaki.png?height=40&width=40",
+  "quinoa buddha bowl": "/QuinoaBuddhaBowl.png?height=40&width=40",
+  "greek yogurt parfait": "/GreekYogurtParfait.png?height=40&width=40",
+  "turkey wrap": "/TurkeyWrap.png?height=40&width=40",
+  "mushroom risotto": "/MushroomRisotto.png?height=40&width=40"
 };
 const imgFor = (name?: string, fallback?: string) => {
   const key = (name ?? "").trim().toLowerCase();
   return RECIPE_IMAGE_BY_NAME[key] ?? fallback ?? "/placeholder.svg";
 };
+type PendingDelete = { open: boolean; dateIso?: string; recipeId?: number; recipeName?: string };
 
 export default function WeeklyMenu() {
   const navigate = useNavigate();
@@ -69,13 +76,37 @@ export default function WeeklyMenu() {
     navigate("/weekly-planner/recipe-editor", { state: { date: dateIso, itemIndex, mealName: currentName } });
   };
 
-  const handleDeleteRecipe = (dateIso: string, itemIndex: number) => {
-    removeRecipeAt(dateIso, itemIndex);
+  // const handleDeleteRecipe = (dateIso: string, itemIndex: number) => {
+  //   removeRecipeAt(dateIso, itemIndex);
+  // };
+  const [pendingDelete, setPendingDelete] = useState<PendingDelete>({ open: false });
+
+  const requestDelete = (dateIso: string, recipeId: number, recipeName?: string) => {
+    setPendingDelete({ open: true, dateIso, recipeId, recipeName });
   };
+
+  const doDelete = () => {
+    const { dateIso, recipeId } = pendingDelete;
+    if (!dateIso || !recipeId) {
+      setPendingDelete({ open: false });
+      return;
+    }
+    const p = loadPlan();
+    const day = p.days.find((d) => d.date === dateIso);
+    if (day) {
+      day.recipeIds = (day.recipeIds || []).filter((id) => id !== recipeId);
+      savePlan(p);
+      window.dispatchEvent(new CustomEvent("plan:updated", { detail: p }));
+    }
+    setPendingDelete({ open: false });
+  };
+
+  const cancelDelete = () => setPendingDelete({ open: false });
 
   return (
     <div className="min-h-screen bg-[#fffdf9]">
       {/* Header */}
+  
       <div className="bg-[#ff8c94] px-4 py-4">
         <div className="flex items-center justify-between mb-2">
           <Search className="w-6 h-6 text-white" />
@@ -84,7 +115,6 @@ export default function WeeklyMenu() {
             <Settings className="w-6 h-6 text-white" />
           </button>
         </div>
-        <p className="text-center text-sm text-white/80">Kế hoạch ăn uống trong tuần</p>
       </div>
 
       {/* Menu Content */}
@@ -134,10 +164,10 @@ export default function WeeklyMenu() {
                                 <Edit className="w-4 h-4 text-[#ff8c94]" />
                               </button>
                               <button
-                                onClick={() => handleDeleteRecipe(dateIso, itemIndex)}
+                                onClick={() => requestDelete(dateIso, itemIndex, recipe.name)}
                                 className="p-1 rounded-full hover:bg-red-50 transition-colors"
                                 aria-label={`Xóa ${recipe.name}`}
-                                title="Xóa món khỏi ngày này"
+                                title="Xóa"
                               >
                                 <Trash2 className="w-4 h-4 text-red-500" />
                               </button>
@@ -165,6 +195,19 @@ export default function WeeklyMenu() {
       </div>
 
       <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
+      <ConfirmDialog
+        open={pendingDelete.open}
+        title="Xóa món khỏi ngày này?"
+        description={
+          pendingDelete.recipeName
+            ? `Bạn có chắc muốn xóa "${pendingDelete.recipeName}" khỏi ngày đã chọn?`
+            : "Bạn có chắc muốn xóa món này?"
+        }
+        confirmText="Xóa"
+        cancelText="Hủy"
+        onConfirm={doDelete}
+        onCancel={cancelDelete}
+      />
     </div>
   );
 }
