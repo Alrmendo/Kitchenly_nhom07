@@ -7,7 +7,7 @@ const DIET_OPTIONS = [
   { id: "pure", label: "Thuần đạm", image: "/roasted-chicken-herbs.jpg" },
   { id: "supplement-vegetables", label: "Bổ sung rau", image: "/avocado-toast-vegetables.jpg" },
   { id: "supplement-protein", label: "Bổ sung protein", image: "/protein-rich-meal.jpg" },
-  { id: "no-milk", label: "Kiêng sữa", image: "/placeholder-a11wh.jpg" },
+  { id: "no-milk", label: "Kiêng sữa", image: "https://ghost-cms.s3.ap-south-1.amazonaws.com/2024/03/What-Is-A-Dairy-Free-Diet_the-wellness-corner.jpg" },
 ]
 
 interface DietPreferencesStepProps {

@@ -12,6 +12,7 @@ interface SelectionGridProps {
     onSelectionChange: (selected: string[]) => void
     multiSelect?: boolean
     columns?: number
+    className?: string
 }
 
 export const SelectionGrid = ({
@@ -20,6 +21,7 @@ export const SelectionGrid = ({
     onSelectionChange,
     multiSelect = true,
     columns = 2,
+    className = ""
 }: SelectionGridProps) => {
     const gridRef = useStaggerAnimation()
 
@@ -37,7 +39,7 @@ export const SelectionGrid = ({
     const gridCols = columns === 2 ? "grid-cols-2" : "grid-cols-3"
 
     return (
-        <div ref={gridRef} className={`grid ${gridCols} gap-4`}>
+        <div ref={gridRef} className={`grid ${gridCols} gap-4 ${className}`}>
             {items.map((item) => (
                 <button
                     key={item.id}
