@@ -86,6 +86,7 @@ export const IngredientsStep = ({
     }
 
     return (
+        <>
         <OnboardingLayout
             title={currentStepData.title}
             description={currentStepData.description}
@@ -95,7 +96,6 @@ export const IngredientsStep = ({
             onContinue={nextStep}
             canContinue={true}
             isFirstStep={isFirstStep}
-            contentClassName={`${isModalOpen ? "overflow-y-hidden" : ""} relative`}
         >
             <SelectionGrid
                 items={extendedOptions}
@@ -108,71 +108,71 @@ export const IngredientsStep = ({
 
             {/* Add Custom Ingredient */}
             <div className="mt-6">
-                {/* Button to open modal */}
                 <button
                     className="w-full mt-4 text-red-400 text-sm font-medium"
-                    onClick={() => setModalOpen(true)} // Open modal
+                    onClick={() => setModalOpen(true)}
                 >
                     Thêm nguyên liệu +
                 </button>
             </div>
+        </OnboardingLayout>
 
-            {/* Modal */}
-            {isModalOpen && (
-                <Modal onClose={() => handleModalClose()}
-                    counter={counter}>
-                    <div className="pt-8 pb-4 py-12 bg-[#FFF9F9] rounded-2xl w-full flex flex-col items-center">
-                        <div className="space-y-3">
-                            {data.customIngredients.map((ingredient: string, index: number) => (
-                                <div key={index} className="flex items-center gap-2">
-                                    <Input
-                                        value={ingredient}
-                                        onChange={(e) => {
-                                            const updated = [...data.customIngredients]
-                                            updated[index] = e.target.value
-                                            updateData("customIngredients", updated)
-                                        }}
-                                        placeholder="Nguyên liệu..."
-                                        className="flex-1 !bg-[#ffe1e0] text-[#ee8d92] rounded-xl border-none focus:ring-0 !w-60"
-                                    />
-                                    <Button
-                                        size="icon"
-                                        onClick={() => handleRemoveCustomIngredient(index)}
-                                        className="h-8 w-8 text-red-400 hover:text-red-600 !bg-[#ffe1e0] !rounded-full"
-                                    >
-                                        <Trash2 className="h-4 w-4" color="#ee8d92" />
-                                    </Button>
-                                </div>
-                            ))}
-                            <div className="flex items-center gap-2">
+        {/* Modal */}
+        {isModalOpen && (
+            <Modal onClose={() => handleModalClose()}
+                counter={counter}>
+                <div className="pt-8 pb-4 py-12 bg-[#FFF9F9] rounded-2xl w-full flex flex-col items-center">
+                    <div className="space-y-3">
+                        {data.customIngredients.map((ingredient: string, index: number) => (
+                            <div key={index} className="flex items-center gap-2">
                                 <Input
-                                    value={newIngredient}
-                                    onChange={(e) => setNewIngredient(e.target.value)}
+                                    value={ingredient}
+                                    onChange={(e) => {
+                                        const updated = [...data.customIngredients]
+                                        updated[index] = e.target.value
+                                        updateData("customIngredients", updated)
+                                    }}
                                     placeholder="Nguyên liệu..."
-                                    className="flex-1 bg-[#FFE4EA] text-gray-700 rounded-xl border-none focus:ring-0 !w-60"
+                                    className="flex-1 !bg-[#ffe1e0] text-[#ee8d92] rounded-xl border-none focus:ring-0 !w-60"
                                 />
                                 <Button
-                                    variant="ghost"
                                     size="icon"
-                                    disabled
-                                    className="h-8 w-8 opacity-0 !bg-[#ffe4ea] !rounded-full"
+                                    onClick={() => handleRemoveCustomIngredient(index)}
+                                    className="h-8 w-8 text-red-400 hover:text-red-600 !bg-[#ffe1e0] !rounded-full"
                                 >
-                                    <Trash2 className="h-4 w-4" />
+                                    <Trash2 className="h-4 w-4" color="#ee8d92" />
                                 </Button>
                             </div>
+                        ))}
+                        <div className="flex items-center gap-2">
+                            <Input
+                                value={newIngredient}
+                                onChange={(e) => setNewIngredient(e.target.value)}
+                                placeholder="Nguyên liệu..."
+                                className="flex-1 bg-[#FFE4EA] text-gray-700 rounded-xl border-none focus:ring-0 !w-60"
+                            />
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                disabled
+                                className="h-8 w-8 opacity-0 !bg-[#ffe4ea] !rounded-full"
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
                         </div>
-                        <Button
-                            onClick={() => {
-                                handleAddCustomIngredient()
-                            }}
-                            disabled={!newIngredient.trim()}
-                            className="mt-5 w-60 px-6 rounded-xl !bg-inherit !text-[#ee8d92] font-medium border border-[#ee8d92] !rounded-full"
-                        >
-                            Thêm nguyên liệu
-                        </Button>
                     </div>
-                </Modal>
-            )}
-        </OnboardingLayout>
+                    <Button
+                        onClick={() => {
+                            handleAddCustomIngredient()
+                        }}
+                        disabled={!newIngredient.trim()}
+                        className="mt-5 w-60 px-6 rounded-xl !bg-inherit !text-[#ee8d92] font-medium border border-[#ee8d92] !rounded-full"
+                    >
+                        Thêm nguyên liệu
+                    </Button>
+                </div>
+            </Modal>
+        )}
+        </>
     )
 }

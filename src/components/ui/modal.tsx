@@ -8,19 +8,16 @@ interface ModalProps {
 
 export const Modal = ({ children, onClose }: ModalProps) => {
     return (
-        <div className={`absolute h-[100vh] w-full z-0 flex flex-col-reverse bg-black/40`}
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
             onClick={onClose}>
             {/* Modal Content */}
             <div
-                className={`z-100 flex justify-center items-center w-full`}
+                className="w-full max-w-lg bg-white rounded-t-3xl shadow-2xl animate-slide-up"
                 onClick={(e) => {
                     e.stopPropagation()
                 }}
             >
-                <div className="relative w-full max-w-lg bg-white rounded-t-3xl shadow-2xl 
-                                flex justify-center items-center">
-                    {children}
-                </div>
+                {children}
             </div>
         </div>
     )

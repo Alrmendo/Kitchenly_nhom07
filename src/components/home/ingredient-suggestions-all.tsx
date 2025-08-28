@@ -8,7 +8,7 @@ import {
   BarChart3,
   Star,
 } from "lucide-react";
-import { BottomNavigation } from ".";
+import { BottomNavigation } from "../shared/BottomNavigation";
 import NoIngredientMatchPage from "./no_ingredient_match";
 import FoodFilterModal, { type FilterState } from "./food-filter-modal";
 

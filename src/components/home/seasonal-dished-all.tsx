@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import { ArrowLeft, Filter, Search, Heart, Star, Clock } from "lucide-react"
 import { useNavigate } from "react-router-dom"
-import { BottomNavigation } from "."
+import { BottomNavigation } from "../shared/BottomNavigation"
 import FoodFilterModal, { type FilterState } from "./food-filter-modal";
 
 interface SeasonalDishesAllProps {
