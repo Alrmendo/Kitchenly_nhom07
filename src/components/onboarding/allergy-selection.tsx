@@ -81,7 +81,7 @@ export function AllergySelection({ allergyTags, onToggleAllergy }: AllergySelect
         {allergyTags.map((tag) => (
           <Badge
             key={tag.id}
-            variant={tag.selected ? "default" : "primary"}
+            variant={tag.selected ? "default" : "secondary"}
             className={`cursor-pointer px-4 py-2 transition-all ${tag.selected ? "bg-red-400 hover:bg-red-500 text-white" : "hover:bg-gray-100"
               }`}
             onClick={(e) => handleTagClick(tag.id, e.currentTarget)}

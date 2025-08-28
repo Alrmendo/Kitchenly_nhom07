@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 
@@ -18,20 +19,28 @@ const DEFAULT_DISHES: SeasonalDish[] = [
   { name: "Sốt kem", image: "/sot_kem.png" },
   { name: "Sốt nấm", image: "/sot_nam.png" },
   { name: "Gà viên", image: "/ga_vien.png" },
+  { name: "Phô mai roti", image: "/creamy-mushroom-risotto-pasta-dish.png" },
+  { name: "Ngũ cốc", image: "/oatmeal-bowl-with-nuts-and-berries.png" },
+  { name: "Trứng", image: "/potato-omelet-on-white-plate.png" },
 ];
 
 export const SeasonalDishes: React.FC<SeasonalDishesProps> = ({ dishes = DEFAULT_DISHES, showViewAll = true, title = "Món ăn theo mùa" }) => {
+  const navigate = useNavigate();
   return (
     <div className="mb-8 px-6">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#000000]">{title}</h2>
         {showViewAll && (
-          <Button variant="ghost" className="h-auto p-0 text-sm text-[#666666]">
+          <Button 
+            variant="ghost" 
+            className="text-[#ff8c94] text-sm font-medium hover:text-[#ff8c94]/80 transition-colors"
+            onClick={() => navigate("/seasonal-dishes")}
+          >
             Xem tất cả
           </Button>
         )}
       </div>
-      <div className="flex gap-4">
+      <div className="flex overflow-x-auto scrollbar-hide gap-4">
         {dishes.map((dish, index) => (
           <div key={index} className="flex flex-col items-center">
             <div className="mb-2 h-25 w-20 overflow-hidden rounded-2xl">

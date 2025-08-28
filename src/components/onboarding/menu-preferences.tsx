@@ -83,7 +83,7 @@ export function MenuPreferences({ menuPreferences, onToggleMenuPreference }: Men
         {menuPreferences.map((pref) => (
           <Badge
             key={pref.id}
-            variant={pref.selected ? "default" : "primary"}
+            variant={pref.selected ? "default" : "secondary"}
             className={`cursor-pointer px-4 py-2 transition-all ${pref.selected ? "bg-red-400 hover:bg-red-500 text-white" : "hover:bg-gray-100"
               }`}
             onClick={(e) => handlePreferenceClick(pref.id, e.currentTarget)}

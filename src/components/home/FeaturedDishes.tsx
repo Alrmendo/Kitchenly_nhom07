@@ -1,12 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Clock, Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
 
-type Category = {
-  id: string;
-  label: string;
-};
 
 type FeaturedDish = {
   name: string;
@@ -23,11 +19,7 @@ export interface FeaturedDishesProps {
   onCategoryChange?: (categoryId: string) => void;
 }
 
-const DEFAULT_CATEGORIES: Category[] = [
-  { id: "morning", label: "Buổi sáng" },
-  { id: "lunch", label: "Buổi trưa" },
-  { id: "evening", label: "Buổi tối" },
-];
+// Categories are now handled by CategoryTabs component
 
 const DEFAULT_DISHES: FeaturedDish[] = [
   {
@@ -48,26 +40,10 @@ const DEFAULT_DISHES: FeaturedDish[] = [
   },
 ];
 
-export const FeaturedDishes: React.FC<FeaturedDishesProps> = ({ dishes = DEFAULT_DISHES, activeCategory: externalActiveCategory, onCategoryChange: externalOnCategoryChange }) => {
-  const [internalActiveCategory, setInternalActiveCategory] = useState("morning");
-
-  const activeCategory = externalActiveCategory || internalActiveCategory;
-  const onCategoryChange = externalOnCategoryChange || setInternalActiveCategory;
+export const FeaturedDishes: React.FC<FeaturedDishesProps> = ({ dishes = DEFAULT_DISHES }) => {
 
   return (
     <div className="mb-8 px-6">
-      {/* Category Tabs */}
-      <div className="mb-6 flex gap-6">
-        {DEFAULT_CATEGORIES.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => onCategoryChange(category.id)}
-            className={`border-b-2 pb-2 text-sm font-medium transition-colors ${activeCategory === category.id ? "border-[#000000] text-[#000000]" : "border-transparent text-[#666666]"}`}>
-            {category.label}
-          </button>
-        ))}
-      </div>
-
       {/* Featured Dishes */}
       <div className="flex gap-6 overflow-x-auto rounded-3xl">
         {dishes.map((dish, index) => (

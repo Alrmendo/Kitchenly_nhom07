@@ -36,4 +36,5 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 // A descriptive name for the component, useful for debugging.
 Input.displayName = "Input";
 
+export { Input };
 export default Input;
