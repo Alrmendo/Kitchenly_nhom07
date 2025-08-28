@@ -20,18 +20,15 @@ interface IngredientsStepProps {
 }
 
 const INGREDIENT_OPTIONS = [
-    { id: "lettuce", label: "Rau cải", image: "/placeholder.svg?height=120&width=120" },
-    { id: "tomato", label: "Cà chua", image: "/placeholder.svg?height=120&width=120" },
-    { id: "eggs", label: "Trứng", image: "/placeholder.svg?height=120&width=120" },
-    { id: "squid", label: "Mực", image: "/placeholder.svg?height=120&width=120" },
-    { id: "chicken", label: "Gà", image: "/placeholder.svg?height=120&width=120" },
-    { id: "meat", label: "Thịt", image: "/placeholder.svg?height=120&width=120" },
-    { id: "butter", label: "Bơ", image: "/placeholder.svg?height=120&width=120" },
-    { id: "peanuts", label: "Đậu nành", image: "/placeholder.svg?height=120&width=120" },
-    { id: "chili", label: "Ớt chuông", image: "/placeholder.svg?height=120&width=120" },
-    { id: "strawberry", label: "Dâu", image: "/placeholder.svg?height=120&width=120" },
-    { id: "mango", label: "Xoài", image: "/placeholder.svg?height=120&width=120" },
-    { id: "banana", label: "Chuối", image: "/placeholder.svg?height=120&width=120" },
+    { id: "lettuce", label: "Rau cải", image: "https://cdn.tgdd.vn/2022/09/CookDish/cach-nhat-rau-cai-ngot-nhanh-dung-cach-avt-1200x676.jpg" },
+    { id: "tomato", label: "Cà chua", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Bright_red_tomato_and_cross_section02.jpg/1200px-Bright_red_tomato_and_cross_section02.jpg" },
+    { id: "eggs", label: "Trứng", image: "https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2025/3/8/photo-1741408427825-17414084285131651116857.jpeg" },
+    { id: "squid", label: "Mực", image: "https://bizweb.dktcdn.net/100/308/217/products/20220609-145740.jpg" },
+    { id: "chicken", label: "Gà", image: "https://upload.wikimedia.org/wikipedia/commons/0/03/Junglefowl_on_tree.jpg" },
+    { id: "meat", label: "Thịt", image: "https://upload.wikimedia.org/wikipedia/commons/b/b4/D%C3%A9coupe_de_b%C5%93uf.jpg" },
+    { id: "butter", label: "Bơ", image: "https://static.tuoitre.vn/tto/i/s626/2016/05/25/hinh-2-1464143777.jpg" },
+    { id: "peanuts", label: "Đậu phộng", image: "https://www.vinmec.com/static/uploads/20210524_042253_027495_an_lac_nhieu_2_max_1800x1800_jpg_1f678407c4.jpg" },
+    { id: "chili", label: "Ớt chuông", image: "https://nhatminhfoods.com/media/product/60-pepper.jpg" },
 ]
 
 export const IngredientsStep = ({
@@ -46,6 +43,32 @@ export const IngredientsStep = ({
 }: IngredientsStepProps) => {
     const [newIngredient, setNewIngredient] = useState("")
     const [isModalOpen, setModalOpen] = useState(false) // State for modal visibility
+    const [extendedOptions, setExtendedOptions] = useState(INGREDIENT_OPTIONS)
+    const [counter, setCounter] = useState(Math.round(INGREDIENT_OPTIONS.length % 3)) // State for counter
+    console.log("Current Data:", counter)
+    // Add custom ingredients to extendedOptions when modal closes
+    const handleModalClose = () => {
+        setModalOpen(false)
+        // Only add new custom ingredients not already in extendedOptions
+        const customToAdd = data.customIngredients.filter(
+            (ing: string) =>
+                !extendedOptions.some(opt => opt.label.toLowerCase() === ing.toLowerCase())
+        )
+        if (customToAdd.length > 0) {
+            setExtendedOptions(prev =>
+                prev.concat(
+                    customToAdd.map((ing: string) => ({
+                        id: ing.toLowerCase().replace(/\s+/g, "_"),
+                        label: ing,
+                        image: "/placeholder.svg?height=120&width=120"
+                    }))
+                )
+            )
+            
+            setCounter(counter + customToAdd.length)
+        }
+        data.customIngredients = []
+    }
 
     const handleSelectionChange = (selected: string[]) => {
         updateData("ingredients", selected)
@@ -74,34 +97,16 @@ export const IngredientsStep = ({
             onContinue={nextStep}
             canContinue={true}
             isFirstStep={isFirstStep}
-            contentClassName={`${isModalOpen ? "overflow-y-hidden" : ""} relative`}
+            contentClassName={`${isModalOpen ? "overflow-y-hidden" : "overflow-y-auto"} relative flex flex-col justify-end`}
         >
             <SelectionGrid
-                items={INGREDIENT_OPTIONS}
+                items={extendedOptions}
                 selectedItems={data.ingredients}
                 onSelectionChange={handleSelectionChange}
                 multiSelect={true}
                 columns={3}
+                className="!h-[300px] overflow-y-auto"
             />
-
-            {/* Custom Ingredients */}
-            {data.customIngredients.length > 0 && (
-                <div className="mt-6 space-y-2">
-                    {data.customIngredients.map((ingredient: string, index: number) => (
-                        <div key={index} className="flex items-center gap-2 p-3 bg-red-50 rounded-xl">
-                            <span className="flex-1 text-sm text-gray-700">{ingredient}</span>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleRemoveCustomIngredient(index)}
-                                className="h-8 w-8 text-red-400 hover:text-red-600"
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </div>
-                    ))}
-                </div>
-            )}
 
             {/* Add Custom Ingredient */}
             <div className="mt-6">
@@ -116,26 +121,56 @@ export const IngredientsStep = ({
 
             {/* Modal */}
             {isModalOpen && (
-                <Modal onClose={() => setModalOpen(false)}> {/* Close modal */}
-                    <div className="p-2">
-                        <h2 className="text-lg font-bold text-gray-800">
-                            Thêm nguyên liệu
-                        </h2>
-                        <Input
-                            value={newIngredient}
-                            onChange={(e) => setNewIngredient(e.target.value)}
-                            placeholder="Nhập tên nguyên liệu..."
-                            className="mt-4 rounded-xl border-pink-200 focus:border-pink-400"
-                        />
+                <Modal onClose={() => handleModalClose()}
+                    counter={counter}>
+                    <div className="pt-8 pb-4 py-12 bg-[#FFF9F9] rounded-2xl w-full flex flex-col items-center">
+                        <div className="space-y-3">
+                            {data.customIngredients.map((ingredient: string, index: number) => (
+                                <div key={index} className="flex items-center gap-2">
+                                    <Input
+                                        value={ingredient}
+                                        onChange={(e) => {
+                                            const updated = [...data.customIngredients]
+                                            updated[index] = e.target.value
+                                            updateData("customIngredients", updated)
+                                        }}
+                                        placeholder="Nguyên liệu..."
+                                        className="flex-1 !bg-[#ffe1e0] text-[#ee8d92] rounded-xl border-none focus:ring-0 !w-60"
+                                    />
+                                    <Button
+                                        size="icon"
+                                        onClick={() => handleRemoveCustomIngredient(index)}
+                                        className="h-8 w-8 text-red-400 hover:text-red-600 !bg-[#ffe1e0] !rounded-full"
+                                    >
+                                        <Trash2 className="h-4 w-4" color="#ee8d92" />
+                                    </Button>
+                                </div>
+                            ))}
+                            <div className="flex items-center gap-2">
+                                <Input
+                                    value={newIngredient}
+                                    onChange={(e) => setNewIngredient(e.target.value)}
+                                    placeholder="Nguyên liệu..."
+                                    className="flex-1 bg-[#FFE4EA] text-gray-700 rounded-xl border-none focus:ring-0 !w-60"
+                                />
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    disabled
+                                    className="h-8 w-8 opacity-0 !bg-[#ffe4ea] !rounded-full"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
                         <Button
                             onClick={() => {
                                 handleAddCustomIngredient()
-                                setModalOpen(false) // Close modal after adding
                             }}
                             disabled={!newIngredient.trim()}
-                            className="mt-4 w-full px-6 rounded-xl !bg-red-400 hover:!bg-red-500"
+                            className="mt-5 w-60 px-6 rounded-xl !bg-inherit !text-[#ee8d92] font-medium border border-[#ee8d92] !rounded-full"
                         >
-                            Thêm
+                            Thêm nguyên liệu
                         </Button>
                     </div>
                 </Modal>
