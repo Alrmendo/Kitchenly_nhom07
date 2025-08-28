@@ -95,7 +95,7 @@ export const IngredientsStep = ({
             onContinue={nextStep}
             canContinue={true}
             isFirstStep={isFirstStep}
-            contentClassName={`${isModalOpen ? "overflow-y-hidden" : "overflow-y-auto"} relative flex flex-col justify-end`}
+            contentClassName={`${isModalOpen ? "overflow-y-hidden" : ""} relative`}
         >
             <SelectionGrid
                 items={extendedOptions}
@@ -103,7 +103,7 @@ export const IngredientsStep = ({
                 onSelectionChange={handleSelectionChange}
                 multiSelect={true}
                 columns={3}
-                className="!h-[300px] overflow-y-auto"
+                className="w-full"
             />
 
             {/* Add Custom Ingredient */}

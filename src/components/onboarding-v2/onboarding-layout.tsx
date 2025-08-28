@@ -35,10 +35,10 @@ export const OnboardingLayout = ({
     const contentRef = useFadeInAnimation()
 
     return (
-        <div ref={containerRef} className="min-h-screen bg-[#fffdf9] flex flex-col">
-            <div className="flex-1 flex flex-col px-4 py-6 max-w-2xl mx-auto w-full">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
+        <div ref={containerRef} className="h-screen bg-[#fffdf9] flex flex-col overflow-hidden fixed inset-0">
+            <div className="flex flex-col h-full max-w-2xl mx-auto w-full overflow-hidden">
+                {/* Header - Fixed */}
+                <div className="flex items-center justify-between px-4 pt-6 pb-4 flex-shrink-0">
                     {!isFirstStep && (
                         <Button variant="ghost" size="icon" onClick={onBack} className="h-10 w-10">
                             <ChevronLeft className="h-6 w-6" />
@@ -47,8 +47,8 @@ export const OnboardingLayout = ({
                     {isFirstStep && <div className="h-10 w-10" />}
                 </div>
 
-                {/* Progress Bar */}
-                <div className="mb-8">
+                {/* Progress Bar - Fixed */}
+                <div className="px-4 pb-6 flex-shrink-0">
                     <div className="w-full bg-gray-200 rounded-full h-2">
                         <div
                             className="bg-[#ff8c94] h-2 rounded-full transition-all duration-500 ease-out"
@@ -57,16 +57,18 @@ export const OnboardingLayout = ({
                     </div>
                 </div>
 
-                {/* Content */}
-                <div ref={contentRef} className={`flex-1 overflow-y-auto ${contentClassName}`}>
+                {/* Content - Scrollable */}
+                <div ref={contentRef} className={`flex-1 overflow-y-auto px-4 min-h-0 ${contentClassName}`}>
                     <h1 className="text-2xl font-semibold text-[#32201c] mb-4">{title}</h1>
                     <p className="text-[#32201c]/70 text-base mb-8 leading-relaxed">{description}</p>
 
-                    {children}
+                    <div className="pb-4">
+                        {children}
+                    </div>
                 </div>
 
-                {/* Navigation */}
-                <div className="flex gap-4 mt-8 pb-4">
+                {/* Navigation - Fixed */}
+                <div className="flex gap-4 px-4 py-6 flex-shrink-0 bg-[#fffdf9]">
                     {showSkip && onSkip && (
                         <Button
                             variant="outline"

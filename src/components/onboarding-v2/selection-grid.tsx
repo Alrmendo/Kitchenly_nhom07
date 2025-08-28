@@ -36,10 +36,10 @@ export const SelectionGrid = ({
         }
     }
 
-    const gridCols = columns === 2 ? "grid-cols-2" : "grid-cols-3"
+    const gridCols = columns === 2 ? "grid-cols-2" : columns === 3 ? "grid-cols-3" : "grid-cols-2"
 
     return (
-        <div ref={gridRef} className={`grid ${gridCols} gap-4 ${className}`}>
+        <div ref={gridRef} className={`grid ${gridCols} gap-3 w-full ${className}`}>
             {items.map((item) => (
                 <button
                     key={item.id}
