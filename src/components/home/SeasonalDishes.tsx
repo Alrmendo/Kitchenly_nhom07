@@ -19,6 +19,9 @@ const DEFAULT_DISHES: SeasonalDish[] = [
   { name: "Sốt kem", image: "/sot_kem.png" },
   { name: "Sốt nấm", image: "/sot_nam.png" },
   { name: "Gà viên", image: "/ga_vien.png" },
+  { name: "Phô mai roti", image: "/creamy-mushroom-risotto-pasta-dish.png" },
+  { name: "Ngũ cốc", image: "/oatmeal-bowl-with-nuts-and-berries.png" },
+  { name: "Trứng", image: "/potato-omelet-on-white-plate.png" },
 ];
 
 export const SeasonalDishes: React.FC<SeasonalDishesProps> = ({ dishes = DEFAULT_DISHES, showViewAll = true, title = "Món ăn theo mùa" }) => {
@@ -37,7 +40,7 @@ export const SeasonalDishes: React.FC<SeasonalDishesProps> = ({ dishes = DEFAULT
           </Button>
         )}
       </div>
-      <div className="flex gap-4">
+      <div className="flex overflow-x-auto scrollbar-hide gap-4">
         {dishes.map((dish, index) => (
           <div key={index} className="flex flex-col items-center">
             <div className="mb-2 h-25 w-20 overflow-hidden rounded-2xl">

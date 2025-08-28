@@ -89,31 +89,41 @@ export default function FoodSuggestionPage({ activeTab = "home", onTabChange = (
       )}
 
       {/* Notification Card */}
-      <div className="mx-4 mb-6">
+      <div className="mx-5 mb-6">
         <div
-          className="rounded-2xl p-4 border-2"
+          className="rounded-3xl p-6 border-2 shadow-sm"
           style={{
             borderColor: "#ff8c94",
             backgroundColor: "#ffffff",
           }}
         >
-          <h3 className="text-center font-medium mb-2" style={{ color: "#ff8c94" }}>
-            Không có công thức chưa
-          </h3>
-          <h3 className="text-center font-medium mb-3" style={{ color: "#ff8c94" }}>
-            các nguyên liệu bạn đang có
-          </h3>
-          <p className="text-center text-sm mb-4" style={{ color: "#000000" }}>
-            Đừng lo! Chúng tôi sẽ tìm các công thức gần giống.
-          </p>
-          <p className="text-center text-sm mb-4" style={{ color: "#000000" }}>
-            Bạn chỉ cần thêm một vài nguyên liệu
-          </p>
+          <div className="text-center mb-6">
+            <h3 className="text-lg font-semibold mb-1" style={{ color: "#ff8c94" }}>
+              Không có công thức chứa
+            </h3>
+            <h3 className="text-lg font-semibold mb-4" style={{ color: "#ff8c94" }}>
+              các nguyên liệu bạn đang có
+            </h3>
+            <p className="text-sm leading-relaxed mb-2" style={{ color: "#666666" }}>
+              Đừng lo! Chúng tôi sẽ tìm các công thức gần giống.
+            </p>
+            <p className="text-sm leading-relaxed" style={{ color: "#666666" }}>
+              Bạn chỉ cần thêm một vài nguyên liệu
+            </p>
+          </div>
+          
           <div className="flex gap-3 justify-center">
-            <Button variant="ghost" className="text-sm px-4 py-2" style={{ color: "#ff8c94" }}>
+            <Button 
+              variant="ghost" 
+              className="text-sm px-5 py-2.5 rounded-full border border-[#ff8c94] hover:bg-[#ff8c94]/10 transition-colors" 
+              style={{ color: "#ff8c94" }}
+            >
               Điều chỉnh bộ lọc
             </Button>
-            <Button className="text-sm px-6 py-2 rounded-full text-white" style={{ backgroundColor: "#ff8c94" }}>
+            <Button 
+              className="text-sm px-6 py-2.5 rounded-full text-white font-medium hover:opacity-90 transition-opacity shadow-md" 
+              style={{ backgroundColor: "#ff8c94" }}
+            >
               Mua sắm
             </Button>
           </div>

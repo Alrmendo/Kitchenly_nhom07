@@ -21,7 +21,7 @@ export default function FoodFilterModal({ isOpen, onClose, onApplyFilter }: Food
 
   const foodOptions = ["Tất cả", "Bữa trưa", "Bữa tối", "Burger", "Trung Quốc", "Pizza", "Salads", "Súp", "Bữa sáng"]
 
-  const dietOptions = ["Bắt kì", "Ăn chay", "Vegan", "Ít đường"]
+  const dietOptions = ["Bất kì", "Ăn chay", "Vegan", "Ít đường"]
   const levelOptions = ["Dễ", "Trung bình", "Khó"]
   const timeOptions = ["15", "25", "35", "45"]
 
