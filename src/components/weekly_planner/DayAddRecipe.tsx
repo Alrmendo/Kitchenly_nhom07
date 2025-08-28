@@ -1,8 +1,8 @@
 // src/components/weekly_planner/DayAddRecipe.tsx
 import { useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Clock, ChefHat, X, ChevronDown, ArrowLeft } from "lucide-react";
-import { Button, Input } from "@/components/ui";
+import { Search, Clock, ChefHat, X, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui";
 import { RECIPES } from "./recipes";
 import { addRecipeToDay } from "./planStore";
 

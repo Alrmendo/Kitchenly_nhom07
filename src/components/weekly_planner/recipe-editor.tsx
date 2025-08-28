@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, Clock, ChefHat, X, Plus, ChevronDown, ArrowLeft } from "lucide-react";
-import { Button, Input } from "@/components/ui";
+import { Search, Clock, ChefHat, X, ArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui";
 import { RECIPES, RECIPES_BY_ID } from "./recipes";
 import { loadPlan, replaceRecipeAt } from "./planStore";
 import ConfirmDialog from "../shared/confirmDialog";
