@@ -12,7 +12,7 @@ export default function OnboardingNew() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 
-          src="/Frame 582.png" 
+          src="/6d6e6c99-ef84-49ff-859d-bb09a12354d7.jpg" 
           alt="Delicious food" 
           className="w-full h-full object-cover"
         />
@@ -31,7 +31,7 @@ export default function OnboardingNew() {
             <h1 className="text-[#32201C] text-2xl font-bold mb-4 leading-tight">
               Gợi ý món ngon mỗi ngày
             </h1>
-            <p className="text-[#32201C] text-base leading-relaxed">
+            <p className="text-[#32201C] text-xl leading-relaxed">
               Khám phá cảm hứng mới với công thức nấu ăn mỗi ngày
             </p>
           </div>

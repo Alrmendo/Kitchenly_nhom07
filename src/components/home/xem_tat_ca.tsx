@@ -158,7 +158,7 @@ export default function ViewAllPage({ activeTab, onTabChange }: ViewAllPageProps
                 {/* Rating */}
                 <div className="flex items-center gap-1">
                   <span className="text-[#ff8c94] text-sm font-medium">{item.rating}</span>
-                  <Star className="w-3 h-3 text-[#ff8c94] fill-[#ff8c94]" />
+                  <Star className="w-3 h-3 fill-[#f8b64c] text-[#f8b64c]" />
                 </div>
 
                 {/* Time */}

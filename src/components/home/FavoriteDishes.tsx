@@ -36,8 +36,8 @@ export const FavoriteDishes: React.FC<FavoriteDishesProps> = ({ dishes = DEFAULT
     // Có thể thêm navigation cho các món khác ở đây
   };
   return (
-    <div className="mb-20 px-6">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="mb-5 px-6">
+      <div className="mb-2 flex items-center justify-between">
         <h2 className="text-xl font-bold text-[#000000]">{title}</h2>
         {showViewAll && (
           <Button 
@@ -59,7 +59,7 @@ export const FavoriteDishes: React.FC<FavoriteDishesProps> = ({ dishes = DEFAULT
               >
                 <Image src={dish.image || "/placeholder.svg"} alt={dish.name} fill className="object-cover" />
                 <Button size="icon" variant="ghost" className="absolute top-3 right-3 h-10 w-10 rounded-full bg-white/90 hover:bg-white shadow-sm">
-                  <Heart className="h-5 w-5 text-[#f8b64c]" />
+                  <Heart className="h-5 w-5 text-[#ff8c94]" />
                 </Button>
                 <div className="absolute bottom-3 left-6 right-6 rounded-2xl bg-white px-2 py-2 text-center">
                   <span className="text-base font-semibold text-[#343434]">{dish.name}</span>

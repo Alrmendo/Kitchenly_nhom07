@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { BottomNavigation } from ".";
 import NoIngredientMatchPage from "./no_ingredient_match";
+import FoodFilterModal, { type FilterState } from "./food-filter-modal";
 
 interface IngredientSuggestionsAllPageProps {
   activeTab: string;
@@ -65,15 +66,47 @@ export default function IngredientSuggestionsAllPage({ activeTab, onTabChange }:
   const navigate = useNavigate();
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [filters, setFilters] = useState<FilterState>({
+    selectedFood: "Tất cả",
+    selectedDiet: "Bất kì",
+    selectedLevel: "Trung bình", 
+    selectedTime: "25"
+  });
 
   const filteredDishes = useMemo(() => {
-    if (!searchQuery) {
-      return allDishes;
+    let filtered = allDishes;
+
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter(dish =>
+        dish.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }
-    return allDishes.filter(dish =>
-      dish.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery]);
+
+    // Apply filters
+    if (filters.selectedFood !== "Tất cả") {
+      filtered = filtered.filter(dish => dish.mealType === filters.selectedFood);
+    }
+
+    if (filters.selectedLevel !== "Trung bình") {
+      filtered = filtered.filter(dish => dish.difficulty === filters.selectedLevel);
+    }
+
+    if (filters.selectedTime !== "25") {
+      const timeValue = parseInt(filters.selectedTime);
+      filtered = filtered.filter(dish => {
+        const itemTime = parseInt(dish.time);
+        return Math.abs(itemTime - timeValue) <= 10; // Allow ±10 minutes tolerance
+      });
+    }
+
+    return filtered;
+  }, [searchQuery, filters]);
+
+  const handleFilterApply = (newFilters: FilterState) => {
+    setFilters(newFilters);
+  };
 
   const featuredDish = useMemo(() => filteredDishes.find(d => d.isFeatured), [filteredDishes]);
   const otherDishes = useMemo(() => filteredDishes.filter(d => !d.isFeatured), [filteredDishes]);
@@ -87,11 +120,14 @@ export default function IngredientSuggestionsAllPage({ activeTab, onTabChange }:
         </button>
         <h1 className="text-lg font-semibold text-[#32201c]">Gợi ý theo nguyên liệu</h1>
         <div className="flex gap-2">
-          <div className="w-10 h-10 bg-[#ffc6c9] rounded-full flex items-center justify-center">
-            <Filter className="w-5 h-5 text-[#fd5d69]" />
-          </div>
+          <button 
+            onClick={() => setIsFilterModalOpen(true)}
+            className="w-10 h-10 bg-[#ffc6c9] rounded-full flex items-center justify-center"
+          >
+            <Filter className="w-5 h-5 text-black" />
+          </button>
           <button onClick={() => setSearchVisible(!searchVisible)} className="w-10 h-10 bg-[#ffc6c9] rounded-full flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-110 active:scale-95">
-            <Search className={`w-5 h-5 text-[#fd5d69] transition-transform duration-200 ${searchVisible ? 'rotate-90' : 'rotate-0'}`} />
+            <Search className={`w-5 h-5 text-black transition-transform duration-200 ${searchVisible ? 'rotate-90' : 'rotate-0'}`} />
           </button>
         </div>
       </div>
@@ -201,6 +237,13 @@ export default function IngredientSuggestionsAllPage({ activeTab, onTabChange }:
 
       {/* Bottom Navigation */}
       <BottomNavigation activeTab={activeTab} onTabChange={onTabChange} />
+
+      {/* Filter Modal */}
+      <FoodFilterModal
+        isOpen={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        onApplyFilter={handleFilterApply}
+      />
     </div>
   )
 }

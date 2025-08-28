@@ -32,7 +32,7 @@ export const WeeklyHotDishes: React.FC<WeeklyHotDishesProps> = ({ className = ""
   const navigate = useNavigate();
   
   return (
-    <div className={`px-6 mb-8 ${className}`}>
+    <div className={`px-6 mb-5 ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-[#000000]">Món hot trong tuần</h2>
