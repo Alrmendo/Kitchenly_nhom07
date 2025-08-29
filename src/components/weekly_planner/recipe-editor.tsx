@@ -13,15 +13,15 @@ type NavState = {
 };
 
 const RECIPE_IMAGE_BY_NAME: Record<string, string> = {
-  "avocado toast": "/avocadotoast.png?height=40&width=40",
-  "overnight oats": "/overnight-oats.png?height=40&width=40",
-  "grilled chicken salad": "/GrilledChickenSalad.png?height=40&width=40",
-  "vegetarian stir fry": "/VegetarianStirFry.png?height=40&width=40",
-  "salmon teriyaki": "/SalmonTeriyaki.png?height=40&width=40",
-  "quinoa buddha bowl": "/QuinoaBuddhaBowl.png?height=40&width=40",
-  "greek yogurt parfait": "/GreekYogurtParfait.png?height=40&width=40",
-  "turkey wrap": "/TurkeyWrap.png?height=40&width=40",
-  "mushroom risotto": "/MushroomRisotto.png?height=40&width=40"
+  "bánh mì bơ": "/avocadotoast.png?height=40&width=40",
+  "yến mạch ngâm qua đêm": "/overnight-oats.png?height=40&width=40",
+  "salad gà nướng": "/GrilledChickenSalad.png?height=40&width=40",
+  "rau củ xào chay": "/VegetarianStirFry.png?height=40&width=40",
+  "cá hồi sốt teriyaki": "/SalmonTeriyaki.png?height=40&width=40",
+  "bát quinoa dinh dưỡng": "/QuinoaBuddhaBowl.png?height=40&width=40",
+  "parfait sữa chua hy lạp": "/GreekYogurtParfait.png?height=40&width=40",
+  "bánh cuộn gà tây": "/TurkeyWrap.png?height=40&width=40",
+  "cơm risotto nấm": "/MushroomRisotto.png?height=40&width=40"
 };
 const imgFor = (name?: string) => {
   const key = (name ?? "").trim().toLowerCase();
