@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Heart, Share2, Play, Clock, Users, Star } from "lucide-react";
+import { ArrowLeft, Heart, Share2, Play, Clock, Users, Star, Check, X } from "lucide-react";
 import { BottomNavigation } from "../shared/BottomNavigation";
 
 interface TiramisuRecipePageProps {
@@ -73,63 +73,66 @@ export default function TiramisuRecipePage({ activeTab, onTabChange }: TiramisuR
 
         {/* Nguyên liệu */}
         <section>
-          <h3 className="text-lg font-semibold text-[#ff8c94] mb-2">Nguyên liệu</h3>
-          <div className="space-y-2">
-            <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
-              <div className="w-8 h-8 bg-[#ffc6c9] rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-[#ec888d] rounded-full"></div>
+          <h3 className="text-lg font-semibold text-[#ff8c94] mb-4">Nguyên liệu</h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-md border border-[#FF8C94]">
+              <div className="w-10 h-10 bg-[#FFC6C9]/52 border border-[#FF8C94] rounded-full flex items-center justify-center">
+                <Check className="w-5 h-5 text-[#FF8C94]" />
               </div>
               <div className="flex-1">
-                <span className="text-[#111827] font-medium">Bơ nhạt</span>
+                <span className="text-[#111827] font-medium text-base">Bơ nhạt</span>
                 <div className="text-[#6b7280] text-sm">1/2 cốc</div>
               </div>
             </div>
-
-            <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
-              <div className="w-8 h-8 bg-[#ffc6c9] rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-[#ec888d] rounded-full"></div>
+            
+            <div className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-md border border-[#FF8C94]">
+              <div className="w-10 h-10 bg-[#FFC6C9]/52 border border-[#FF8C94] rounded-full flex items-center justify-center">
+                <X className="w-5 h-5 text-[#FF8C94]" />
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-[#111827] font-medium">Trứng gà</span>
-                  <span className="text-[#6b7280]">➤ Trứng vịt</span>
+                  <span className="text-[#111827] font-medium text-base">Trứng gà</span>
+                  <span className="text-[#6b7280]">≈ Trứng vịt</span>
                 </div>
                 <div className="text-[#6b7280] text-sm">2 quả</div>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
-              <div className="w-8 h-8 bg-[#ffc6c9] rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-[#ec888d] rounded-full"></div>
+            <div className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-md border border-[#FF8C94]">
+              <div className="w-10 h-10 bg-[#FFC6C9]/52 border border-[#FF8C94] rounded-full flex items-center justify-center">
+                <Check className="w-5 h-5 text-[#FF8C94]" />
               </div>
               <div className="flex-1">
-                <span className="text-[#111827] font-medium">Cà phê</span>
+                <span className="text-[#111827] font-medium text-base">Cà phê</span>
                 <div className="text-[#6b7280] text-sm">1 thìa</div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between gap-3 p-2 bg-white rounded-lg shadow-sm">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-[#ffc6c9] rounded-full flex items-center justify-center">
-                  <div className="w-2 h-2 bg-[#ec888d] rounded-full"></div>
+            <div className="flex items-center justify-between gap-4 p-4 bg-white rounded-2xl shadow-md border border-[#FF8C94]">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-[#FFC6C9]/52 border border-[#FF8C94] rounded-full flex items-center justify-center">
+                  <Check className="w-5 h-5 text-[#FF8C94]" />
                 </div>
                 <div className="flex-1">
-                  <span className="text-[#111827] font-medium">Bột mì đa dụng</span>
+                  <span className="text-[#111827] font-medium text-base">Bột mì đa dụng</span>
                   <div className="text-[#6b7280] text-sm">1/2 cốc</div>
                 </div>
               </div>
-              <span className="text-xs bg-[#ff8c94] text-white px-2 py-1 rounded-full">Sắp hết hạn</span>
+              <span className="text-xs bg-[#FF8C94] text-white px-3 py-1 rounded-full">
+                Sắp hết hạn
+              </span>
             </div>
 
-            <div className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm">
-              <div className="w-8 h-8 bg-[#ffc6c9] rounded-full flex items-center justify-center">
-                <div className="w-2 h-2 bg-[#ec888d] rounded-full"></div>
+            <div className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-md border border-[#FF8C94]">
+              <div className="w-10 h-10 bg-[#FFC6C9]/52 border border-[#FF8C94] rounded-full flex items-center justify-center">
+                <Check className="w-5 h-5 text-[#FF8C94]" />
               </div>
               <div className="flex-1">
-                <span className="text-[#111827] font-medium">Hạt óc chó</span>
+                <span className="text-[#111827] font-medium text-base">Hạt óc chó</span>
                 <div className="text-[#6b7280] text-sm">1/2 cốc</div>
               </div>
             </div>
+
           </div>
         </section>
 
@@ -137,35 +140,35 @@ export default function TiramisuRecipePage({ activeTab, onTabChange }: TiramisuR
         <section>
           <h3 className="text-lg font-semibold text-[#ff8c94] mb-2">Bước làm</h3>
           <div className="space-y-2">
-            <div className="bg-[#ff8c94] p-3 rounded-lg text-white">
+            <div className="bg-[#EC888D]/70 p-3 rounded-lg text-[#3B2B24]">
               <div className="font-semibold mb-1">1. Đánh kem:</div>
               <p className="text-sm">
                 Đánh kem tươi với đường, cho mascarpone vào đánh đến khi hỗn hợp mịn.
               </p>
             </div>
 
-            <div className="bg-[#ff8c94] p-3 rounded-lg text-white">
+            <div className="bg-[#FFC6C9]/75 p-3 rounded-lg text-[#3B2B24]">
               <div className="font-semibold mb-1">2. Pha cà phê:</div>
               <p className="text-sm">
                 Pha cà phê đen đậm đà, để nguội hoàn toàn.
               </p>
             </div>
 
-            <div className="bg-[#ff8c94] p-3 rounded-lg text-white">
+            <div className="bg-[#EC888D]/70 p-3 rounded-lg text-[#3B2B24]">
               <div className="font-semibold mb-1">3. Nhúng bánh:</div>
               <p className="text-sm">
                 Nhúng nhanh bánh ladyfinger vào cà phê để thấm.
               </p>
             </div>
 
-            <div className="bg-[#ff8c94] p-3 rounded-lg text-white">
+            <div className="bg-[#FFC6C9]/75 p-3 rounded-lg text-[#3B2B24]">
               <div className="font-semibold mb-1">4. Xếp lớp:</div>
               <p className="text-sm">
                 Xếp lớp bánh và kem luân phiên, kết thúc bằng lớp kem.
               </p>
             </div>
 
-            <div className="bg-[#ff8c94] p-3 rounded-lg text-white">
+            <div className="bg-[#EC888D]/70 p-3 rounded-lg text-[#3B2B24]">
               <div className="font-semibold mb-1">5. Làm lạnh & trang trí:</div>
               <p className="text-sm">
                 Để tủ lạnh ít nhất 4 tiếng, rắc bột cacao trước khi dùng.
