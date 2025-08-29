@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/use-auth";
 import { CookingMode } from "./components/cooking-mode";
+import CookedDishes from "./components/cooked-dishes/CookedDishes";
 import { HomePage, FoodSuggestionsPage, NotificationsHomePage, TiramisuRecipePage, ViewAllPage, IngredientSuggestionsAllPage, WeeklyHotDishAllPage, SeasonalDishesAllPage, FavoriteDishesAllPage } from "./components/home";
 import { ManageIngredientsPage } from "./components/manage_ingredients";
 import { AddIngredientsPage } from "./components/manage_ingredients/add_ingredients";
@@ -82,6 +83,7 @@ function AppRoutes() {
       <Route path="/seasonal-dishes" element={<SeasonalDishesAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/favorite-dishes" element={<FavoriteDishesAllPage activeTab={activeTab} onTabChange={handleTabChange} />} />
       <Route path="/cooking" element={<CookingMode />} />
+      <Route path="/cooked-dishes" element={<CookedDishes />} />
       <Route path="/weekly-menu" element={<WeeklyMenuDemo />} />
       <Route path="/weekly-planner" element={<WeeklyPlannerPage />} />
       <Route path="/weekly-planner/day-add" element={<DayAddRecipe />} />

@@ -17,60 +17,52 @@ export default function PreferencesPage() {
   };
 
   const dietaryOptions = [
-  "Ăn chay",
-  "Thuần chay",
-  "Ăn cá",
-  "Keto",
-  "Paleo",
-  "Ít tinh bột",
-  "Ít chất béo",
-  "Ít muối",
-  "Không chứa gluten",
-  "Không chứa sữa",
-  "Không chứa hạt",
-  "Giàu protein",
-  "Giàu chất xơ",
-  "Địa Trung Hải",
-  "Thân thiện cho người tiểu đường",
-]
 
-const cuisineOptions = [
-  "Ý",
-  "Mexico",
-  "Châu Á",
-  "Địa Trung Hải",
-  "Mỹ",
-  "Ấn Độ",
-  "Thái",
-  "Nhật Bản",
-  "Pháp",
-  "Hy Lạp",
-  "Trung Đông",
-  "Trung Quốc",
-  "Hàn Quốc",
-  "Tây Ban Nha",
-  "Việt Nam",
-  "Lebanon",
-]
+    "Ăn chay",
+    "Nhiều đạm",
+    "Ít mặn",
+    "Nhiều calo",
+    "Ăn cay",
+    "Ít béo",
+    "Ít ngọt",
+    "Nhiều protein",
+    "Nhiều đường",
+    "Hạn chế tinh bột",
+    "Nhiều rau",
+    "Hạn chế thịt",
+    "Giàu omega 3",
+  ]
 
-const commonDislikes = [
-  "Nấm",
-  "Hành tây",
-  "Tỏi",
-  "Ngò",
-  "Ô liu",
-  "Cà chua",
-  "Ớt chuông",
-  "Hải sản",
-  "Đồ cay",
-  "Dừa",
-  "Bơ",
-  "Bông cải xanh",
-  "Bắp cải tí hon",
-  "Phô mai xanh",
-  "Cá cơm",
-]
+  const cuisineOptions = [
+    "Ý",
+    "Mexico",
+    "Châu Á",
+    "Châu Âu",
+    "Mỹ",
+    "Nhật Bản",
+    "Thái Lan",
+    "Hàn Quốc",
+    "Pháp",
+    "Trung Quốc",
+    "Anh",
+    "Việt Nam",
+    "Hy Lạp",
+  ]
 
+  const commonDislikes = [
+    "Nấm",
+    "Tỏi",
+    "Hành",
+    "Ớt",
+    "Đậu",
+    "Cà chua",
+    "Đậu hà lan",
+    "Hải sản",
+    "Bơ đậu phụng",
+    "Cà tím",
+    "Gừng",
+    "Phô mai",
+  ]
 
   const toggleSelection = (item: string, list: string[], setList: (items: string[]) => void) => {
     if (list.includes(item)) {
@@ -105,8 +97,8 @@ const commonDislikes = [
       <div className="p-4 space-y-6">
         {/* Dietary Restrictions */}
         <Card className="p-6 bg-white border-[#ff8c94]/20">
-          <h2 className="text-lg font-semibold text-[#32201c] mb-4 flex items-center gap-2">
-            <span className="text-[#ff8c94]">🥗</span>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4 flex items-center gap-2">
+            <span className="text-[#FF8C94]"></span>
             Hạn chế chế độ ăn
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -128,8 +120,8 @@ const commonDislikes = [
 
         {/* Preferred Cuisines */}
         <Card className="p-6 bg-white border-[#ff8c94]/20">
-          <h2 className="text-lg font-semibold text-[#32201c] mb-4 flex items-center gap-2">
-            <span className="text-[#ff8c94]">🍜</span>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4 flex items-center gap-2">
+            <span className="text-[#ff8c94]"></span>
             Ẩm thực yêu thích
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -151,7 +143,9 @@ const commonDislikes = [
 
         {/* Disliked Ingredients */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-4">Những nguyên liệu không thích</h2>
+
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Thành phần không thích</h2>
+
 
           <div className="flex gap-2 mb-4">
             <Input
@@ -161,13 +155,14 @@ const commonDislikes = [
               onKeyPress={(e) => e.key === "Enter" && addIngredient()}
               className="flex-1 border-[#e5e5e5] focus:border-[#ff6900]"
             />
-            <Button onClick={addIngredient} size="icon" className="bg-[#ff6900] hover:bg-[#ca3500] text-white">
+            <Button onClick={addIngredient} size="icon" className="bg-[#f07784]  hover:bg-[#ca3500] text-white">
               <Plus className="w-4 h-4" />
             </Button>
           </div>
 
           <div className="mb-4">
             <p className="text-sm text-[#737373] mb-2">Những nguyên liệu không thích:</p>
+
             <div className="flex flex-wrap gap-2">
               {commonDislikes.map((ingredient) => (
                 <button
@@ -188,7 +183,8 @@ const commonDislikes = [
 
         {/* Cooking Preferences */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-6">Sở thích nấu ăn</h2>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-6">Mức độ công thức</h2>
+
 
           <div className="mb-6">
             <p className="text-sm font-medium text-[#0a0a0a] mb-4">Thời gian nấu tối đa: {cookingTime[0]} phút</p>
@@ -202,15 +198,17 @@ const commonDislikes = [
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-[#737373] mt-2">
-                <span>10 min</span>
-                <span>60 min</span>
-                <span>120 min</span>
+                <span>10 phút</span>
+                <span>60 phút</span>
+                <span>120 phút</span>
               </div>
             </div>
           </div>
 
           <div>
-            <p className="text-sm font-medium text-[#0a0a0a] mb-3">Mức độ khó</p>
+
+            <p className="text-sm font-medium text-[#0a0a0a] mb-3">Mức độ</p>
+
             <div className="flex gap-2">
               {["Dễ", "Trung bình", "Khó"].map((level) => (
                 <button
@@ -219,10 +217,10 @@ const commonDislikes = [
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     difficulty === level
                       ? level === "Easy"
-                        ? "bg-[#00c950] text-white"
+                        ? "bg-[#FF8C94] text-white"
                         : level === "Medium"
-                          ? "bg-[#ff6900] text-white"
-                          : "bg-[#737373] text-white"
+                          ? "bg-[#FF8C94] text-white"
+                          : "bg-[#FF8C94] text-white"
                       : "bg-[#f5f5f5] text-[#737373] hover:bg-[#e5e5e5]"
                   }`}
                 >
@@ -235,37 +233,42 @@ const commonDislikes = [
 
         {/* Priority Settings */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-4">Cài đặt ưu tiên</h2>
+
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Mức độ ưu tiên</h2>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Ưu tiên nguyên liệu theo mùa</p>
-                <p className="text-sm text-[#737373]">Gợi ý công thức với nguyên liệu theo mùa</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên các thực phẩm theo mùa</p>
+                <p className="text-sm text-[#737373]">Gợi ý công thức nấu ăn với các sản phẩm theo mùa</p>
               </div>
               <Switch />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Ưu tiên nguyên liệu giá rẻ</p>
-                <p className="text-sm text-[#737373]">Tập trung vào các tùy chọn bữa ăn tiết kiệm</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên các thực phẩm có chi phí thấp</p>
+                <p className="text-sm text-[#737373]">Tập trung vào các lựa chọn bữa ăn tiết kiệm</p>
               </div>
               <Switch />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Ưu tiên các tùy chọn lành mạnh</p>
-                <p className="text-sm text-[#737373]">Nhấn mạnh các bữa ăn dinh dưỡng, cân bằng</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên thức ăn lành mạnh</p>
+                <p className="text-sm text-[#737373]">Tập trung vào công thức giàu dinh dưỡng</p>
               </div>
               <Switch defaultChecked />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Sử dụng nguyên liệu sắp hết hạn trước</p>
-                <p className="text-sm text-[#737373]">Ưu tiên công thức sử dụng các nguyên liệu sắp hết hạn</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên thực phẩm sắp hết hạn</p>
+                <p className="text-sm text-[#737373]">Ưu tiên các công thức sử dụng nguyên liệu sắp hết hạn</p>
               </div>
               <Switch defaultChecked />
             </div>
@@ -274,7 +277,7 @@ const commonDislikes = [
 
         {/* Save Button */}
         <Button className="w-full bg-[#ff8c94] hover:bg-[#f07784] text-white py-4 text-lg font-semibold">
-          Lưu tùy chỉnh
+          Lưu tùy chọn
         </Button>
       </div>
     </div>
