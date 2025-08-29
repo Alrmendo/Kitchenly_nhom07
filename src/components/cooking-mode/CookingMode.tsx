@@ -26,62 +26,55 @@ export default function CookingMode() {
   const steps = useMemo(
     () => [
       {
-        title: "Chuẩn bị kem chua",
+        title: "Chuẩn bị phần cà phê nhúng bánh",
         content: "Pha trộn kem chua với gia vị để tạo sốt taco",
-        timer: 300, // 5 p
-        ingredients: ["1/2 chén kem chua (sour cream)", "2 muỗng canh nước cốt chanh tươi", "1 muỗng cà phê muối", "1/2 muỗng cà phê tiêu đen"],
-        image: "/sot_kem.png",
+        timer: 0,
+        ingredients: ["Pha 200ml cà phê đen đặc", "Cho vào 2–3 muỗng canh rượu Rhum", "Để nguội hẳn"],
+        image: "/kem.jpg",
         imageAlt: "Creamy white sauce in a bowl",
       },
       {
-        title: "Nước sốt cà chua",
-        timer: 300, // 5 p
-        ingredients: ["2 quả cà chua chín", "1/4 hành tây băm nhỏ", "2 tép tỏi băm nhỏ", "1 muỗng canh dầu olive", "Muối, tiêu theo khẩu vị"],
-        image: "/sot_nam.png",
+        title: "Đánh lòng đỏ trứng",
+        timer: 0,
+        ingredients: ["Cho 3 lòng đỏ trứng + 80g đường vào tô, đánh đến khi vàng nhạt, sánh mịn", "Thêm 250g mascarpone vào, trộn đều đến khi mịn mượt"],
+        image: "/do.jpg",
         imageAlt: "Red tomato sauce in a bowl",
       },
       {
-        title: "Sơ chế cá",
+        title: "Đánh bông kem whipping",
         timer: 0,
-        ingredients: ["2 phi lê cá tươi (khoảng 400g)", "Rửa sạch và thấm khô bằng khăn giấy", "Cắt thành miếng vừa ăn"],
-        image: "/ga_vien.png",
+        ingredients: ["Đổ 200ml kem whipping vào tô lạnh, đánh bông mềm (chóp đứng nhẹ)", "Trộn kem này nhẹ nhàng vào hỗn hợp mascarpone"],
+        image: "/kem1.jpg",
         imageAlt: "Fresh fish fillets on a white plate",
       },
       {
-        title: "Ướp cá",
-        timer: 900, // 15 p
-        ingredients: ["Phi lê cá đã sơ chế", "2 muỗng canh dầu olive", "1 muỗng cà phê bột ớt paprika", "1/2 muỗng cà phê bột tỏi", "Muối, tiêu theo khẩu vị", "Nước cốt chanh (1 muỗng canh)"],
-        image: "/ga_vien.png",
+        title: "Đánh bông lòng trắng trứng",
+        timer: 0, 
+        ingredients: ["Cho 3 lòng trắng trứng + 1 nhúm muối, đánh đến khi bông cứng"],
+        image: "/trang.webp",
         imageAlt: "Marinated fish with spices",
       },
       {
-        title: "Nướng cá",
-        timer: 720, // 12 p
-        ingredients: ["Cá đã ướp", "Làm nóng chảo hoặc grill ở nhiệt độ trung bình", "Nướng mỗi mặt 5-6 phút", "Cá chín khi dễ dàng tách bằng nĩa"],
-        image: "/ga_vien.png",
+        title: "Hoàn thiện kem",
+        timer: 300, // 5p
+        ingredients: ["Trộn phần lòng trắng đã đánh bông vào hỗn hợp mascarpone để giữ độ xốp", "Đợi 5 phút để kem nghỉ"],
+        image: "/kem.jpg",
         imageAlt: "Grilled fish on a cooking pan",
       },
       {
-        title: "Ướp cá",
-        timer: 900, // 15 p
-        ingredients: ["Cá đã nướng sơ", "1 muỗng canh mật ong", "1/2 muỗng cà phê bột ớt chipotle", "Rắc thêm muối biển", "Để cá thấm gia vị thêm 15 phút"],
-        image: "/ga_vien.png",
+        title: "Lắp ráp Tiramisu",
+        timer: 0, 
+        ingredients: ["Nhúng ladyfinger vào cà phê trong 1–2 giây", "Xếp một lớp bánh vào đáy khuôn/khay", "Phủ một lớp kem tiramisu lên trên"],
+        image: "/tiramisu1.jpeg",
         imageAlt: "Fish with additional marinade",
       },
       {
-        title: "Lắp ráp Taco",
+        title: "Hoàn thiện Tiramisu",
         timer: 0,
-        ingredients: ["Bánh tortilla làm ấm", "Cá nướng đã hoàn thành", "Kem chua đã pha chế", "Sốt cà chua", "Rau xà lách tươi", "Hành tây thái lát mỏng", "Rau mùi tươi"],
-        image: "/tiramisu.png",
+        ingredients: ["Dùng rây mịn, rắc bột cacao phủ đều mặt bánh", "Cá nướng đã hoàn thành", "Đậy kín, để ngăn mát ít nhất 4–6 tiếng  (ngon nhất là để qua đêm)"],
+        image: "/tiramisu2.png",
         imageAlt: "Assembled fish tacos ready to serve",
-      },
-      {
-        title: "Hoàn thành!",
-        timer: 0,
-        ingredients: ["Taco đã hoàn thành", "Trang trí với lát chanh", "Phục vụ ngay khi còn nóng", "Thưởng thức cùng gia đình"],
-        image: "/tiramisu.png",
-        imageAlt: "Finished fish tacos on a serving plate",
-      },
+      }
     ],
     []
   );
@@ -293,7 +286,7 @@ export default function CookingMode() {
 
                 {/* Ingredients */}
                 <div className="space-y-2">
-                  <h3 className="mb-2 text-base font-bold text-gray-900">Nguyên liệu cần:</h3>
+                  {/* <h3 className="mb-2 text-base font-bold text-gray-900">Nguyên liệu cần:</h3> */}
                   <div className="space-y-1">
                     {currentStepData.ingredients.map((ingredient, index) => (
                       <div key={index} className="flex items-start rounded-lg border border-gray-100 bg-gray-50 p-2">
@@ -391,29 +384,29 @@ export default function CookingMode() {
                 {/* AI Messages */}
                 <div className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl rounded-tl-md border border-[#FF8C94]/20 bg-[#FF8C94]/10 px-4 py-3">
-                    <p className="text-sm leading-relaxed text-gray-800">Tôi đã chuẩn bị xong nguyên liệu rồi. Bây giờ tôi cần làm gì tiếp theo</p>
+                    <p className="text-sm leading-relaxed text-gray-800">Xin chào! Bạn có muốn cùng mình làm một chiếc bánh tiramisu thơm ngon không?</p>
                   </div>
                 </div>
 
                 <div className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl rounded-tl-md border border-[#FF8C94]/20 bg-[#FF8C94]/10 px-4 py-3">
-                    <p className="text-sm leading-relaxed text-gray-800">Tuyệt vời! Bước đầu tiên, chúng ta cần ướp cá. Bạn hãy rửa sạch và thấm khô bằng giấy ăn.</p>
+                    <p className="text-sm leading-relaxed text-gray-800">Tuyệt vời! Bước đầu tiên, bạn cần chuẩn bị các nguyên liệu sau.</p>
                   </div>
                 </div>
 
                 <div className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl rounded-tl-md border border-[#FF8C94]/20 bg-[#FF8C94]/10 px-4 py-3">
-                    <p className="text-sm leading-relaxed text-gray-800">Tiếp theo, hãy cắt cá thành từng miếng vừa ăn (dài khoảng 5-7cm)</p>
+                    <p className="text-sm leading-relaxed text-gray-800">Bánh ladyfinger, phô mai mascarpone, trứng gà, đường, cà phê đậm, bột cacao. Bạn đã có đủ chưa?</p>
                   </div>
                 </div>
 
                 <div className="flex justify-end">
-                  <Button className="rounded-full bg-[#FF8C94] px-6 py-2 text-sm text-white shadow-md hover:bg-[#f07784]">Tôi cắt xong rồi</Button>
+                  <Button className="rounded-full bg-[#FF8C94] px-6 py-2 text-sm text-white shadow-md hover:bg-[#f07784]">Mình có rồi.</Button>
                 </div>
 
                 <div className="flex justify-start">
                   <div className="max-w-[85%] rounded-2xl rounded-tl-md border border-[#FF8C94]/20 bg-[#FF8C94]/10 px-4 py-3">
-                    <p className="text-sm leading-relaxed text-gray-800">Bạn đang làm rất tốt! Hãy rắc đều bột ớt và muối kosher lên cá hai mặt cá.</p>
+                    <p className="text-sm leading-relaxed text-gray-800">Rồi, chúng ta bắt đầu. Trước tiên, bạn hãy pha một ly cà phê đậm, để nguội.</p>
                   </div>
                 </div>
               </div>
