@@ -1,4 +1,4 @@
-import { ArrowLeft, Bell, Mic, RotateCcw, SkipForward, Plus, Minus, Check } from "lucide-react";
+import { ArrowLeft, Volume2, Mic, RotateCcw, SkipForward, Plus, Minus, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -182,7 +182,7 @@ export default function CookingMode() {
           </Button>
           <h1 className="text-lg font-bold text-white drop-shadow-sm">Chế độ nấu ăn</h1>
           <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-white hover:bg-white/20">
-            <Bell className="h-5 w-5" />
+            <Volume2 className="h-5 w-5" />
           </Button>
         </div>
 
