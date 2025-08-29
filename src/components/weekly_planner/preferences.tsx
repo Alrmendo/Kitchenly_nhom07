@@ -17,58 +17,51 @@ export default function PreferencesPage() {
   };
 
   const dietaryOptions = [
-    "Vegetarian",
-    "Vegan",
-    "Pescatarian",
-    "Keto",
-    "Paleo",
-    "Low-carb",
-    "Low-fat",
-    "Low-salt",
-    "Gluten-free",
-    "Dairy-free",
-    "Nut-free",
-    "High-protein",
-    "High-fiber",
-    "Mediterranean",
-    "Diabetic-friendly",
+
+    "Ăn chay",
+    "Nhiều đạm",
+    "Ít mặn",
+    "Nhiều calo",
+    "Ăn cay",
+    "Ít béo",
+    "Ít ngọt",
+    "Nhiều protein",
+    "Nhiều đường",
+    "Hạn chế tinh bột",
+    "Nhiều rau",
+    "Hạn chế thịt",
+    "Giàu omega 3",
   ]
 
   const cuisineOptions = [
-    "Italian",
-    "Mexican",
-    "Asian",
-    "Mediterranean",
-    "American",
-    "Indian",
-    "Thai",
-    "Japanese",
-    "French",
-    "Greek",
-    "Middle Eastern",
-    "Chinese",
-    "Korean",
-    "Spanish",
-    "Vietnamese",
-    "Lebanese",
+    "Ý",
+    "Mexico",
+    "Châu Á",
+    "Châu Âu",
+    "Mỹ",
+    "Nhật Bản",
+    "Thái Lan",
+    "Hàn Quốc",
+    "Pháp",
+    "Trung Quốc",
+    "Anh",
+    "Việt Nam",
+    "Hy Lạp",
   ]
 
   const commonDislikes = [
-    "Mushrooms",
-    "Onions",
-    "Garlic",
-    "Cilantro",
-    "Olives",
-    "Tomatoes",
-    "Bell peppers",
-    "Seafood",
-    "Spicy food",
-    "Coconut",
-    "Avocado",
-    "Broccoli",
-    "Brussels sprouts",
-    "Blue cheese",
-    "Anchovies",
+    "Nấm",
+    "Tỏi",
+    "Hành",
+    "Ớt",
+    "Đậu",
+    "Cà chua",
+    "Đậu hà lan",
+    "Hải sản",
+    "Bơ đậu phụng",
+    "Cà tím",
+    "Gừng",
+    "Phô mai",
   ]
 
   const toggleSelection = (item: string, list: string[], setList: (items: string[]) => void) => {
@@ -150,7 +143,9 @@ export default function PreferencesPage() {
 
         {/* Disliked Ingredients */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-4">Disliked Ingredients</h2>
+
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Thành phần không thích</h2>
+
 
           <div className="flex gap-2 mb-4">
             <Input
@@ -166,7 +161,8 @@ export default function PreferencesPage() {
           </div>
 
           <div className="mb-4">
-            <p className="text-sm text-[#737373] mb-2">Common dislikes:</p>
+            <p className="text-sm text-[#737373] mb-2">Những nguyên liệu không thích:</p>
+
             <div className="flex flex-wrap gap-2">
               {commonDislikes.map((ingredient) => (
                 <button
@@ -187,7 +183,8 @@ export default function PreferencesPage() {
 
         {/* Cooking Preferences */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-6">Cooking Preferences</h2>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-6">Mức độ công thức</h2>
+
 
           <div className="mb-6">
             <p className="text-sm font-medium text-[#0a0a0a] mb-4">Thời gian nấu tối đa: {cookingTime[0]} phút</p>
@@ -209,7 +206,9 @@ export default function PreferencesPage() {
           </div>
 
           <div>
-            <p className="text-sm font-medium text-[#0a0a0a] mb-3">Preferred Difficulty Levels</p>
+
+            <p className="text-sm font-medium text-[#0a0a0a] mb-3">Mức độ</p>
+
             <div className="flex gap-2">
               {["Dễ", "Trung bình", "Khó"].map((level) => (
                 <button
@@ -234,37 +233,42 @@ export default function PreferencesPage() {
 
         {/* Priority Settings */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-4">Priority Settings</h2>
+
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Mức độ ưu tiên</h2>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Prioritize seasonal ingredients</p>
-                <p className="text-sm text-[#737373]">Suggest recipes with in-season produce</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên các thực phẩm theo mùa</p>
+                <p className="text-sm text-[#737373]">Gợi ý công thức nấu ăn với các sản phẩm theo mùa</p>
               </div>
               <Switch />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Prioritize low-cost ingredients</p>
-                <p className="text-sm text-[#737373]">Focus on budget-friendly meal options</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên các thực phẩm có chi phí thấp</p>
+                <p className="text-sm text-[#737373]">Tập trung vào các lựa chọn bữa ăn tiết kiệm</p>
               </div>
               <Switch />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Prioritize healthy options</p>
-                <p className="text-sm text-[#737373]">Emphasize nutritious, balanced meals</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên thức ăn lành mạnh</p>
+                <p className="text-sm text-[#737373]">Tập trung vào công thức giàu dinh dưỡng</p>
               </div>
               <Switch defaultChecked />
             </div>
 
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium text-[#0a0a0a]">Use expiring ingredients first</p>
-                <p className="text-sm text-[#737373]">Prioritize recipes that use items about to expire</p>
+
+                <p className="font-medium text-[#0a0a0a]">Ưu tiên thực phẩm sắp hết hạn</p>
+                <p className="text-sm text-[#737373]">Ưu tiên các công thức sử dụng nguyên liệu sắp hết hạn</p>
               </div>
               <Switch defaultChecked />
             </div>
