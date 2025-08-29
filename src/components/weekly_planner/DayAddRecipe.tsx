@@ -8,6 +8,22 @@ import { addRecipeToDay } from "./planStore";
 
 type NavState = { date?: string }; // YYYY-MM-DD
 
+const RECIPE_IMAGE_BY_NAME: Record<string, string> = {
+  "avocado toast": "/avocadotoast.png?height=40&width=40",
+  "overnight oats": "/overnight-oats.png?height=40&width=40",
+  "grilled chicken salad": "/GrilledChickenSalad.png?height=40&width=40",
+  "vegetarian stir fry": "/VegetarianStirFry.png?height=40&width=40",
+  "salmon teriyaki": "/SalmonTeriyaki.png?height=40&width=40",
+  "quinoa buddha bowl": "/QuinoaBuddhaBowl.png?height=40&width=40",
+  "greek yogurt parfait": "/GreekYogurtParfait.png?height=40&width=40",
+  "turkey wrap": "/TurkeyWrap.png?height=40&width=40",
+  "mushroom risotto": "/MushroomRisotto.png?height=40&width=40"
+};
+const imgFor = (name?: string, fallback?: string) => {
+  const key = (name ?? "").trim().toLowerCase();
+  return RECIPE_IMAGE_BY_NAME[key] ?? fallback ?? "/placeholder.svg";
+};
+
 export default function DayAddRecipe() {
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -51,7 +67,7 @@ export default function DayAddRecipe() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#666666]" />
             <Input
-              placeholder="Search recipes..."
+              placeholder="Tìm kiếm món ăn..."
               value={q}
               onChange={(e) => setQ(e.target.value)}
               className="pl-10 bg-[#fafafa] border-[#e5e5e5] text-[#666666] placeholder:text-[#99a1af]"
@@ -66,7 +82,14 @@ export default function DayAddRecipe() {
               onClick={() => handlePick(recipe.id)}
               className="w-full text-left flex gap-3 p-3 rounded-xl border border-[#e5e5e5] hover:bg-[#fafafa]"
             >
-              <div className="w-16 h-16 bg-[#eaeaea] rounded-lg flex-shrink-0" />
+              <div className="w-16 h-16 bg-[#eaeaea] rounded-lg overflow-hidden flex-shrink-0">
+                <img
+                  src={imgFor(recipe.name)}
+                  alt={recipe.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-[#000000] mb-1">{recipe.name}</h4>
                 <div className="flex items-center gap-3 text-sm mb-2">
