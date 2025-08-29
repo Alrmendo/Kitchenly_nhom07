@@ -4,10 +4,10 @@ export const RECIPES: Recipe[] = [
   // 1
   {
     id: 1,
-    name: "Grilled Chicken Salad",
-    time: "25 min",
-    difficulty: "Medium",
-    tags: ["Low-carb", "High-protein"],
+    name: "Salad gà nướng",
+    time: "25 phút",
+    difficulty: "Trung bình",
+    tags: ["Ít tinh bột", "Giàu đạm"],
     ingredients: [
       { name: "Dưa leo", qty: 1, unit: "quả" },
       { name: "Giấm balsamic", qty: 15, unit: "ml" },
@@ -16,10 +16,10 @@ export const RECIPES: Recipe[] = [
   // 2
   {
     id: 2,
-    name: "Vegetarian Stir Fry",
-    time: "20 min",
-    difficulty: "Easy",
-    tags: ["Vegan", "Low-salt"],
+    name: "Rau củ xào chay",
+    time: "20 phút",
+    difficulty: "Dễ",
+    tags: ["Chay", "Ít muối"],
     ingredients: [
       { name: "Nấm", qty: 200, unit: "g" },
     ],
@@ -27,10 +27,10 @@ export const RECIPES: Recipe[] = [
   // 3
   {
     id: 3,
-    name: "Overnight Oats",
-    time: "5 min",
-    difficulty: "Easy",
-    tags: ["Vegetarian", "High-fiber"],
+    name: "Yến mạch ngâm qua đêm",
+    time: "5 phút",
+    difficulty: "Dễ",
+    tags: ["Chay", "Giàu chất xơ"],
     ingredients: [
       { name: "Yến mạch", qty: 60, unit: "g" },
       { name: "Sữa hạnh nhân", qty: 200, unit: "ml" },
@@ -41,10 +41,10 @@ export const RECIPES: Recipe[] = [
   // 4
   {
     id: 4,
-    name: "Salmon Teriyaki",
-    time: "30 min",
-    difficulty: "Medium",
-    tags: ["Low-carb", "Omega-3"],
+    name: "Cá hồi sốt Teriyaki",
+    time: "30 phút",
+    difficulty: "Trung bình",
+    tags: ["Ít tinh bột", "Omega-3"],
     ingredients: [
       { name: "Cá hồi phi lê", qty: 2, unit: "miếng" },
       { name: "Nước tương Teriyaki", qty: 60, unit: "ml" },
@@ -55,10 +55,10 @@ export const RECIPES: Recipe[] = [
   // 5
   {
     id: 5,
-    name: "Quinoa Buddha Bowl",
-    time: "35 min",
-    difficulty: "Medium",
-    tags: ["Vegan", "High-protein"],
+    name: "Bát quinoa dinh dưỡng",
+    time: "35 phút",
+    difficulty: "Trung bình",
+    tags: ["Chay", "Giàu đạm"],
     ingredients: [
       { name: "Hạt quinoa", qty: 100, unit: "g" },
     ],
@@ -66,10 +66,10 @@ export const RECIPES: Recipe[] = [
   // 6
   {
     id: 6,
-    name: "Greek Yogurt Parfait",
-    time: "5 min",
-    difficulty: "Easy",
-    tags: ["Vegetarian", "High-protein"],
+    name: "Parfait sữa chua Hy Lạp",
+    time: "5 phút",
+    difficulty: "Dễ",
+    tags: ["Chay", "Giàu protein"],
     ingredients: [
       { name: "Sữa chua Hy Lạp", qty: 200, unit: "g" },
       { name: "Granola", qty: 50, unit: "g" },
@@ -80,10 +80,10 @@ export const RECIPES: Recipe[] = [
   // 7
   {
     id: 7,
-    name: "Turkey Wrap",
-    time: "10 min",
-    difficulty: "Easy",
-    tags: ["High-protein", "Low-fat"],
+    name: "Bánh cuộn gà tây",
+    time: "10 phút",
+    difficulty: "Dễ",
+    tags: ["Giàu đạm", "Ít béo"],
     ingredients: [
       { name: "Bánh tortilla", qty: 2, unit: "cái" },
       { name: "Thịt gà", qty: 100, unit: "g" },
@@ -94,10 +94,10 @@ export const RECIPES: Recipe[] = [
   // 8
   {
     id: 8,
-    name: "Mushroom Risotto",
-    time: "45 min",
-    difficulty: "Hard",
-    tags: ["Vegetarian"],
+    name: "Cơm risotto nấm",
+    time: "45 phút",
+    difficulty: "Khó",
+    tags: ["Chay"],
     ingredients: [
       { name: "Nấm mỡ", qty: 200, unit: "g" },
       { name: "Rượu trắng", qty: 60, unit: "ml" },
@@ -107,10 +107,10 @@ export const RECIPES: Recipe[] = [
   // 9
   {
     id: 9,
-    name: "Avocado Toast",
-    time: "10 min",
-    difficulty: "Easy",
-    tags: ["All-day", "Vegan"],
+    name: "Bánh mì bơ",
+    time: "10 phút",
+    difficulty: "Dễ",
+    tags: ["All-day", "Chay"],
     ingredients: [
       { name: "Bánh mì", qty: 2, unit: "lát" },
       { name: "Chanh", qty: 1, unit: "miếng" },
@@ -119,10 +119,10 @@ export const RECIPES: Recipe[] = [
   // 10
   {
     id: 10,
-    name: "Shrimp Tacos",
-    time: "20 min",
-    difficulty: "Easy",
-    tags: ["Seafood", "Quick"],
+    name: "Tacos tôm",
+    time: "20 phút",
+    difficulty: "Dễ",
+    tags: ["Hải sản", "Nhanh chóng"],
     ingredients: [
       { name: "Tôm", qty: 200, unit: "g" },
       { name: "Sốt mayo", qty: 2, unit: "tbsp" },
@@ -132,10 +132,10 @@ export const RECIPES: Recipe[] = [
   // 11
   {
     id: 11,
-    name: "Beef Bulgogi Bowl",
-    time: "30 min",
-    difficulty: "Medium",
-    tags: ["High-protein", "Asian"],
+    name: "Cơm bò Bulgogi",
+    time: "30 phút",
+    difficulty: "Trung bình",
+    tags: ["Giàu đạm", "Châu Á"],
     ingredients: [
       { name: "Thịt bò", qty: 250, unit: "g" },
       { name: "Nước tương", qty: 40, unit: "ml" },
