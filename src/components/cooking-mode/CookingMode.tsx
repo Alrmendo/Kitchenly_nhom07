@@ -30,7 +30,7 @@ export default function CookingMode() {
         content: "Pha trộn kem chua với gia vị để tạo sốt taco",
         timer: 0,
         ingredients: ["Pha 200ml cà phê đen đặc", "Cho vào 2–3 muỗng canh rượu Rhum", "Để nguội hẳn"],
-        image: "/kem.jpg",
+        image: "/cafe.jpg",
         imageAlt: "Creamy white sauce in a bowl",
       },
       {
