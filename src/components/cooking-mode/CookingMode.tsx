@@ -1,4 +1,4 @@
-import { ArrowLeft, Volume2, Mic, RotateCcw, SkipForward, Plus, Minus, Check } from "lucide-react";
+import { ArrowLeft, Volume2, VolumeX, Mic, RotateCcw, SkipForward, Plus, Minus, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,10 +17,15 @@ export default function CookingMode() {
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [isClosingAI, setIsClosingAI] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [isSoundEnabled, setIsSoundEnabled] = useState(true);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handleNavigateBack = () => {
     navigate("/home");
+  };
+
+  const toggleSound = () => {
+    setIsSoundEnabled(!isSoundEnabled);
   };
 
   const steps = useMemo(
@@ -86,14 +91,14 @@ export default function CookingMode() {
         setTimeLeft(timeLeft - 1);
       }, 1000);
     } else if (timeLeft === 0 && isTimerRunning) {
-      // Timer finished - play sound
-      if (audioRef.current) {
+      // Timer finished - play sound if enabled
+      if (audioRef.current && isSoundEnabled) {
         audioRef.current.play();
       }
       setIsTimerRunning(false);
     }
     return () => clearInterval(interval);
-  }, [isTimerRunning, timeLeft]);
+  }, [isTimerRunning, timeLeft, isSoundEnabled]);
 
   useEffect(() => {
     const stepTimer = steps[currentStep].timer;
@@ -202,8 +207,8 @@ export default function CookingMode() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-lg font-bold text-white drop-shadow-sm">Chế độ nấu ăn</h1>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-white hover:bg-white/20">
-            <Volume2 className="h-5 w-5" />
+          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full text-white hover:bg-white/20" onClick={toggleSound}>
+            {isSoundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
           </Button>
         </div>
 
