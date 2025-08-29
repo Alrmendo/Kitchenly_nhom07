@@ -17,6 +17,7 @@ export default function PreferencesPage() {
   };
 
   const dietaryOptions = [
+
     "Ăn chay",
     "Nhiều đạm",
     "Ít mặn",
@@ -142,11 +143,13 @@ export default function PreferencesPage() {
 
         {/* Disliked Ingredients */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
+
           <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Thành phần không thích</h2>
+
 
           <div className="flex gap-2 mb-4">
             <Input
-              placeholder="Add ingredient to avoid..."
+              placeholder="Thêm nguyên liệu cần tránh..."
               value={newIngredient}
               onChange={(e) => setNewIngredient(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && addIngredient()}
@@ -158,7 +161,8 @@ export default function PreferencesPage() {
           </div>
 
           <div className="mb-4">
-            <p className="text-sm text-[#737373] mb-2">Thành phần phổ biến:</p>
+            <p className="text-sm text-[#737373] mb-2">Những nguyên liệu không thích:</p>
+
             <div className="flex flex-wrap gap-2">
               {commonDislikes.map((ingredient) => (
                 <button
@@ -181,6 +185,7 @@ export default function PreferencesPage() {
         <Card className="p-6 bg-white border-[#e5e5e5]">
           <h2 className="text-lg font-semibold text-[#FF8C94] mb-6">Mức độ công thức</h2>
 
+
           <div className="mb-6">
             <p className="text-sm font-medium text-[#0a0a0a] mb-4">Thời gian nấu tối đa: {cookingTime[0]} phút</p>
             <div className="relative">
@@ -201,9 +206,11 @@ export default function PreferencesPage() {
           </div>
 
           <div>
+
             <p className="text-sm font-medium text-[#0a0a0a] mb-3">Mức độ</p>
+
             <div className="flex gap-2">
-              {["Easy", "Medium", "Hard"].map((level) => (
+              {["Dễ", "Trung bình", "Khó"].map((level) => (
                 <button
                   key={level}
                   onClick={() => setDifficulty(level)}
@@ -226,11 +233,13 @@ export default function PreferencesPage() {
 
         {/* Priority Settings */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
+
           <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Mức độ ưu tiên</h2>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
+
                 <p className="font-medium text-[#0a0a0a]">Ưu tiên các thực phẩm theo mùa</p>
                 <p className="text-sm text-[#737373]">Gợi ý công thức nấu ăn với các sản phẩm theo mùa</p>
               </div>
@@ -239,6 +248,7 @@ export default function PreferencesPage() {
 
             <div className="flex items-center justify-between">
               <div>
+
                 <p className="font-medium text-[#0a0a0a]">Ưu tiên các thực phẩm có chi phí thấp</p>
                 <p className="text-sm text-[#737373]">Tập trung vào các lựa chọn bữa ăn tiết kiệm</p>
               </div>
@@ -247,6 +257,7 @@ export default function PreferencesPage() {
 
             <div className="flex items-center justify-between">
               <div>
+
                 <p className="font-medium text-[#0a0a0a]">Ưu tiên thức ăn lành mạnh</p>
                 <p className="text-sm text-[#737373]">Tập trung vào công thức giàu dinh dưỡng</p>
               </div>
@@ -255,6 +266,7 @@ export default function PreferencesPage() {
 
             <div className="flex items-center justify-between">
               <div>
+
                 <p className="font-medium text-[#0a0a0a]">Ưu tiên thực phẩm sắp hết hạn</p>
                 <p className="text-sm text-[#737373]">Ưu tiên các công thức sử dụng nguyên liệu sắp hết hạn</p>
               </div>

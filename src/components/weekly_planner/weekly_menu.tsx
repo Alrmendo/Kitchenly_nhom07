@@ -109,7 +109,7 @@ export default function WeeklyMenu() {
   
       <div className="bg-[#ff8c94] px-4 py-4">
         <div className="flex items-center justify-between mb-2">
-          <Search className="w-6 h-6 text-white" />
+          <Search className="w-6 h-6 text-[#ff8c94]" />
           <h1 className="text-xl font-semibold text-white">Thực đơn tuần</h1>
           <button onClick={handleSettingsClick}>
             <Settings className="w-6 h-6 text-white" />

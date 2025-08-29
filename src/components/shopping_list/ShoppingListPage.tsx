@@ -28,7 +28,6 @@ export default function ShoppingListPage() {
     endDate: todayStart,
   });
 
-  // cập nhật khi plan thay đổi (localStorage) hoặc event nội bộ
   React.useEffect(() => {
     const onStorage = (e: StorageEvent) => {
       if (e.key === WEEKLY_PLAN_KEY) setSections(loadSections());
@@ -43,7 +42,6 @@ export default function ShoppingListPage() {
     return () => window.removeEventListener("plan:updated", onPlanUpdated as EventListener);
   }, []);
 
-  // khi custom items thay đổi
   React.useEffect(() => {
     const onCustom = () => setSections(loadSections());
     window.addEventListener("shopping:custom_updated", onCustom as EventListener);
@@ -93,7 +91,6 @@ export default function ShoppingListPage() {
         ...sec,
         items: sec.items.map((i) => (i.id === id ? { ...i, checked: !i.checked } : i)),
       }));
-      // 🔸 LƯU trạng thái tích/note
       saveSections(next);
       return next;
     });
