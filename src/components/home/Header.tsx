@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bell, Search } from "lucide-react";
+import { Bell, Search, ChefHat } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SearchSlider } from "./SearchSlider";
 
@@ -36,6 +36,15 @@ export const Header: React.FC<HeaderProps> = ({ userName = "Elsa", greeting = "B
             <p className="text-sm text-[#666666]">{greeting}</p>
           </div>
           <div className="flex gap-3">
+            <Button 
+              size="icon" 
+              variant="ghost" 
+              className="h-10 w-10 rounded-full bg-[#FFC6C9]/20"
+              onClick={() => navigate("/cooked-dishes")}
+              aria-label="Món đã nấu"
+            >
+              <ChefHat className="h-5 w-5 text-[#EC888D]" />
+            </Button>
             <Button 
               size="icon" 
               variant="ghost" 

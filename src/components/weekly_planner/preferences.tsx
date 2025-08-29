@@ -96,8 +96,8 @@ export default function PreferencesPage() {
       <div className="p-4 space-y-6">
         {/* Dietary Restrictions */}
         <Card className="p-6 bg-white border-[#ff8c94]/20">
-          <h2 className="text-lg font-semibold text-[#32201c] mb-4 flex items-center gap-2">
-            <span className="text-[#ff8c94]"></span>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4 flex items-center gap-2">
+            <span className="text-[#FF8C94]"></span>
             Hạn chế chế độ ăn
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -119,7 +119,7 @@ export default function PreferencesPage() {
 
         {/* Preferred Cuisines */}
         <Card className="p-6 bg-white border-[#ff8c94]/20">
-          <h2 className="text-lg font-semibold text-[#32201c] mb-4 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4 flex items-center gap-2">
             <span className="text-[#ff8c94]"></span>
             Ẩm thực yêu thích
           </h2>
@@ -142,7 +142,7 @@ export default function PreferencesPage() {
 
         {/* Disliked Ingredients */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-4">Thành phần không thích</h2>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Thành phần không thích</h2>
 
           <div className="flex gap-2 mb-4">
             <Input
@@ -179,10 +179,10 @@ export default function PreferencesPage() {
 
         {/* Cooking Preferences */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-6">Mức độ công thức</h2>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-6">Mức độ công thức</h2>
 
           <div className="mb-6">
-            <p className="text-sm font-medium text-[#0a0a0a] mb-4">Maximum Cooking Time: {cookingTime[0]} minutes</p>
+            <p className="text-sm font-medium text-[#0a0a0a] mb-4">Thời gian nấu tối đa: {cookingTime[0]} phút</p>
             <div className="relative">
               <Slider
                 value={cookingTime}
@@ -210,10 +210,10 @@ export default function PreferencesPage() {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                     difficulty === level
                       ? level === "Easy"
-                        ? "bg-[#00c950] text-white"
+                        ? "bg-[#FF8C94] text-white"
                         : level === "Medium"
-                          ? "bg-[#ff6900] text-white"
-                          : "bg-[#737373] text-white"
+                          ? "bg-[#FF8C94] text-white"
+                          : "bg-[#FF8C94] text-white"
                       : "bg-[#f5f5f5] text-[#737373] hover:bg-[#e5e5e5]"
                   }`}
                 >
@@ -226,7 +226,7 @@ export default function PreferencesPage() {
 
         {/* Priority Settings */}
         <Card className="p-6 bg-white border-[#e5e5e5]">
-          <h2 className="text-lg font-semibold text-[#7e2a0c] mb-4">Mức độ ưu tiên</h2>
+          <h2 className="text-lg font-semibold text-[#FF8C94] mb-4">Mức độ ưu tiên</h2>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">

@@ -158,6 +158,27 @@ export default function CookingMode() {
 
   const currentStepData = steps[currentStep];
 
+  // Function to save completed dish
+  const saveCookedDish = () => {
+    const newDish = {
+      id: Date.now().toString(),
+      title: "Tiramisu",
+      image: "/public/tiramisu2.png",
+      completedDate: new Date().toISOString().split('T')[0],
+      cookingTime: "45 phút",
+      rating: 5,
+      difficulty: "Trung bình" as const,
+      category: "Tráng miệng"
+    };
+
+    const existingDishes = JSON.parse(localStorage.getItem('cookedDishes') || '[]');
+    const updatedDishes = [newDish, ...existingDishes];
+    localStorage.setItem('cookedDishes', JSON.stringify(updatedDishes));
+    
+    // Navigate to cooked dishes page
+    navigate("/cooked-dishes");
+  };
+
   // Function to close AI Assistant
   const closeAIAssistant = () => {
     setIsClosingAI(true);
@@ -285,15 +306,19 @@ export default function CookingMode() {
                 )}
 
                 {/* Ingredients */}
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {/* <h3 className="mb-2 text-base font-bold text-gray-900">Nguyên liệu cần:</h3> */}
-                  <div className="space-y-1">
-                    {currentStepData.ingredients.map((ingredient, index) => (
-                      <div key={index} className="flex items-start rounded-lg border border-gray-100 bg-gray-50 p-2">
-                        <div className="mt-1.5 mr-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-pink-400"></div>
-                        <p className="text-sm leading-relaxed font-medium text-gray-700">{ingredient}</p>
-                      </div>
-                    ))}
+                  <div className="space-y-3">
+                  {currentStepData.ingredients.map((ingredient, index) => (
+                    <div
+                      key={index}
+                      className="rounded-2xl bg-[#FFC6C9]/30 p-4 pl-6 border-l-4 border-[#EC888D]"
+                    >
+                      <p className="text-sm leading-relaxed font-medium text-[#1F2937]">
+                        {ingredient}
+                      </p>
+                    </div>
+                  ))}
                   </div>
                 </div>
               </div>
@@ -313,7 +338,7 @@ export default function CookingMode() {
             <p className="mb-8 leading-relaxed text-gray-600">Bạn đã hoàn thành tất cả các bước nấu ăn. Chúc ngon miệng!</p>
 
             <div className="space-y-4">
-              <Button variant="outline" className="w-full rounded-2xl border-pink-300 bg-transparent py-3 font-semibold text-[#FF8C94] hover:bg-pink-50" onClick={() => setShowCompletionModal(false)}>
+              <Button variant="outline" className="w-full rounded-2xl border-pink-300 bg-transparent py-3 font-semibold text-[#FF8C94] hover:bg-pink-50" onClick={saveCookedDish}>
                 Lưu vào mục đã nấu
               </Button>
               <Button
